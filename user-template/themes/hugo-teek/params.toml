@@ -1,0 +1,297 @@
+# ========================================
+# Hugo Teek 主题配置文件 (Theme Configuration)
+# ========================================
+# 这个文件包含 Hugo Teek 主题的所有专属配置。
+# 切换主题时,替换此文件或创建新主题目录下的 theme.toml。
+# ========================================
+
+# ========================================
+# 主题专属配置 (Theme-Specific Configuration)
+# ========================================
+# 注意：站点基础信息（description、keywords、siteStartDate 等）
+# 已迁移至 config/teek-plugins/site.toml
+
+# 布局模式（主题特定的UI配置）
+layoutMode = "bothWidthAdjustable"
+
+# ========================================
+# 首页分页配置 (Homepage Pagination)
+# ========================================
+# 性能优化：减少首屏文章数量，加快 FCP 和 LCP
+[homepage]
+    paginatePCSize = 15          # PC端每页显示数量（优化前: 27）
+    mobileInitialShow = 5        # 移动端初始显示数量（优化前: 5）
+    mobileLoadMoreStep = 10      # 移动端每次加载数量
+
+# 统计分析配置已移至 config/_default/services.toml
+
+# ========================================
+# 打赏配置 (Appreciation)
+# ========================================
+[appreciation]
+    enabled = true  # 启用打赏支持功能
+    alipayQR = "https://img.xxdevops.cn/blog/appreciation_code/zhifubao.avif"
+    wechatQR = "https://img.xxdevops.cn/blog/appreciation_code/wechat.avif"
+
+# ========================================
+# 微信公众号 (WeChat Official Account)
+# ========================================
+[wechatOfficial]
+    enabled = true  # 启用微信公众号卡片
+    name = "余温小站"  # 公众号名称
+    description = "余温小站的描述"  # 公众号描述
+    qrcodeImage = "https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif"  # 二维码图片URL
+    qrcodeUrl = "https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif"  # 点击"扫码关注"按钮跳转的URL
+
+# ========================================
+# 公众号解锁功能 (WeChat Unlock)
+# ========================================
+[wechatUnlock]
+    enabled = true                      # 全局开关
+    salt = "hugo-teek-unlock-2025"     # 解锁码生成盐值（请修改为自己的）
+    defaultQRCode = "https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif"  # 默认二维码
+    defaultKeyword = "解锁"              # 默认关键字提示
+    maxAttempts = 5                     # 最大验证尝试次数
+    lockTime = 3600                     # 锁定时间（秒），3600 = 1小时
+    verifyDelay = 500                   # 验证延迟（毫秒），防止暴力破解
+
+# ========================================
+# 作者信息已迁移至 config/teek-plugins/author.toml
+# ========================================
+
+# ========================================
+# 博主卡片 (Blogger Card)
+# ========================================
+[blogger]
+    avatar = "https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=150&h=150&fit=crop&fm=webp&q=80"
+    backgroundImage = "https://img.xxdevops.cn/blog/wallpaper/bg14.avif"  # 博主卡片背景图（可选，留空则使用纯色背景）
+    circleBgImg = "https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80"
+    circleBgMask = false
+    name = "余温Gueen"
+    shape = "circle-rotate"
+    slogan = "明心静性，爱自己"
+[blogger.status]
+      icon = "😪"
+      size = 18.0  # 右下角表情图标大小（像素）
+      title = "困"
+    # 社交链接配置（显示在名字下方，slogan上方）
+[[blogger.social]]
+      name = "GitHub"
+      icon = "github"  # GitHub 图标
+      url = "https://github.com/JSXGQ"  # 你的 GitHub 地址
+[[blogger.social]]
+      name = "CNB"
+      icon = "cnb"  # CNB
+      url = "https://cnb.cool/u/yuwenGueen"  # 你的博客园地址
+[[blogger.social]]
+      name = "QQ"
+      icon = "qq"  # QQ 图标
+      url = "tencent://message/?uin=你的QQ号"  # QQ 聊天链接
+[[blogger.social]]
+      name = "微信"
+      icon = "weichat"  # 微信图标（文件名是 weichat.svg）
+      url = "#"  # 微信可以设置为弹出二维码或其他
+
+# 首页侧边栏卡片配置已移至 config/_default/homepage.toml
+
+# ========================================
+# 分类配置 (Category)
+# ========================================
+[category]
+    autoPage = false
+    enabled = true
+    limit = 8.0
+    pageSpeed = 4000.0
+
+# ========================================
+# 代码块配置 (Code Block)
+# ========================================
+[codeBlock]
+    autoCollapse = true
+    collapseHeight = 400.0
+    copyButton = true
+
+# 评论系统配置已移至 config/_default/services.toml
+
+# ========================================
+# 文档版权配置已迁移至 config/teek-plugins/docmeta.toml
+# ========================================
+
+# ========================================
+# 页脚配置 (Footer)
+# ========================================
+# 注意：通用页脚信息（版权、ICP备案等）已迁移至 config/teek-plugins/footer.toml
+# 此处仅保留 UI 显示控制配置
+[footer]
+    show_services = true      # 是否显示服务信息
+    show_theme_info = true    # 是否显示主题信息
+    # footer.analytics 配置已移至 config/_default/services.toml
+
+# ========================================
+# 首页背景配置 (Hero Background)
+# ========================================
+[heroBg]
+    # 启用动态背景
+    enabled = true
+
+    # 自动轮播配置
+    autoPlay = true
+    interval = 8000  # 8秒切换（建议 8-12 秒，避免过快）
+
+    # 混合模式配置
+    mode = "static"  # hybrid（静态+API） | static（仅静态） | api（仅API）
+    useStaticFirst = true  # 优先使用静态列表（性能最佳）
+
+    # API 配置（作为备份/补充）
+    # 📝 支持多种图片API格式：
+    # 1. 标准JSON数组API：返回 ["url1", "url2", ...]
+    #    例如：https://imgapi.xxdevops.cn/api/images
+    # 2. img-server 项目API：自动检测并适配
+    #    例如：https://your-domain.com 或 https://cnb.cool/xxx/img-server
+    #    系统会自动追加 /api/images 端点
+    apiUrl = "https://imgapi.xxdevops.cn/api/images"
+    apiEnabled = false  # ◀️ 启用 API 动态获取（设置为 true 开启）
+    apiCacheDuration = 3600  # ◀️ API 缓存时长（秒，1小时）
+
+    # 性能优化配置
+[heroBg.performance]
+      preloadCount = 3  # 预加载前 3 张图片
+      lazyLoadDelay = 500  # 延迟 500ms 加载非关键图片
+      predictivePreload = true  # 智能预加载下一张
+      pauseOnHidden = true  # 页面隐藏时暂停切换和预加载
+
+    # 图片质量配置
+[heroBg.quality]
+      format = "webp"  # 优先使用 WebP 格式
+      fallbackFormat = "jpg"  # 不支持 WebP 时降级为 JPG
+
+      # 移动端图片配置（<768px）
+[heroBg.quality.mobile]
+        width = 1080
+        height = 720
+        quality = 75
+
+      # 桌面端图片配置（>=768px）
+[heroBg.quality.desktop]
+        width = 1920
+        height = 1080
+        quality = 85
+
+# ========================================
+# 首页副标题动画 (Hero Subtitle)
+# ========================================
+[heroSubtitle]
+    deleteSpeed = 45.0
+    hold = 1800.0
+    nextDelay = 600.0
+    shuffle = false
+    typeSpeed = 90.0
+
+# ========================================
+# 图片配置 (Image)
+# ========================================
+[image]
+    lazyLoading = true
+
+# 缩略图配置 (Image Thumbnail Configuration)
+[imageThumbnail]
+    enabled = true  # 重新启用，使用优化配置
+
+    # 首页文章卡片缩略图参数（优化尺寸，适配高分屏）
+[imageThumbnail.articleCard]
+      width = 1200   # 增大到 1200px（2x 倍图）
+      height = 690   # 保持 1.74:1 比例 (接近16:9)
+      quality = 80   # 提高质量
+      format = "webp"
+
+    # CDN配置 - 支持多个CDN提供商
+    # 参数占位符: {width}, {height}, {quality}, {format}
+[[imageThumbnail.cdnProviders]]
+      domain = "img.xxdevops.cn"
+      paramFormat = "?w={width}&h={height}&fit=crop&fm={format}&q={quality}"  # 改用 crop 确保填满
+
+    # 示例:其他常见CDN格式
+    # [[params.imageThumbnail.cdnProviders]]
+    #   domain = "cdn.example.com"
+    #   paramFormat = "?imageView2/1/w/{width}/h/{height}/q/{quality}"
+
+# ========================================
+# 布局宽度 (Layout Widths)
+# ========================================
+# 注意：mainSections 等通用配置已迁移至 config/teek-plugins/site.toml
+# 此处仅保留主题特定的宽度值
+[layoutWidths]
+    doc = "960px"      # 文档页面宽度
+    full = "1440px"    # 全宽页面宽度
+    page = "1280px"    # 普通页面宽度
+
+# ========================================
+# 滚动进度条 (Scroll Progress)
+# ========================================
+[scrollProgress]
+    enabled = true
+
+# ========================================
+# 搜索配置 (Search)
+# ========================================
+[search]
+    enabled = true
+    provider = "flexsearch"
+
+# ========================================
+# 赞助商配置 (Sponsors)
+# ========================================
+[sponsors]
+    enabled = true
+    limit = 5
+    interval = 5000
+
+# ========================================
+# 友链配置 (Friend Links)
+# ========================================
+[friendLink]
+    limit = 5
+    interval = 5000
+    # 指定首页友链卡片显示哪些分组（title）的友链
+    # 留空或注释掉表示显示所有分组
+    # 可以指定一个或多个分组，例如：
+    # groups = ["Teek道友"]  # 只显示 Teek道友 分组
+    # groups = ["Teek道友", "VitePress"]  # 显示多个分组
+    groups = ["Teek道友"]  # 空数组表示显示所有分组（默认行为）
+
+# 友链独立页面配置
+[friendPage]
+    smallTitle = "与各位博主一起成长进步"
+    bannerButtonGroup = true
+
+# ========================================
+# 社交链接 (Social Links)
+# ========================================
+[[socialLinks]]
+    icon = "gitee"
+    link = "https://cnb.cool/yuwen-gueen/hugo-teeker-theme"
+    title = "CNB"
+
+# ========================================
+# 标题切换 (Title Change)
+# ========================================
+[titleChange]
+    enabled = true
+    hidden = "w(ﾟДﾟ)w 不要走！再看看嘛！"
+    resetDelay = 2000.0
+    return = "♪(^∇^*)欢迎回来！"
+
+# ========================================
+# 页面加载动画 (Page Loading)
+# ========================================
+[pageLoading]
+    enabled = false
+    text = "hugo-teek is loading..."
+
+# ========================================
+# 微信公众号解锁内容分离 (WeChat Unlock)
+# ========================================
+[teekTools.wechatUnlock]
+  enabled = true
+  outputFilename = "content.json"
+  removeLockedContent = true

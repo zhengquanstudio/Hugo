@@ -1,0 +1,20 @@
+{{- $page := . -}}
+{{- $label := "" -}}
+{{- with $page.Params.categories -}}
+  {{- if gt (len .) 0 -}}
+    {{- $label = index . 0 -}}
+  {{- end -}}
+{{- end -}}
+{{- if eq $label "" -}}
+  {{- with $page.CurrentSection -}}
+    {{- $label = .Title -}}
+  {{- else -}}
+    {{- $label = $page.Section -}}
+  {{- end -}}
+{{- end -}}
+{{- $label = replaceRE "^[0-9]+\\." "" $label -}}
+{{- $label = trim $label " " -}}
+{{- if eq $label "" -}}
+  {{- $label = "文档" -}}
+{{- end -}}
+{{- return $label -}}

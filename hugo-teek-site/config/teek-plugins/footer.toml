@@ -1,0 +1,9 @@
+[params]
+  [params.footer]
+    copyright_suffix = "全溪小筑のBlog"
+    copyright_year_start = 2026.0
+    custom_message = "初闻不知曲中意，再听已是曲中人"
+    [params.footer.icp]
+      enabled = true
+      number = "苏ICP备2024144209号"
+      url = "http://beian.miit.gov.cn/"

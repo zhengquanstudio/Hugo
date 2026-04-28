@@ -1,0 +1,139 @@
+{{ $brandIcon := .Site.Params.hugoDoc.brandIcon | default "🪁" }}
+{{ $heroGreeting := .Site.Params.hugoDoc.heroGreeting | default "你好，我是" }}
+{{ $heroName := .Site.Params.author.name | default .Site.Title }}
+{{ $heroRole := .Site.Params.author.role | default .Site.Params.hugoDoc.heroRole }}
+{{ $heroDesc := .Site.Params.hugoDoc.heroDescription | default .Site.Params.description }}
+{{ $heroPrimaryText := .Site.Params.hugoDoc.heroPrimaryText | default "查看作品" }}
+{{ $heroPrimaryURL := .Site.Params.hugoDoc.heroPrimaryURL | default "/#projects" }}
+{{ $heroSecondaryText := .Site.Params.hugoDoc.heroSecondaryText | default "了解更多" }}
+{{ $heroSecondaryURL := .Site.Params.hugoDoc.heroSecondaryURL | default "/about/" }}
+{{ $heroBackgroundURL := .Site.Params.hugoDoc.heroBackgroundURL | default "https://mu.baimu.live/img/acg/" }}
+{{ $socials := .Site.Params.blogger.social }}
+{{ if and .IsHome (hasPrefix $heroPrimaryURL "/#") }}
+  {{ $heroPrimaryURL = replaceRE "^/" "" $heroPrimaryURL }}
+{{ end }}
+
+<section class="banner-section" id="home">
+  <div class="banner-bg">
+    <img src="{{ $heroBackgroundURL }}" data-base-url="{{ $heroBackgroundURL }}" data-cache-bust="true" alt="背景图" class="banner-bg-img" id="bannerBgImg">
+    <div class="banner-overlay"></div>
+  </div>
+
+  <div class="banner-decorations">
+    <div class="geo-wave wave-left">
+      <svg viewBox="0 0 200 400" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="wavePink" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:0.6"></stop>
+            <stop offset="100%" style="stop-color:#ff8fab;stop-opacity:0.3"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M0,0 Q100,50 80,150 T120,300 T60,400 L0,400 Z" fill="url(#wavePink)"></path>
+      </svg>
+    </div>
+    <div class="geo-wave wave-right">
+      <svg viewBox="0 0 200 400" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="waveCyan" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#4facfe;stop-opacity:0.6"></stop>
+            <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:0.3"></stop>
+          </linearGradient>
+        </defs>
+        <path d="M200,0 Q100,80 140,180 T80,350 T150,400 L200,400 Z" fill="url(#waveCyan)"></path>
+      </svg>
+    </div>
+    <div class="geo-shape shape-top-1">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#4facfe" stroke-width="2" stroke-dasharray="8,4"></circle>
+      </svg>
+    </div>
+    <div class="geo-shape shape-top-2">
+      <svg viewBox="0 0 60 60">
+        <rect x="10" y="10" width="40" height="40" fill="none" stroke="#ff6b9d" stroke-width="2" transform="rotate(15 30 30)"></rect>
+      </svg>
+    </div>
+    <div class="geo-shape shape-bottom-1">
+      <svg viewBox="0 0 80 80">
+        <polygon points="40,5 75,65 5,65" fill="none" stroke="#00f2fe" stroke-width="2"></polygon>
+      </svg>
+    </div>
+    <div class="geo-shape shape-bottom-2">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="35" fill="#ff6b9d" fill-opacity="0.2"></circle>
+      </svg>
+    </div>
+    <div class="geo-cross cross-1">✕</div>
+    <div class="geo-cross cross-2">✕</div>
+    <div class="geo-cross cross-3">✕</div>
+    <div class="geo-cross cross-4">✕</div>
+    <div class="geo-dot dot-1"></div>
+    <div class="geo-dot dot-2"></div>
+    <div class="geo-dot dot-3"></div>
+    <div class="geo-dot dot-4"></div>
+    <div class="geo-dot dot-5"></div>
+    <div class="geo-grid grid-1"></div>
+    <div class="geo-grid grid-2"></div>
+    <div class="geo-lines lines-1"></div>
+    <div class="geo-lines lines-2"></div>
+    <div class="decoration-circle circle-1"></div>
+    <div class="decoration-circle circle-2"></div>
+    <div class="decoration-glass glass-1"></div>
+  </div>
+
+  <div class="banner-content">
+    <div class="container">
+      <div class="banner-avatar-wrapper">
+        <div class="banner-avatar">
+          <span class="avatar-emoji">{{ $brandIcon }}</span>
+          <div class="avatar-ring"></div>
+          <div class="avatar-ring ring-2"></div>
+        </div>
+      </div>
+
+      <h1 class="banner-title">
+        <span class="title-greeting">{{ $heroGreeting }}</span>
+        <span class="title-name">{{ $heroName }}</span>
+        <span class="title-role">{{ $heroRole }}</span>
+      </h1>
+
+      <p class="banner-description">{{ $heroDesc }}</p>
+
+      <div class="banner-actions">
+        <a href="{{ $heroPrimaryURL }}" class="glass-btn glass-btn-primary">
+          <span>{{ $heroPrimaryText }}</span>
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+        <a href="{{ $heroSecondaryURL }}" class="glass-btn">
+          <span>{{ $heroSecondaryText }}</span>
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+          </svg>
+        </a>
+      </div>
+
+      <div class="banner-social">
+        {{ with $socials }}
+          {{ range . }}
+            {{ partial "hugo-doc/social-link.html" (dict "url" .url "label" .name "icon" .icon) }}
+          {{ end }}
+        {{ else }}
+          {{ with .Site.Params.author.link }}
+            {{ partial "hugo-doc/social-link.html" (dict "url" . "label" "网站" "icon" "link") }}
+          {{ end }}
+          {{ with .Site.Params.author.email }}
+            {{ partial "hugo-doc/social-link.html" (dict "url" (printf "mailto:%s" .) "label" "邮箱" "icon" "mail") }}
+          {{ end }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-mouse">
+      <div class="scroll-wheel"></div>
+    </div>
+    <span class="scroll-text">向下滚动</span>
+  </div>
+</section>

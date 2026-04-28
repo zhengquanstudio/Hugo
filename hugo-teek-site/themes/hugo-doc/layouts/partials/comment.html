@@ -1,0 +1,42 @@
+{{ $comment := .Site.Params.comment }}
+{{ if and $comment.enabled (eq ($comment.provider | default "twikoo") "twikoo") }}
+  <div class="theme-comment glass-card">
+    <h3 class="theme-widget-title">评论</h3>
+    <div id="twikoo"></div>
+  </div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (window.__hugoDocTwikooLoaded) {
+        if (window.twikoo) {
+          window.twikoo.init({
+            envId: {{ $comment.envId | jsonify }},
+            el: "#twikoo",
+            path: window.location.pathname,
+          });
+        }
+        return;
+      }
+
+      window.__hugoDocTwikooLoaded = true;
+
+      var script = document.createElement("script");
+      script.src = "https://cdn.jsdelivr.net/npm/twikoo@{{ $comment.version | default "1.6.41" }}/dist/twikoo.all.min.js";
+      script.async = true;
+      script.onload = function () {
+        if (window.twikoo) {
+          window.twikoo.init({
+            envId: {{ $comment.envId | jsonify }},
+            el: "#twikoo",
+            path: window.location.pathname,
+          });
+        }
+      };
+      document.body.appendChild(script);
+    });
+  </script>
+{{ else if $comment.enabled }}
+  <div class="theme-comment glass-card">
+    <h3 class="theme-widget-title">评论</h3>
+    <p>当前主题暂未适配 {{ $comment.provider }} 评论组件。</p>
+  </div>
+{{ end }}

@@ -1,0 +1,23 @@
+{{ $appreciation := .Site.Params.appreciation }}
+{{ if and $appreciation.enabled (or $appreciation.alipayQR $appreciation.wechatQR) }}
+  <div class="theme-appreciation glass-card">
+    <div class="theme-appreciation__header">
+      <h3 class="theme-widget-title">请作者喝杯咖啡</h3>
+      <p>如果这篇内容对你有帮助，欢迎扫码支持。</p>
+    </div>
+    <div class="theme-appreciation__grid">
+      {{ with $appreciation.wechatQR }}
+        <div class="theme-appreciation__item">
+          <img src="{{ . }}" alt="微信赞赏码" loading="lazy">
+          <span>微信</span>
+        </div>
+      {{ end }}
+      {{ with $appreciation.alipayQR }}
+        <div class="theme-appreciation__item">
+          <img src="{{ . }}" alt="支付宝赞赏码" loading="lazy">
+          <span>支付宝</span>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+{{ end }}

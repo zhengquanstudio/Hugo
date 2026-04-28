@@ -1,0 +1,55 @@
+{{ $skills := .Site.Data.hugo_doc.skills }}
+<section class="skills-section section" id="skills">
+  <div class="section-decorations">
+    <div class="geo-cross cross-1">✕</div>
+    <div class="geo-cross cross-2">✕</div>
+    <div class="geo-dot dot-1"></div>
+    <div class="geo-dot dot-2"></div>
+    <div class="geo-dot dot-3"></div>
+    <div class="geo-lines lines-1"></div>
+    <div class="geo-grid grid-1"></div>
+  </div>
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{{ $skills.title }}</h2>
+      <p class="section-subtitle">{{ $skills.subtitle }}</p>
+    </div>
+
+    <div class="skills-grid">
+      {{ range $skills.groups }}
+        <div class="skill-card glass-card reveal">
+          <div class="skill-header">
+            <div class="skill-icon">
+              {{ partial "hugo-doc/skill-icon.html" (dict "icon" .key) }}
+            </div>
+            <h3 class="skill-title">{{ .title }}</h3>
+          </div>
+          <div class="skill-list">
+            {{ range .items }}
+              <div class="skill-item">
+                <div class="skill-info">
+                  <span class="skill-name">{{ .name }}</span>
+                  <span class="skill-percent">{{ .percent }}%</span>
+                </div>
+                <div class="skill-bar">
+                  <div class="skill-progress" data-progress="{{ .percent }}"></div>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+    </div>
+
+    {{ with $skills.tags }}
+      <div class="skill-tags reveal">
+        <h3 class="tags-title">{{ $skills.tags_title }}</h3>
+        <div class="tags-cloud">
+          {{ range . }}
+            <span class="tag">{{ . }}</span>
+          {{ end }}
+        </div>
+      </div>
+    {{ end }}
+  </div>
+</section>

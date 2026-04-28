@@ -1,0 +1,2151 @@
+{{/* 🕊️白木 开发 🔗gl.baimu.live */}}
+{{/* 💬 Twikoo 管理员后台独立页面模板 - 自定义UI */}}
+
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode | default "zh-CN" }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>评论管理后台 - {{ .Site.Title }}</title>
+  <link rel="icon" href="{{ "favicon.ico" | relURL }}">
+
+  <style>
+    /* 🕊️白木 开发 🔗gl.baimu.live */
+    /* 💬 Twikoo 管理员后台独立页面样式 - 拟物拟态圆角卡片风 */
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      /* ☀️ 亮色模式变量 */
+      --tk-admin-bg: #f0f4f8;
+      --tk-admin-card-bg: rgba(255, 255, 255, 0.85);
+      --tk-admin-text-primary: #1e293b;
+      --tk-admin-text-secondary: #64748b;
+      --tk-admin-text-muted: #94a3b8;
+      --tk-admin-border: rgba(255, 255, 255, 0.5);
+      --tk-admin-input-bg: rgba(255, 255, 255, 0.9);
+      --tk-admin-input-border: rgba(14, 116, 144, 0.2);
+      --tk-admin-input-focus: #0e7490;
+      --tk-admin-primary: #0e7490;
+      --tk-admin-primary-light: #06b6d4;
+      --tk-admin-success: #10b981;
+      --tk-admin-warning: #f59e0b;
+      --tk-admin-danger: #ef4444;
+      --tk-admin-shadow:
+        0 8px 32px rgba(31, 38, 135, 0.1),
+        0 2px 8px rgba(31, 38, 135, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      --tk-admin-shadow-lg:
+        0 25px 50px -12px rgba(0, 0, 0, 0.15),
+        0 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+
+    .dark-mode {
+      /* 🌆 暗色模式变量 */
+      --tk-admin-bg: #0f172a;
+      --tk-admin-card-bg: rgba(30, 41, 59, 0.85);
+      --tk-admin-text-primary: #f1f5f9;
+      --tk-admin-text-secondary: #cbd5e1;
+      --tk-admin-text-muted: #94a3b8;
+      --tk-admin-border: rgba(255, 255, 255, 0.1);
+      --tk-admin-input-bg: rgba(30, 41, 59, 0.9);
+      --tk-admin-input-border: rgba(34, 211, 238, 0.2);
+      --tk-admin-input-focus: #22d3ee;
+      --tk-admin-primary: #0891b2;
+      --tk-admin-primary-light: #22d3ee;
+      --tk-admin-success: #34d399;
+      --tk-admin-warning: #fbbf24;
+      --tk-admin-danger: #f87171;
+      --tk-admin-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      --tk-admin-shadow-lg:
+        0 25px 50px -12px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--tk-admin-bg);
+      color: var(--tk-admin-text-primary);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* 🎯 页面头部 */
+    .tk-admin-page-header {
+      background: var(--tk-admin-card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid var(--tk-admin-border);
+      padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--tk-admin-shadow);
+    }
+
+    .tk-admin-header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .tk-login-title {
+    color: #ffffff !important;
+    font-size: 1.25rem !important;
+    text-align: center !important;
+    margin-top: 3rem !important;
+    }
+
+    .tk-admin-container {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 150% !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
+    }
+
+    .tk-admin-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--tk-admin-text-primary);
+    }
+
+    .tk-admin-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 15px rgba(14, 116, 144, 0.3);
+    }
+
+    .tk-admin-logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .tk-admin-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    /* 🔘 按钮样式 */
+    .tk-admin-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      border-radius: 10px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      text-decoration: none;
+    }
+
+    .tk-admin-btn-primary {
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(14, 116, 144, 0.3);
+    }
+
+    .tk-admin-btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(14, 116, 144, 0.4);
+    }
+
+    .tk-admin-btn-secondary {
+      background: var(--tk-admin-input-bg);
+      color: var(--tk-admin-text-secondary);
+      border: 1px solid var(--tk-admin-input-border);
+      backdrop-filter: blur(10px);
+    }
+
+    .tk-admin-btn-secondary:hover {
+      background: var(--tk-admin-border);
+      color: var(--tk-admin-text-primary);
+    }
+
+    .tk-admin-btn-success {
+      background: linear-gradient(135deg, var(--tk-admin-success) 0%, #34d399 100%);
+      color: white;
+    }
+
+    .tk-admin-btn-danger {
+      background: linear-gradient(135deg, var(--tk-admin-danger) 0%, #f87171 100%);
+      color: white;
+    }
+
+    /* 🎯 页面主体 */
+    .tk-admin-page-body {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+    }
+
+    /* 🎯 玻璃拟态卡片 */
+    .tk-admin-card {
+      background: var(--tk-admin-card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--tk-admin-border);
+      border-radius: 20px;
+      box-shadow: var(--tk-admin-shadow-lg);
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    /* 🎯 登录卡片 */
+    .tk-login-card {
+      /* max-width: 400px; */
+      margin: 3rem auto;
+      text-align: center;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.95);
+    }
+
+    .dark-mode .tk-login-card {
+      background: rgba(30, 41, 59, 0.95);
+    }
+
+    .tk-login-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 2rem;
+      box-shadow: 0 6px 20px rgba(14, 116, 144, 0.3);
+    }
+
+    .tk-login-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 0.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(14, 116, 144, 0.2);
+      background: var(--tk-admin-card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tk-login-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tk-login-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: #1e293b !important;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .dark-mode .tk-login-title {
+      color: #f1f5f9 !important;
+    }
+
+    .tk-login-subtitle {
+      color: #64748b !important;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+    }
+
+    .dark-mode .tk-login-subtitle {
+      color: #cbd5e1 !important;
+    }
+
+    /* 📝 输入框样式 */
+    .tk-input-group {
+      margin-bottom: 1.25rem;
+      text-align: left;
+    }
+
+    .tk-input-label {
+      display: block;
+      margin-bottom: 0.375rem;
+      font-weight: 500;
+      color: var(--tk-admin-text-primary);
+      font-size: 0.85rem;
+    }
+
+    .tk-input {
+      width: 100%;
+      padding: 0.75rem 0.875rem;
+      background: var(--tk-admin-input-bg);
+      border: 1px solid var(--tk-admin-input-border);
+      border-radius: 10px;
+      color: var(--tk-admin-text-primary);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .tk-input:focus {
+      outline: none;
+      border-color: var(--tk-admin-input-focus);
+      box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.1);
+    }
+
+    .dark-mode .tk-input:focus {
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+    }
+
+    /* 📝 上浮标签输入框 */
+    .tk-floating-input {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .tk-floating-input__field {
+      width: 100%;
+      padding: 1rem 0.875rem 0.5rem;
+      background: var(--tk-admin-input-bg);
+      border: 1px solid var(--tk-admin-input-border);
+      border-radius: 10px;
+      color: var(--tk-admin-text-primary);
+      font-size: 0.95rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      height: 3rem;
+    }
+
+    .tk-floating-input__field:focus {
+      outline: none;
+      border-color: var(--tk-admin-input-focus);
+      box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.1);
+    }
+
+    .dark-mode .tk-floating-input__field:focus {
+      box-shadow: 0 0 0 3px rgba(34, 211, 238, 0.15);
+    }
+
+    .tk-floating-input__label {
+      position: absolute;
+      left: 0.875rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--tk-admin-text-muted);
+      font-size: 0.95rem;
+      pointer-events: none;
+      transition: all 0.2s ease;
+      background: transparent;
+      padding: 0 0.25rem;
+    }
+
+    .tk-floating-input__field:focus + .tk-floating-input__label,
+    .tk-floating-input__field:not(:placeholder-shown) + .tk-floating-input__label {
+      top: 0;
+      transform: translateY(-50%) scale(0.85);
+      color: var(--tk-admin-primary);
+      background: var(--tk-admin-card-bg);
+    }
+
+    /* 🎯 错误提示 */
+    .tk-error-message {
+      background: rgba(239, 68, 68, 0.1);
+      border-left: 3px solid #ef4444;
+      color: #ef4444;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      display: none;
+      white-space: pre-line; /* ◀️ 支持多行文本显示 */
+      line-height: 1.5;
+      text-align: left;
+    }
+
+    .tk-error-message.show {
+      display: block;
+    }
+
+    /* 🎯 成功提示 */
+    .tk-success-message {
+      background: rgba(16, 185, 129, 0.1);
+      border-left: 3px solid #10b981;
+      color: #10b981;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    .tk-success-message.show {
+      display: block;
+    }
+
+    /* 🎯 加载动画 */
+    .tk-loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      color: var(--tk-admin-text-muted);
+      padding: 3rem;
+    }
+
+    .tk-loading-spinner {
+      width: 24px;
+      height: 24px;
+      border: 2px solid var(--tk-admin-input-border);
+      border-top-color: var(--tk-admin-primary);
+      border-radius: 50%;
+      animation: tk-spin 1s linear infinite;
+    }
+
+    @keyframes tk-spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* 🎯 管理后台内容 */
+    .tk-admin-content {
+      display: none;
+    }
+
+    .tk-admin-content.show {
+      display: block;
+    }
+
+    /* 🎯 统计卡片网格 */
+    .tk-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .tk-stat-card {
+      background: var(--tk-admin-card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--tk-admin-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--tk-admin-shadow);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tk-stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--tk-admin-shadow-lg);
+    }
+
+    .tk-stat-icon {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tk-stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--tk-admin-text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .tk-stat-label {
+      color: var(--tk-admin-text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* 🎯 统计卡片右下角大emoji */
+    .tk-stat-emoji {
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+      font-size: 80px;
+      line-height: 1;
+      opacity: 0.2;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tk-stat-card:hover .tk-stat-emoji {
+      opacity: 0.8;
+    }
+
+    /* 🎯 评论列表 */
+    .tk-comments-list {
+      background: var(--tk-admin-card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--tk-admin-border);
+      border-radius: 16px;
+      box-shadow: var(--tk-admin-shadow);
+      overflow: hidden;
+    }
+
+    .tk-comments-header {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--tk-admin-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .tk-comments-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--tk-admin-text-primary);
+    }
+
+    .tk-comments-filters {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .tk-filter-btn {
+      padding: 0.375rem 0.875rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      border: 1px solid var(--tk-admin-input-border);
+      background: var(--tk-admin-input-bg);
+      color: var(--tk-admin-text-secondary);
+      transition: all 0.2s ease;
+    }
+
+    .tk-filter-btn.active {
+      background: var(--tk-admin-primary);
+      color: white;
+      border-color: var(--tk-admin-primary);
+    }
+
+    .tk-comment-item {
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--tk-admin-border);
+      transition: background-color 0.2s ease;
+    }
+
+    .tk-comment-item:hover {
+      background: rgba(14, 116, 144, 0.05);
+    }
+
+    .tk-comment-item:last-child {
+      border-bottom: none;
+    }
+
+    .tk-comment-item.pending {
+      border-left: 3px solid var(--tk-admin-warning);
+    }
+
+    .tk-comment-item.spam {
+      border-left: 3px solid var(--tk-admin-danger);
+      opacity: 0.7;
+    }
+
+    .tk-comment-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .tk-comment-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 600;
+      font-size: 0.9rem;
+      overflow: hidden;
+    }
+
+    .tk-comment-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .tk-comment-meta {
+      flex: 1;
+    }
+
+    .tk-comment-author {
+      font-weight: 600;
+      color: var(--tk-admin-text-primary);
+      font-size: 0.95rem;
+    }
+
+    .tk-comment-time {
+      color: var(--tk-admin-text-muted);
+      font-size: 0.8rem;
+    }
+
+    .tk-comment-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+
+    .tk-comment-status.pending {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--tk-admin-warning);
+    }
+
+    .tk-comment-status.spam {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--tk-admin-danger);
+    }
+
+    .tk-comment-content {
+      color: var(--tk-admin-text-secondary);
+      line-height: 1.6;
+      margin-left: 3.25rem;
+    }
+
+    .tk-comment-content p {
+      margin: 0;
+    }
+
+    .tk-comment-page {
+      margin-left: 3.25rem;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--tk-admin-text-muted);
+    }
+
+    .tk-comment-page a {
+      color: var(--tk-admin-primary);
+      text-decoration: none;
+    }
+
+    .tk-comment-page a:hover {
+      text-decoration: underline;
+    }
+
+    .tk-comment-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+      margin-left: 3.25rem;
+    }
+
+    .tk-comment-action {
+      padding: 0.375rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      background: transparent;
+      color: var(--tk-admin-text-secondary);
+    }
+
+    .tk-comment-action:hover {
+      background: rgba(14, 116, 144, 0.1);
+      color: var(--tk-admin-primary);
+    }
+
+    .tk-comment-action.approve {
+      background: rgba(239, 68, 68, 0.08);
+      color: var(--tk-admin-danger);
+    }
+
+    .tk-comment-action.approve:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--tk-admin-danger);
+    }
+
+    .tk-comment-action.delete:hover {
+      background: rgba(239, 68, 68, 0.1);
+      color: var(--tk-admin-danger);
+    }
+
+    .tk-comment-action.spam:hover {
+      background: rgba(245, 158, 11, 0.1);
+      color: var(--tk-admin-warning);
+    }
+
+    /* 📝 回复编辑框 */
+    .tk-reply-box {
+      margin-left: 3.25rem;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: var(--tk-admin-input-bg);
+      border: 1px solid var(--tk-admin-input-border);
+      border-radius: 12px;
+      display: none;
+    }
+
+    .tk-reply-box.show {
+      display: block;
+    }
+
+    .tk-reply-textarea {
+      width: 100%;
+      min-height: 100px;
+      padding: 0.75rem;
+      background: var(--tk-admin-card-bg);
+      border: 1px solid var(--tk-admin-input-border);
+      border-radius: 8px;
+      color: var(--tk-admin-text-primary);
+      font-size: 0.9rem;
+      resize: vertical;
+      margin-bottom: 0.75rem;
+    }
+
+    .tk-reply-textarea:focus {
+      outline: none;
+      border-color: var(--tk-admin-input-focus);
+    }
+
+    .tk-reply-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+    }
+
+    /* 🎯 空状态 */
+    .tk-empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--tk-admin-text-muted);
+    }
+
+    .tk-empty-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    /* 🎯 分页 */
+    .tk-pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1.5rem;
+      border-top: 1px solid var(--tk-admin-border);
+    }
+
+    .tk-page-btn {
+      min-width: 36px;
+      height: 36px;
+      padding: 0 0.75rem;
+      border-radius: 8px;
+      border: 1px solid var(--tk-admin-input-border);
+      background: var(--tk-admin-input-bg);
+      color: var(--tk-admin-text-secondary);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tk-page-btn:hover:not(:disabled) {
+      background: var(--tk-admin-primary);
+      color: white;
+      border-color: var(--tk-admin-primary);
+    }
+
+    .tk-page-btn.active {
+      background: var(--tk-admin-primary);
+      color: white;
+      border-color: var(--tk-admin-primary);
+    }
+
+    .tk-page-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* 🎯 标签导航 */
+    .tk-admin-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      background: var(--tk-admin-card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--tk-admin-border);
+      border-radius: 12px;
+      padding: 0.5rem;
+      box-shadow: var(--tk-admin-shadow);
+    }
+
+    .tk-admin-tab {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: none;
+      background: transparent;
+      color: var(--tk-admin-text-secondary);
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .tk-admin-tab:hover {
+      background: rgba(14, 116, 144, 0.1);
+      color: var(--tk-admin-primary);
+    }
+
+    .tk-admin-tab.active {
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(14, 116, 144, 0.3);
+    }
+
+    /* 🎯 面板 */
+    .tk-admin-panel {
+      display: none;
+    }
+
+    .tk-admin-panel.active {
+      display: block;
+    }
+
+    /* 🎯 设置面板 */
+    .tk-settings-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .tk-settings-section {
+      background: var(--tk-admin-card-bg);
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid var(--tk-admin-border);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: var(--tk-admin-shadow);
+    }
+
+    .tk-settings-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--tk-admin-text-primary);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--tk-admin-border);
+    }
+
+    .tk-settings-content {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1rem;
+    }
+
+    .tk-setting-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .tk-setting-item.tk-setting-toggle {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tk-setting-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--tk-admin-text-primary);
+    }
+
+    .tk-setting-input,
+    .tk-setting-textarea {
+      padding: 0.625rem 0.875rem;
+      background: var(--tk-admin-input-bg);
+      border: 1px solid var(--tk-admin-input-border);
+      border-radius: 8px;
+      color: var(--tk-admin-text-primary);
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .tk-setting-input:focus,
+    .tk-setting-textarea:focus {
+      outline: none;
+      border-color: var(--tk-admin-input-focus);
+      box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.1);
+    }
+
+    .tk-setting-textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    /* 🎯 开关 */
+    .tk-toggle {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 26px;
+    }
+
+    .tk-toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .tk-toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--tk-admin-input-border);
+      transition: 0.3s;
+      border-radius: 26px;
+    }
+
+    .tk-toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+
+    .tk-toggle input:checked + .tk-toggle-slider {
+      background: linear-gradient(135deg, var(--tk-admin-primary) 0%, var(--tk-admin-primary-light) 100%);
+    }
+
+    .tk-toggle input:checked + .tk-toggle-slider:before {
+      transform: translateX(22px);
+    }
+
+    /* 🎯 颜色选择器 */
+    .tk-color-picker {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .tk-color-picker input[type="color"] {
+      width: 48px;
+      height: 36px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: none;
+    }
+
+    .tk-color-value {
+      font-size: 0.85rem;
+      color: var(--tk-admin-text-secondary);
+      font-family: monospace;
+    }
+
+    /* 🎯 设置操作按钮 */
+    .tk-settings-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    /* 📱 移动端适配 */
+    @media (max-width: 768px) {
+      .tk-admin-page-header {
+        padding: 0.875rem 1rem;
+      }
+
+      .tk-admin-logo-text {
+        font-size: 1rem;
+      }
+
+      .tk-admin-page-body {
+        padding: 1rem;
+      }
+
+      .tk-login-card {
+        margin: 3rem auto;
+        padding: 1.5rem;
+      }
+
+      .tk-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .tk-stat-value {
+        font-size: 1.5rem;
+      }
+
+      .tk-comments-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .tk-comment-content,
+      .tk-comment-page,
+      .tk-comment-actions,
+      .tk-reply-box {
+        margin-left: 0;
+      }
+
+      .tk-comment-header {
+        flex-wrap: wrap;
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && systemDark)) {
+        document.documentElement.classList.add('dark-mode');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <header class="tk-admin-page-header">
+    <div class="tk-admin-header-content">
+      <a href="{{ "/" | relURL }}" class="tk-admin-logo">
+        <div class="tk-admin-logo-icon">
+          <img src="https://twikoo.js.org/twikoo-logo-home.png" alt="Twikoo" style="width: 100%; height: 100%; object-fit: contain;">
+        </div>
+        <span class="tk-admin-logo-text">评论管理后台</span>
+      </a>
+      <div class="tk-admin-header-actions">
+        <button class="tk-admin-btn tk-admin-btn-secondary" id="theme-toggle" title="切换主题">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <a href="{{ "/" | relURL }}" class="tk-admin-btn tk-admin-btn-primary">
+          <img src="{{ "favicon.ico" | relURL }}" alt="" style="width: 16px; height: 16px; object-fit: contain; border-radius: 4px;">
+          <span>返回博客</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="tk-admin-page-body">
+    <!-- 🎯 登录界面 - 使用 Twikoo 原生登录 -->
+    <div id="login-section" class="tk-admin-card tk-login-card">
+      <div class="tk-login-logo">
+        <img src="{{ "favicon.ico" | relURL }}" alt="{{ .Site.Title }}" onerror="this.style.display='none'">
+      </div>
+      <h1 class="tk-login-title">评论管理后台</h1>
+      <p class="tk-login-subtitle">请点击下方按钮使用 Twikoo 原生登录</p>
+
+      <div id="login-error" class="tk-error-message"></div>
+
+      <!-- 💬 Twikoo 评论组件容器 - 用于原生登录 -->
+      <div id="tcomment" style="margin-top: 1rem;"></div>
+
+      <!-- 🔗 登录提示 -->
+      <div style="margin-top: 1rem; padding: 1rem; background: rgba(14, 116, 144, 0.1); border-radius: 8px; text-align: left;">
+        <p style="margin: 0; font-size: 0.85rem; color: var(--tk-admin-text-secondary);">
+          💡 <strong>登录步骤：</strong><br>
+          1. 点击评论框下方的 🔒 图标<br>
+          2. 输入管理员密码<br>
+          3. 登录成功后点击下方的按钮进入管理面板
+        </p>
+      </div>
+
+      <!-- 🚀 手动进入管理面板按钮 -->
+      <button id="enter-admin-btn" class="tk-admin-btn tk-admin-btn-primary" style="width: 100%; padding: 0.875rem; margin-top: 1rem; display: none;">
+        ✅ 已进入管理面板，点击进入
+      </button>
+    </div>
+
+    <!-- 🎯 管理后台内容 -->
+    <div id="admin-content" class="tk-admin-content">
+      <!-- 标签导航 -->
+      <div class="tk-admin-tabs">
+        <button class="tk-admin-tab active" data-tab="dashboard">📊 概览</button>
+        <button class="tk-admin-tab" data-tab="comments">💬 评论管理</button>
+        <button class="tk-admin-tab" data-tab="settings">⚙️ 系统设置</button>
+      </div>
+
+      <!-- 概览面板 -->
+      <div id="tab-dashboard" class="tk-admin-panel active">
+        <!-- 统计卡片 -->
+        <div class="tk-stats-grid">
+          <div class="tk-stat-card">
+            <div class="tk-stat-icon">💬</div>
+            <div class="tk-stat-value" id="stat-total">-</div>
+            <div class="tk-stat-label">总评论数</div>
+            <div class="tk-stat-emoji">💬</div>
+          </div>
+          <div class="tk-stat-card">
+            <div class="tk-stat-icon">⏳</div>
+            <div class="tk-stat-value" id="stat-pending">-</div>
+            <div class="tk-stat-label">待审核</div>
+            <div class="tk-stat-emoji">⏳</div>
+          </div>
+          <div class="tk-stat-card">
+            <div class="tk-stat-icon">📄</div>
+            <div class="tk-stat-value" id="stat-pages">-</div>
+            <div class="tk-stat-label">评论页面</div>
+            <div class="tk-stat-emoji">📄</div>
+          </div>
+          <div class="tk-stat-card">
+            <div class="tk-stat-icon">⏰</div>
+            <div class="tk-stat-value" id="stat-today">-</div>
+            <div class="tk-stat-label">今日评论</div>
+            <div class="tk-stat-emoji">⏰</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 评论管理面板 -->
+      <div id="tab-comments" class="tk-admin-panel">
+        <!-- 评论列表 -->
+        <div class="tk-comments-list">
+          <div class="tk-comments-header">
+            <h2 class="tk-comments-title">评论列表</h2>
+            <div class="tk-comments-filters">
+              <button class="tk-filter-btn active" data-filter="all">全部</button>
+              <button class="tk-filter-btn" data-filter="pending">待审核</button>
+              <button class="tk-filter-btn" data-filter="spam">垃圾评论</button>
+            </div>
+            <button class="tk-admin-btn tk-admin-btn-secondary" id="refresh-btn">🔄 刷新</button>
+          </div>
+          <div id="comments-container">
+            <div class="tk-loading">
+              <div class="tk-loading-spinner"></div>
+              <span>正在加载评论...</span>
+            </div>
+          </div>
+          <div class="tk-pagination" id="pagination" style="display: none;"></div>
+        </div>
+      </div>
+
+      <!-- 系统设置面板 -->
+      <div id="tab-settings" class="tk-admin-panel">
+        <div class="tk-settings-container">
+          <!-- 站点配置 -->
+          <div class="tk-settings-section">
+            <h3 class="tk-settings-title">🌐 站点配置</h3>
+            <div class="tk-settings-content">
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">站点名称</label>
+                <input type="text" class="tk-setting-input" id="site-name" placeholder="请输入站点名称">
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">站点地址</label>
+                <input type="url" class="tk-setting-input" id="site-url" placeholder="https://example.com">
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">博主邮箱</label>
+                <input type="email" class="tk-setting-input" id="admin-email" placeholder="admin@example.com">
+              </div>
+            </div>
+          </div>
+
+          <!-- 邮件通知设置 -->
+          <div class="tk-settings-section">
+            <h3 class="tk-settings-title">📧 邮件通知</h3>
+            <div class="tk-settings-content">
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">启用邮件通知</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="email-notification">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">SMTP 服务器</label>
+                <input type="text" class="tk-setting-input" id="smtp-host" placeholder="smtp.example.com">
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">SMTP 端口</label>
+                <input type="number" class="tk-setting-input" id="smtp-port" placeholder="465">
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">发件人邮箱</label>
+                <input type="email" class="tk-setting-input" id="sender-email" placeholder="noreply@example.com">
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">发件人名称</label>
+                <input type="text" class="tk-setting-input" id="sender-name" placeholder="评论通知">
+              </div>
+            </div>
+          </div>
+
+          <!-- 反垃圾设置 -->
+          <div class="tk-settings-section">
+            <h3 class="tk-settings-title">🛡️ 反垃圾设置</h3>
+            <div class="tk-settings-content">
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">启用 Akismet 反垃圾</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="akismet-enabled">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">Akismet Key</label>
+                <input type="password" class="tk-setting-input" id="akismet-key" placeholder="请输入 Akismet API Key">
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">人工审核新评论</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="manual-approval" checked>
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">关键词过滤</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="keyword-filter">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">屏蔽关键词</label>
+                <textarea class="tk-setting-textarea" id="blocked-keywords" rows="3" placeholder="请输入屏蔽关键词，每行一个"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 评论设置 -->
+          <div class="tk-settings-section">
+            <h3 class="tk-settings-title">💬 评论设置</h3>
+            <div class="tk-settings-content">
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">允许匿名评论</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="allow-anonymous" checked>
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">嵌套评论</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="nested-comments" checked>
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">每页评论数</label>
+                <input type="number" class="tk-setting-input" id="comments-per-page" value="10" min="5" max="50">
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">最大嵌套层级</label>
+                <input type="number" class="tk-setting-input" id="max-nested-level" value="3" min="1" max="5">
+              </div>
+            </div>
+          </div>
+
+          <!-- 外观设置 -->
+          <div class="tk-settings-section">
+            <h3 class="tk-settings-title">🎨 外观设置</h3>
+            <div class="tk-settings-content">
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">主题颜色</label>
+                <div class="tk-color-picker">
+                  <input type="color" id="theme-color" value="#0e7490">
+                  <span class="tk-color-value">#0e7490</span>
+                </div>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">显示博主标识</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="show-admin-badge" checked>
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">显示评论者头像</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="show-avatar" checked>
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">显示评论者地区</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="show-location">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 即时通知设置 -->
+          <div class="tk-settings-section">
+            <h3 class="tk-settings-title">🔔 即时通知</h3>
+            <div class="tk-settings-content">
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">启用 WebSocket 推送</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="websocket-enabled">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">新评论浏览器通知</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="browser-notification">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item tk-setting-toggle">
+                <label class="tk-setting-label">微信推送通知</label>
+                <label class="tk-toggle">
+                  <input type="checkbox" id="wechat-notification">
+                  <span class="tk-toggle-slider"></span>
+                </label>
+              </div>
+              <div class="tk-setting-item">
+                <label class="tk-setting-label">PushPlus Token</label>
+                <input type="password" class="tk-setting-input" id="pushplus-token" placeholder="请输入 PushPlus Token">
+              </div>
+            </div>
+          </div>
+
+          <!-- 保存按钮 -->
+          <div class="tk-settings-actions">
+            <button class="tk-admin-btn tk-admin-btn-secondary" id="reset-settings">重置</button>
+            <button class="tk-admin-btn tk-admin-btn-primary" id="save-settings">💾 保存设置</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // 🚀 异步加载 Twikoo 库
+    (function() {
+      return new Promise(function(resolve, reject) {
+        if (window.twikoo) {
+          resolve(window.twikoo);
+          return;
+        }
+        
+        {{ $twikoo := resources.Get "js/twikoo.all.min.js" }}
+        {{ if $twikoo }}
+        var script = document.createElement('script');
+        script.src = '{{ $twikoo.RelPermalink }}';
+        script.async = true;
+        script.onload = function() {
+          console.log('[TwikooAdmin] ✅ Twikoo 库加载完成');
+          resolve(window.twikoo);
+        };
+        script.onerror = function() {
+          console.error('[TwikooAdmin] ❌ Twikoo 库加载失败');
+          reject(new Error('Twikoo 加载失败'));
+        };
+        document.head.appendChild(script);
+        {{ else }}
+        reject(new Error('Twikoo 资源未找到'));
+        {{ end }}
+      });
+    })();
+  </script>
+
+  <script>
+    (function() {
+      /* ==================== 配置 ==================== */
+      const TWIKOO_ENV_ID = '{{ .Site.Params.comment.envId | default "" }}';
+
+      /* ==================== 状态 ==================== */
+      let currentFilter = 'all';
+      let currentPage = 1;
+      let commentsData = [];
+      let twikooInstance = null;
+      let isLoggedIn = false;
+
+      /* ==================== 主题切换 ==================== */
+      const themeToggle = document.getElementById('theme-toggle');
+      const themeIcon = document.getElementById('theme-icon');
+
+      function updateThemeIcon() {
+        const isDark = document.documentElement.classList.contains('dark-mode');
+        themeIcon.textContent = isDark ? '☀️' : '🌙';
+      }
+
+      themeToggle.addEventListener('click', function() {
+        const isDark = document.documentElement.classList.contains('dark-mode');
+        if (isDark) {
+          document.documentElement.classList.remove('dark-mode');
+          localStorage.setItem('theme', 'light');
+        } else {
+          document.documentElement.classList.add('dark-mode');
+          localStorage.setItem('theme', 'dark');
+        }
+        updateThemeIcon();
+      });
+
+      updateThemeIcon();
+
+      /* ==================== 登录功能 ==================== */
+      const loginSection = document.getElementById('login-section');
+      const adminContent = document.getElementById('admin-content');
+      const loginError = document.getElementById('login-error');
+      const enterAdminBtn = document.getElementById('enter-admin-btn');
+
+      /* 🔗 手动进入管理面板按钮事件 */
+      if (enterAdminBtn) {
+        enterAdminBtn.addEventListener('click', function() {
+          showAdminPanel();
+        });
+      }
+
+      /* 🔍 检查登录状态 - 通过检测 Twikoo 管理员状态 */
+      function checkLoginStatus() {
+        /* 检查 localStorage 中是否有 Twikoo 登录凭证 */
+        const tkToken = localStorage.getItem('twikoo-admin-token');
+        const tkUid = localStorage.getItem('twikoo-admin-uid');
+        
+        /* 检查 Twikoo 管理面板是否已打开（通过检测 DOM 元素） */
+        const tkAdminPanel = document.querySelector('.tk-admin-container');
+        const tkAdminModal = document.querySelector('.tk-admin-modal');
+        
+        /* 如果检测到登录凭证或管理面板已显示，则显示进入按钮 */
+        if ((tkToken && tkUid && !isLoggedIn) || (tkAdminPanel && !isLoggedIn)) {
+          isLoggedIn = true;
+          console.log('[Twikoo] 检测到登录状态');
+          /* 显示手动进入按钮 */
+          if (enterAdminBtn) {
+            enterAdminBtn.style.display = 'block';
+          }
+          /* 可选：自动跳转（取消注释下一行启用） */
+          /* showAdminPanel(); */
+        }
+      }
+
+      /* 🔄 定期检查登录状态 */
+      const loginCheckInterval = setInterval(checkLoginStatus, 1000);
+
+      /* 💬 初始化 Twikoo 评论组件 - 用于原生登录 */
+      function initTwikooForLogin() {
+        if (typeof twikoo === 'undefined') {
+          console.warn('[Twikoo] 库未加载，等待加载完成...');
+          setTimeout(initTwikooForLogin, 500);
+          return;
+        }
+
+        console.log('[Twikoo] 初始化评论组件用于登录');
+        
+        try {
+          twikoo.init({
+            envId: TWIKOO_ENV_ID,
+            el: '#tcomment',
+            lang: 'zh-CN',
+            path: '/admin-login', /* 使用固定路径避免与文章评论冲突 */
+            onCommentLoaded: function() {
+              console.log('[Twikoo] 评论组件加载完成');
+              /* 自动触发登录按钮显示 */
+              setTimeout(function() {
+                const adminBtn = document.querySelector('.tk-admin');
+                if (adminBtn) {
+                  console.log('[Twikoo] 找到管理员按钮');
+                }
+              }, 1000);
+            }
+          }).then(function() {
+            console.log('[Twikoo] 初始化成功');
+          }).catch(function(err) {
+            console.error('[Twikoo] 初始化失败:', err);
+            showError('Twikoo 初始化失败: ' + (err.message || '未知错误'));
+          });
+        } catch (err) {
+          console.error('[Twikoo] 初始化异常:', err);
+          showError('Twikoo 初始化异常: ' + (err.message || '未知错误'));
+        }
+      }
+
+      /* 🚀 启动 Twikoo 登录组件 */
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTwikooForLogin);
+      } else {
+        initTwikooForLogin();
+      }
+
+      /* 🔗 原生登录检测 - 通过监听 localStorage 变化 */
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'twikoo-admin-token' || e.key === 'twikoo-admin-uid') {
+          checkLoginStatus();
+        }
+      });
+
+      function showError(message) {
+        loginError.textContent = message;
+        loginError.classList.add('show');
+        setTimeout(() => loginError.classList.remove('show'), 3000);
+      }
+
+      function showAdminPanel() {
+        /* 标记已进入管理面板，停止定时检查 */
+        isLoggedIn = true;
+        clearInterval(loginCheckInterval);
+        
+        /* 隐藏 Twikoo 原生管理面板 */
+        const tkAdminModal = document.querySelector('.tk-admin-modal');
+        const tkAdminContainer = document.querySelector('.tk-admin-container');
+        if (tkAdminModal) tkAdminModal.style.display = 'none';
+        if (tkAdminContainer) tkAdminContainer.style.display = 'none';
+        
+        /* 隐藏登录区域，显示管理面板 */
+        loginSection.style.display = 'none';
+        adminContent.classList.add('show');
+        
+        /* 延迟加载数据，确保界面切换完成 */
+        setTimeout(function() {
+          loadCommentsData();
+          loadSettings();
+        }, 100);
+      }
+
+      /* ==================== 评论数据加载 ==================== */
+      async function loadCommentsData() {
+        const container = document.getElementById('comments-container');
+        container.innerHTML = `
+          <div class="tk-loading">
+            <div class="tk-loading-spinner"></div>
+            <span>正在加载评论...</span>
+          </div>
+        `;
+
+        /* 获取 Twikoo 登录凭证 */
+        const token = localStorage.getItem('twikoo-admin-token');
+        const uid = localStorage.getItem('twikoo-admin-uid');
+        if (!token || !uid) {
+          console.warn('[Twikoo] 未找到登录凭证，请重新登录');
+          showError('登录已过期，请重新登录');
+          return;
+        }
+
+        try {
+          /* 🔗 获取统计数据 */
+          await loadStats();
+
+          /* 🔗 获取评论列表 - 使用 Twikoo JavaScript API */
+          await fetchCommentsFromTwikoo();
+        } catch (error) {
+          console.error('加载数据失败:', error);
+          container.innerHTML = `
+            <div class="tk-empty-state">
+              <div class="tk-empty-icon">⚠️</div>
+              <p>加载失败，请刷新重试</p>
+            </div>
+          `;
+        }
+      }
+
+      async function loadStats() {
+        /* 获取 Twikoo 登录凭证 */
+        const token = localStorage.getItem('twikoo-admin-token');
+        const uid = localStorage.getItem('twikoo-admin-uid');
+        
+        if (!token || !uid) {
+          console.warn('[Twikoo] 未找到登录凭证');
+          return;
+        }
+
+        try {
+          /* 🔗 使用 Twikoo API 获取统计数据 */
+          if (typeof twikoo !== 'undefined' && twikoo.getCommentsCount) {
+            /* 获取评论总数 */
+            const countResult = await twikoo.getCommentsCount({
+              envId: TWIKOO_ENV_ID,
+              urls: [],
+              includeReply: true
+            });
+            
+            if (countResult && Array.isArray(countResult) && countResult.length > 0) {
+              const totalCount = countResult.reduce((sum, item) => sum + (item.count || 0), 0);
+              document.getElementById('stat-total').textContent = totalCount;
+            } else {
+              document.getElementById('stat-total').textContent = '0';
+            }
+          }
+          
+          /* 其他统计数据暂时使用默认值或从评论数据计算 */
+          document.getElementById('stat-pending').textContent = '-';
+          document.getElementById('stat-pages').textContent = '-';
+          document.getElementById('stat-today').textContent = '-';
+          
+        } catch (error) {
+          console.error('[Twikoo] 获取统计失败:', error);
+          document.getElementById('stat-total').textContent = '-';
+          document.getElementById('stat-pending').textContent = '-';
+          document.getElementById('stat-pages').textContent = '-';
+          document.getElementById('stat-today').textContent = '-';
+        }
+      }
+
+      async function fetchComments() {
+        /* 旧版 API 调用，已弃用 */
+        await fetchCommentsFromTwikoo();
+      }
+
+      /* 🔗 使用 Twikoo JavaScript API 获取评论数据 */
+      async function fetchCommentsFromTwikoo() {
+        try {
+          /* 检查 Twikoo 是否已加载 */
+          if (typeof twikoo === 'undefined') {
+            throw new Error('Twikoo 库未加载');
+          }
+
+          console.log('[Twikoo] 正在获取评论数据...');
+
+          /* 使用 Twikoo 的 getComments 方法获取数据 */
+          const result = await twikoo.getComments({
+            envId: TWIKOO_ENV_ID,
+            page: currentPage,
+            perPage: 10
+          });
+
+          console.log('[Twikoo] 评论数据:', result);
+
+          if (result && Array.isArray(result)) {
+            /* 转换数据格式以适配模板 */
+            commentsData = result.map(item => ({
+              _id: item.id || item._id,
+              nick: item.nick,
+              mail: item.mail,
+              mailMd5: item.mailMd5,
+              link: item.link,
+              comment: item.comment,
+              commentText: item.commentText,
+              created: item.created,
+              avatar: item.avatar,
+              url: item.url,
+              status: item.status || 'approved',
+              isSpam: item.isSpam || false
+            }));
+            renderCommentsList();
+          } else {
+            throw new Error('返回数据格式不正确');
+          }
+        } catch (error) {
+          console.error('[Twikoo] 获取评论失败:', error);
+          /* 如果 API 调用失败，尝试从页面上的 Twikoo 实例获取数据 */
+          fetchCommentsFromDOM();
+        }
+      }
+
+      /* 🔗 从 DOM 中获取 Twikoo 数据（备用方案） */
+      function fetchCommentsFromDOM() {
+        try {
+          /* 尝试从 Twikoo 的 DOM 结构中提取评论数据 */
+          const tkComments = document.querySelectorAll('.tk-comment');
+          if (tkComments.length > 0) {
+            commentsData = Array.from(tkComments).map(el => {
+              const id = el.getAttribute('data-id') || '';
+              const nickEl = el.querySelector('.tk-nick');
+              const contentEl = el.querySelector('.tk-content');
+              const timeEl = el.querySelector('.tk-time');
+              
+              return {
+                _id: id,
+                nick: nickEl ? nickEl.textContent : '匿名',
+                comment: contentEl ? contentEl.innerHTML : '',
+                created: timeEl ? new Date(timeEl.getAttribute('datetime')).getTime() : Date.now(),
+                status: 'approved'
+              };
+            });
+            renderCommentsList();
+          } else {
+            commentsData = [];
+            renderCommentsList();
+          }
+        } catch (error) {
+          console.error('[Twikoo] 从 DOM 获取数据失败:', error);
+          commentsData = [];
+          renderCommentsList();
+        }
+      }
+
+      /* ==================== 渲染评论列表 ==================== */
+      function renderCommentsList() {
+        const container = document.getElementById('comments-container');
+
+        /* 🔍 根据筛选条件过滤 */
+        let filteredComments = commentsData;
+        if (currentFilter === 'pending') {
+          filteredComments = commentsData.filter(c => c.status === 'pending');
+        } else if (currentFilter === 'spam') {
+          filteredComments = commentsData.filter(c => c.status === 'spam');
+        }
+
+        if (filteredComments.length === 0) {
+          container.innerHTML = `
+            <div class="tk-empty-state">
+              <div class="tk-empty-icon">💬</div>
+              <p>${currentFilter === 'all' ? '暂无评论' : '没有符合条件的评论'}</p>
+            </div>
+          `;
+          return;
+        }
+
+        container.innerHTML = filteredComments.map(comment => {
+          const date = new Date(comment.created);
+          const timeStr = date.toLocaleString('zh-CN');
+          const statusClass = comment.status === 'pending' ? 'pending' : comment.status === 'spam' ? 'spam' : '';
+          const statusLabel = comment.status === 'pending' ? '<span class="tk-comment-status pending">⏳ 待审核</span>' :
+                             comment.status === 'spam' ? '<span class="tk-comment-status spam">🚫 垃圾</span>' : '';
+
+          return `
+            <div class="tk-comment-item ${statusClass}" data-id="${comment._id}">
+              <div class="tk-comment-header">
+                <div class="tk-comment-avatar">
+                  ${comment.avatar ? `<img src="${escapeHtml(comment.avatar)}" alt="">` : comment.nick.charAt(0).toUpperCase()}
+                </div>
+                <div class="tk-comment-meta">
+                  <div class="tk-comment-author">${escapeHtml(comment.nick)} ${statusLabel}</div>
+                  <div class="tk-comment-time">${timeStr}</div>
+                </div>
+              </div>
+              <div class="tk-comment-content">${comment.comment}</div>
+              <div class="tk-comment-page">
+                📄 <a href="${escapeHtml(comment.url)}" target="_blank">${escapeHtml(comment.url)}</a>
+              </div>
+              <div class="tk-comment-actions">
+                ${comment.status !== 'approved' ? `<button class="tk-comment-action approve" onclick="approveComment('${comment._id}')">👍🏻 给予过审</button>` : ''}
+                <button class="tk-comment-action" onclick="replyComment('${comment._id}')">💬 回复</button>
+                <button class="tk-comment-action" onclick="editComment('${comment._id}')">✏️ 编辑</button>
+                ${comment.status !== 'spam' ? `<button class="tk-comment-action spam" onclick="markSpam('${comment._id}')">🚫 垃圾</button>` : ''}
+                <button class="tk-comment-action delete" onclick="deleteComment('${comment._id}')">🗑️ 删除</button>
+              </div>
+              <div class="tk-reply-box" id="reply-box-${comment._id}">
+                <textarea class="tk-reply-textarea" id="reply-text-${comment._id}" placeholder="输入回复内容..."></textarea>
+                <div class="tk-reply-actions">
+                  <button class="tk-admin-btn tk-admin-btn-secondary" onclick="cancelReply('${comment._id}')">取消</button>
+                  <button class="tk-admin-btn tk-admin-btn-primary" onclick="submitReply('${comment._id}')">发送回复</button>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      /* ==================== 筛选功能 ==================== */
+      document.querySelectorAll('.tk-filter-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.tk-filter-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          currentFilter = this.dataset.filter;
+          renderCommentsList();
+        });
+      });
+
+      /* ==================== 评论操作 ==================== */
+
+      window.approveComment = async function(id) {
+        const token = localStorage.getItem('tk-admin-token');
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'APPROVE_COMMENT',
+              token: token,
+              id: id
+            })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast('评论已通过', 'success');
+            loadCommentsData();
+          } else {
+            showToast(data.message || '操作失败', 'error');
+          }
+        } catch (error) {
+          console.error('通过评论失败:', error);
+          showToast('操作失败，请重试', 'error');
+        }
+      };
+
+      window.replyComment = function(id) {
+        document.querySelectorAll('.tk-reply-box').forEach(box => box.classList.remove('show'));
+        document.getElementById(`reply-box-${id}`).classList.add('show');
+        document.getElementById(`reply-text-${id}`).focus();
+      };
+
+      window.cancelReply = function(id) {
+        document.getElementById(`reply-box-${id}`).classList.remove('show');
+        document.getElementById(`reply-text-${id}`).value = '';
+      };
+
+      window.submitReply = async function(id) {
+        const content = document.getElementById(`reply-text-${id}`).value.trim();
+        if (!content) {
+          showToast('请输入回复内容', 'error');
+          return;
+        }
+
+        const token = localStorage.getItem('tk-admin-token');
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'REPLY_COMMENT',
+              token: token,
+              id: id,
+              comment: content
+            })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast('回复成功', 'success');
+            cancelReply(id);
+            loadCommentsData();
+          } else {
+            showToast(data.message || '回复失败', 'error');
+          }
+        } catch (error) {
+          console.error('回复失败:', error);
+          showToast('回复失败，请重试', 'error');
+        }
+      };
+
+      window.editComment = async function(id) {
+        const comment = commentsData.find(c => c._id === id);
+        if (!comment) return;
+
+        const div = document.createElement('div');
+        div.innerHTML = comment.comment;
+        const text = div.textContent || div.innerText || '';
+
+        const newContent = prompt('编辑评论内容:', text);
+        if (newContent === null || newContent === text) return;
+
+        const token = localStorage.getItem('tk-admin-token');
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'UPDATE_COMMENT',
+              token: token,
+              id: id,
+              comment: newContent
+            })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast('评论已更新', 'success');
+            loadCommentsData();
+          } else {
+            showToast(data.message || '更新失败', 'error');
+          }
+        } catch (error) {
+          console.error('编辑失败:', error);
+          showToast('更新失败，请重试', 'error');
+        }
+      };
+
+      window.markSpam = async function(id) {
+        if (!confirm('确定要将这条评论标记为垃圾评论吗？')) return;
+
+        const token = localStorage.getItem('tk-admin-token');
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'MARK_SPAM',
+              token: token,
+              id: id
+            })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast('已标记为垃圾评论', 'success');
+            loadCommentsData();
+          } else {
+            showToast(data.message || '操作失败', 'error');
+          }
+        } catch (error) {
+          console.error('标记垃圾评论失败:', error);
+          showToast('操作失败，请重试', 'error');
+        }
+      };
+
+      window.deleteComment = async function(id) {
+        if (!confirm('确定要删除这条评论吗？此操作不可恢复。')) return;
+
+        const token = localStorage.getItem('tk-admin-token');
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'DELETE_COMMENT',
+              token: token,
+              id: id
+            })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast('评论已删除', 'success');
+            loadCommentsData();
+          } else {
+            showToast(data.message || '删除失败', 'error');
+          }
+        } catch (error) {
+          console.error('删除失败:', error);
+          showToast('删除失败，请重试', 'error');
+        }
+      };
+
+      /* ==================== 刷新按钮 ==================== */
+      document.getElementById('refresh-btn').addEventListener('click', function() {
+        loadCommentsData();
+      });
+
+      /* ==================== 标签切换 ==================== */
+      document.querySelectorAll('.tk-admin-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+          const targetTab = this.dataset.tab;
+
+          /* 切换标签按钮状态 */
+          document.querySelectorAll('.tk-admin-tab').forEach(t => t.classList.remove('active'));
+          this.classList.add('active');
+
+          /* 切换面板显示 */
+          document.querySelectorAll('.tk-admin-panel').forEach(panel => {
+            panel.classList.remove('active');
+          });
+          document.getElementById(`tab-${targetTab}`).classList.add('active');
+        });
+      });
+
+      /* ==================== 颜色选择器 ==================== */
+      const colorPicker = document.getElementById('theme-color');
+      if (colorPicker) {
+        colorPicker.addEventListener('input', function() {
+          document.querySelector('.tk-color-value').textContent = this.value;
+        });
+      }
+
+      /* ==================== 设置保存 ==================== */
+      document.getElementById('save-settings').addEventListener('click', async function() {
+        const token = localStorage.getItem('tk-admin-token');
+        const settings = {
+          siteName: document.getElementById('site-name').value,
+          siteUrl: document.getElementById('site-url').value,
+          adminEmail: document.getElementById('admin-email').value,
+          emailNotification: document.getElementById('email-notification').checked,
+          smtpHost: document.getElementById('smtp-host').value,
+          smtpPort: document.getElementById('smtp-port').value,
+          senderEmail: document.getElementById('sender-email').value,
+          senderName: document.getElementById('sender-name').value,
+          akismetEnabled: document.getElementById('akismet-enabled').checked,
+          akismetKey: document.getElementById('akismet-key').value,
+          manualApproval: document.getElementById('manual-approval').checked,
+          keywordFilter: document.getElementById('keyword-filter').checked,
+          blockedKeywords: document.getElementById('blocked-keywords').value,
+          allowAnonymous: document.getElementById('allow-anonymous').checked,
+          nestedComments: document.getElementById('nested-comments').checked,
+          commentsPerPage: document.getElementById('comments-per-page').value,
+          maxNestedLevel: document.getElementById('max-nested-level').value,
+          themeColor: document.getElementById('theme-color').value,
+          showAdminBadge: document.getElementById('show-admin-badge').checked,
+          showAvatar: document.getElementById('show-avatar').checked,
+          showLocation: document.getElementById('show-location').checked,
+          websocketEnabled: document.getElementById('websocket-enabled').checked,
+          browserNotification: document.getElementById('browser-notification').checked,
+          wechatNotification: document.getElementById('wechat-notification').checked,
+          pushplusToken: document.getElementById('pushplus-token').value
+        };
+
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'UPDATE_CONFIG',
+              token: token,
+              config: settings
+            })
+          });
+
+          const data = await response.json();
+          if (data.success) {
+            showToast('设置已保存', 'success');
+          } else {
+            showToast(data.message || '保存失败', 'error');
+          }
+        } catch (error) {
+          console.error('保存设置失败:', error);
+          showToast('保存失败，请重试', 'error');
+        }
+      });
+
+      /* ==================== 设置重置 ==================== */
+      document.getElementById('reset-settings').addEventListener('click', function() {
+        if (confirm('确定要重置所有设置吗？')) {
+          document.querySelectorAll('.tk-setting-input, .tk-setting-textarea').forEach(input => {
+            input.value = input.defaultValue || '';
+          });
+          document.querySelectorAll('.tk-toggle input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = checkbox.defaultChecked;
+          });
+          showToast('设置已重置', 'success');
+        }
+      });
+
+      /* ==================== 加载设置 ==================== */
+      async function loadSettings() {
+        const token = localStorage.getItem('tk-admin-token');
+        try {
+          const response = await fetch(`${TWIKOO_ENV_ID}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              event: 'GET_CONFIG',
+              token: token
+            })
+          });
+
+          const data = await response.json();
+          if (data.success && data.config) {
+            const config = data.config;
+            /* 填充设置值 */
+            if (config.siteName) document.getElementById('site-name').value = config.siteName;
+            if (config.siteUrl) document.getElementById('site-url').value = config.siteUrl;
+            if (config.adminEmail) document.getElementById('admin-email').value = config.adminEmail;
+            if (config.smtpHost) document.getElementById('smtp-host').value = config.smtpHost;
+            if (config.smtpPort) document.getElementById('smtp-port').value = config.smtpPort;
+            if (config.senderEmail) document.getElementById('sender-email').value = config.senderEmail;
+            if (config.senderName) document.getElementById('sender-name').value = config.senderName;
+            if (config.akismetKey) document.getElementById('akismet-key').value = config.akismetKey;
+            if (config.blockedKeywords) document.getElementById('blocked-keywords').value = config.blockedKeywords;
+            if (config.commentsPerPage) document.getElementById('comments-per-page').value = config.commentsPerPage;
+            if (config.maxNestedLevel) document.getElementById('max-nested-level').value = config.maxNestedLevel;
+            if (config.themeColor) {
+              document.getElementById('theme-color').value = config.themeColor;
+              document.querySelector('.tk-color-value').textContent = config.themeColor;
+            }
+            if (config.pushplusToken) document.getElementById('pushplus-token').value = config.pushplusToken;
+
+            /* 复选框 */
+            document.getElementById('email-notification').checked = config.emailNotification || false;
+            document.getElementById('akismet-enabled').checked = config.akismetEnabled || false;
+            document.getElementById('manual-approval').checked = config.manualApproval !== false;
+            document.getElementById('keyword-filter').checked = config.keywordFilter || false;
+            document.getElementById('allow-anonymous').checked = config.allowAnonymous !== false;
+            document.getElementById('nested-comments').checked = config.nestedComments !== false;
+            document.getElementById('show-admin-badge').checked = config.showAdminBadge !== false;
+            document.getElementById('show-avatar').checked = config.showAvatar !== false;
+            document.getElementById('show-location').checked = config.showLocation || false;
+            document.getElementById('websocket-enabled').checked = config.websocketEnabled || false;
+            document.getElementById('browser-notification').checked = config.browserNotification || false;
+            document.getElementById('wechat-notification').checked = config.wechatNotification || false;
+          }
+        } catch (error) {
+          console.error('加载设置失败:', error);
+        }
+      }
+
+      /* ==================== 工具函数 ==================== */
+      function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function showToast(message, type) {
+        const toast = document.createElement('div');
+        toast.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 1rem 1.5rem;
+          border-radius: 12px;
+          color: white;
+          font-weight: 500;
+          z-index: 10000;
+          animation: slideIn 0.3s ease;
+          backdrop-filter: blur(10px);
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        `;
+        toast.style.background = type === 'success'
+          ? 'linear-gradient(135deg, #10b981 0%, #34d399 100%)'
+          : 'linear-gradient(135deg, #ef4444 0%, #f87171 100%)';
+        toast.textContent = message;
+
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.animation = 'slideOut 0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, 3000);
+      }
+
+      function logout() {
+        localStorage.removeItem('tk-admin-token');
+        location.reload();
+      }
+
+      /* 🎨 添加动画样式 */
+      const style = document.createElement('style');
+      style.textContent = `
+        @keyframes slideIn {
+          from { transform: translateX(100%); opacity: 0; }
+          to { transform: translateX(0); opacity: 1; }
+        }
+        @keyframes slideOut {
+          from { transform: translateX(0); opacity: 1; }
+          to { transform: translateX(100%); opacity: 0; }
+        }
+      `;
+      document.head.appendChild(style);
+    })();
+  </script>
+</body>
+</html>

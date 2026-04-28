@@ -1,0 +1,145 @@
+// =============================================================================
+// MD Editor 核心样式覆盖
+// =============================================================================
+// 覆盖 md-editor-v3 的默认样式
+
+.md-editor-v3-wrapper {
+  width: 100%;
+
+  // ---------------------------------------------------------------------------
+  // 编辑器容器
+  // ---------------------------------------------------------------------------
+  .md-editor {
+    --md-bk-color: var(--md-bg);
+    --md-border-color: var(--md-border);
+    border: 1px solid var(--md-border);
+    border-radius: var(--md-radius-md);
+    overflow: hidden;
+    box-shadow: var(--md-shadow-sm);
+    transition: border-color var(--md-transition-fast),
+                box-shadow var(--md-transition-fast);
+
+    &:focus-within {
+      border-color: var(--md-primary);
+      box-shadow: 0 0 0 2px var(--md-primary-light);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 编辑区域文本样式
+  // ---------------------------------------------------------------------------
+  .md-editor-input-wrapper {
+    background-color: var(--md-editor-bg);
+
+    .inputArea {
+      font-family: var(--md-editor-font);
+      font-size: var(--md-editor-font-size);
+      line-height: var(--md-editor-line-height);
+      padding: var(--md-editor-padding);
+      caret-color: var(--md-editor-caret-color);
+      color: var(--md-text);
+
+      &::selection {
+        background-color: var(--md-editor-selection-bg);
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 分隔线
+  // ---------------------------------------------------------------------------
+  .md-editor-resize-operate {
+    width: 1px;
+    background-color: var(--md-border);
+    transition: background-color var(--md-transition-fast);
+
+    &:hover {
+      background-color: var(--md-primary);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 滚动条样式
+  // ---------------------------------------------------------------------------
+  .md-editor-input-wrapper,
+  .md-editor-preview-wrapper {
+    &::-webkit-scrollbar {
+      width: var(--md-scrollbar-width);
+      height: var(--md-scrollbar-width);
+    }
+
+    &::-webkit-scrollbar-track {
+      background: var(--md-scrollbar-track-bg);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--md-scrollbar-thumb-bg);
+      border-radius: var(--md-scrollbar-width);
+
+      &:hover {
+        background: var(--md-scrollbar-thumb-hover-bg);
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 全屏模式
+  // ---------------------------------------------------------------------------
+  .md-editor-fullscreen {
+    z-index: 2000;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 页面内全屏
+  // ---------------------------------------------------------------------------
+  .md-editor-page-fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1999;
+    border-radius: 0;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 状态栏
+  // ---------------------------------------------------------------------------
+  .md-editor-footer {
+    border-top: 1px solid var(--md-border-light);
+    background-color: var(--md-bg-secondary);
+    padding: var(--md-spacing-xs) var(--md-spacing-md);
+    font-size: 12px;
+    color: var(--md-text-secondary);
+  }
+
+  // ---------------------------------------------------------------------------
+  // 目录导航
+  // ---------------------------------------------------------------------------
+  .md-editor-catalog {
+    background-color: var(--md-bg);
+    border-left: 1px solid var(--md-border-light);
+
+    .md-editor-catalog-link {
+      color: var(--md-text-secondary);
+      transition: color var(--md-transition-fast);
+
+      &:hover {
+        color: var(--md-primary);
+      }
+
+      &.md-editor-catalog-active {
+        color: var(--md-primary);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// 云上传图标
+// =============================================================================
+.cloud-upload-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

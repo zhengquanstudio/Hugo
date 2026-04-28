@@ -1,0 +1,19 @@
+{{- $labels := split (.Get "labels") "|" -}}
+{{- $langs := split (.Get "langs") "|" -}}
+{{- $id := printf "cg-%d" (now.UnixNano) -}}
+
+<div class="vp-code-group" id="{{ $id }}" data-labels="{{ .Get "labels" }}">
+  <div class="tabs">
+    {{- range $i, $label := $labels -}}
+    {{- $lang := index $langs $i | default "" -}}
+    <input type="radio" name="{{ $id }}" id="{{ $id }}-tab-{{ $i }}" class="tab-input"
+           {{ if eq $i 0 }}checked{{ end }}>
+    <label for="{{ $id }}-tab-{{ $i }}" class="tab-label"{{ if $lang }} data-lang="{{ $lang }}"{{ end }}>
+      {{- if $lang }}<span class="tab-icon"></span>{{ end }}{{ $label }}
+    </label>
+    {{- end -}}
+  </div>
+  <div class="blocks">
+    {{ .Inner | markdownify }}
+  </div>
+</div>

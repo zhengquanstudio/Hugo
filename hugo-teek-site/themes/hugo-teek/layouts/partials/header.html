@@ -1,0 +1,525 @@
+{{/* VitePress Theme Teek 风格导航 */}}
+<header class="VPNav">
+  <div class="VPNavBar{{ if .IsHome }} home{{ end }}">
+    <div class="wrapper">
+      <div class="container">
+        <div class="title">
+          <div class="VPNavBarTitle">
+            <a class="title" href="/">
+              {{/* 桌面端头像 */}}
+              {{- with .Site.Params.blogger.avatar -}}
+                <img class="blogger-avatar" src="{{ . }}" alt="头像">
+              {{- end -}}
+
+              {{/* 博客名 */}}
+              <span class="blogger-name">{{ .Site.Params.blogger.name | default (.Site.Title) }}</span>
+            </a>
+          </div>
+        </div>
+
+        {{/* 移动端专用顶部栏 */}}
+        <div class="mobile-nav-bar">
+          {{/* 头像 - 可点击回到首页 */}}
+          <a class="mobile-avatar" href="/">
+            {{- with .Site.Params.blogger.avatar -}}
+              <img src="{{ . }}" alt="头像">
+            {{- else -}}
+              <div class="avatar-placeholder">{{ substr (.Site.Params.blogger.name | default (.Site.Title)) 0 1 }}</div>
+            {{- end -}}
+          </a>
+
+          {{/* 博客名称 */}}
+          <div class="mobile-blog-name">
+            <span>{{ .Site.Params.blogger.name | default (.Site.Title) }}</span>
+          </div>
+
+          {{/* 搜索图标 */}}
+          {{ if .Site.Params.search.enabled }}
+            <button type="button" class="mobile-search-btn" id="mobile-search-btn" aria-label="搜索">
+              <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          {{ end }}
+
+          {{/* 时间显示 */}}
+          <div class="mobile-clock" id="mobile-clock">
+            <span class="clock-time">
+              <span class="hour">--</span>
+              <span class="separator">:</span>
+              <span class="minute">--</span>
+              <span class="separator">:</span>
+              <span class="second">--</span>
+            </span>
+          </div>
+
+          {{/* 菜单按钮 */}}
+          <button class="mobile-menu-btn" id="mobile-nav-toggle" aria-label="打开菜单" aria-expanded="false" type="button">
+            <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-linecap="round"><g stroke-dasharray="10" stroke-dashoffset="10"><circle cx="5" cy="5" r="1.5"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="10;0"></animate><animate fill="freeze" attributeName="fill-opacity" begin="2.0s" dur="0.5s" values="0;1"></animate></circle><circle cx="5" cy="12" r="1.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.7s" dur="0.2s" values="10;0"></animate><animate fill="freeze" attributeName="fill-opacity" begin="2.2s" dur="0.5s" values="0;1"></animate></circle><circle cx="5" cy="19" r="1.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.4s" dur="0.2s" values="10;0"></animate><animate fill="freeze" attributeName="fill-opacity" begin="2.4s" dur="0.5s" values="0;1"></animate></circle></g><g stroke-dasharray="28" stroke-dashoffset="28"><rect width="11" height="3" x="9.5" y="3.5" rx="1.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.1s" dur="0.5s" values="28;0"></animate><animate fill="freeze" attributeName="fill-opacity" begin="2.0s" dur="0.5s" values="0;1"></animate></rect><rect width="11" height="3" x="9.5" y="10.5" rx="1.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="0.8s" dur="0.5s" values="28;0"></animate><animate fill="freeze" attributeName="fill-opacity" begin="2.2s" dur="0.5s" values="0;1"></animate></rect><rect width="11" height="3" x="9.5" y="17.5" rx="1.5"><animate fill="freeze" attributeName="stroke-dashoffset" begin="1.5s" dur="0.5s" values="28;0"></animate><animate fill="freeze" attributeName="fill-opacity" begin="2.4s" dur="0.5s" values="0;1"></animate></rect></g></g></svg>
+            <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" style="display:none"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div class="content">
+          <div class="content-body">
+            {{ if .Site.Params.search.enabled }}
+              <div class="VPNavBarSearch search">
+                <div id="docsearch">
+                  <button type="button" class="DocSearch DocSearch-Button" id="header-search-input" aria-label="搜索">
+                    <span class="DocSearch-Button-Container">
+                      <span class="vp-icon DocSearch-Search-Icon"></span>
+                      <span class="DocSearch-Button-Placeholder">搜索</span>
+                    </span>
+                    <span class="DocSearch-Button-Keys">
+                      <kbd class="DocSearch-Button-Key"></kbd>
+                      <kbd class="DocSearch-Button-Key">K</kbd>
+                    </span>
+                  </button>
+                </div>
+              </div>
+            {{ end }}
+
+            {{/* 主导航 */}}
+            <nav aria-labelledby="main-nav-aria-label" class="VPNavBarMenu menu">
+              <span id="main-nav-aria-label" class="visually-hidden">Main Navigation</span>
+              {{- $currentPage := . -}}
+              {{- range .Site.Menus.main -}}
+                {{- if not .Parent -}}
+                  {{- $hasChildren := .HasChildren -}}
+                  {{- $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) -}}
+
+                  {{- if $hasChildren -}}
+                    <div class="VPFlyout VPNavBarMenuGroup{{ if $active }} active{{ end }}">
+                      <button type="button" class="button" aria-haspopup="true" aria-expanded="false">
+                        <span class="text">
+                          <span>{{ .Name }}</span>
+                          <span class="vpi-chevron-down text-icon"></span>
+                        </span>
+                      </button>
+                      <div class="menu">
+                        <div class="VPMenu">
+                          <div class="items">
+                            {{- range .Children -}}
+                              {{- if .HasChildren -}}
+                                <div class="VPMenuGroup">
+                                  <p class="title">{{ .Name }}</p>
+                                  {{- range .Children -}}
+                                    <div class="VPMenuLink">
+                                      <a class="VPLink link" href="{{ .URL }}"{{ if .Params.external }} target="_blank" rel="noopener noreferrer"{{ end }}>
+                                        <span>{{ .Name }}</span>
+                                        {{- if and .Params.description (ne .Params.description "") -}}
+                                          <span class="desc">{{ .Params.description }}</span>
+                                        {{- end -}}
+                                      </a>
+                                    </div>
+                                  {{- end -}}
+                                </div>
+                              {{- else -}}
+                                <div class="VPMenuLink">
+                                  <a class="VPLink link" href="{{ .URL }}"{{ if .Params.external }} target="_blank" rel="noopener noreferrer"{{ end }}>
+                                    <span>{{ .Name }}</span>
+                                    {{- if and .Params.description (ne .Params.description "") -}}
+                                      <span class="desc">{{ .Params.description }}</span>
+                                    {{- end -}}
+                                  </a>
+                                </div>
+                              {{- end -}}
+                            {{- end -}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {{- else -}}
+                    <a class="VPLink link VPNavBarMenuLink{{ if $active }} active{{ end }}" href="{{ .URL }}"{{ if .Params.external }} target="_blank" rel="noopener noreferrer"{{ end }}>
+                      <span>{{ .Name }}</span>
+                    </a>
+                  {{- end -}}
+                {{- end -}}
+              {{- end -}}
+            </nav>
+
+            {{/* 🔗 平板断点下拉菜单容器（960px-1279px） */}}
+            <div class="VPNavBarMore more-menu">
+              <button type="button" class="more-button" aria-label="更多选项" aria-expanded="false">
+                <svg class="more-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <circle cx="12" cy="6" r="2"/>
+                  <circle cx="12" cy="12" r="2"/>
+                  <circle cx="12" cy="18" r="2"/>
+                </svg>
+              </button>
+              <div class="more-dropdown">
+                <div class="more-dropdown-content">
+                  {{/* 🌗 主题切换 */}}
+                  <div class="more-item theme-item">
+                    <span class="item-label">切换主题色</span>
+                    <button class="VPSwitch VPSwitchAppearance" id="theme-toggle-more" title="切换深色模式" type="button" role="switch" aria-label="切换深色模式" aria-checked="false">
+                      <span class="check">
+                        <span class="icon">
+                          <span class="vpi-sun sun"></span>
+                          <span class="vpi-moon moon"></span>
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                  {{/* 🔗 社交链接 */}}
+                  <div class="more-item social-item">
+                    <span class="item-label">项目仓库</span>
+                    <div class="social-links-compact">
+                      {{- with .Site.Params.socialLinks -}}
+                        {{- range . -}}
+                          <a href="{{ .link }}"
+                             class="VPSocialLink social-link"
+                             target="_blank"
+                             rel="noopener noreferrer"
+                             aria-label="{{ .title | default .icon }}">
+                            {{- if .icon -}}
+                              {{- if eq .icon "github" -}}
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                                </svg>
+                              {{- else if eq .icon "cnb" -}}
+                                <!-- ☁️ CNB「云原生构建」官方 SVG 图标 -->
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                                  <path d="M12 6v2M12 16v2M6 12h2M16 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                              {{- else if eq .icon "gitee" -}}
+                                <!-- ☁️ CNB「云原生构建」官方 SVG 图标 -->
+                                <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+                                  <g fill="none">
+                                    <path d="M11.5286 1.87149C11.5769 1.73005 11.5356 1.5733 11.4233 1.47452C11.0472 1.14247 10.0965 0.443125 8.66911 0.339708C7.07054 0.223769 6.08089 0.652279 5.58096 0.969951C5.36531 1.10676 5.35326 1.41748 5.55499 1.57422L9.62723 4.73936C9.98617 5.01807 10.5125 4.8604 10.6591 4.43003L11.5286 1.87149Z" fill="currentColor"/>
+                                    <path d="M1.49017 11.2664C1.32368 11.3781 1.24855 11.584 1.30235 11.7774C1.45724 12.3339 1.91868 13.4919 3.22833 14.5456C4.53797 15.5992 6.08738 15.7128 6.74962 15.6966C6.94764 15.692 7.12016 15.5617 7.17998 15.3724L9.79046 7.11064C9.97875 6.51425 9.31048 6.01386 8.79154 6.3626L1.49017 11.2664Z" fill="currentColor"/>
+                                    <path d="M3.39813 2.54827C3.27013 2.49773 3.12683 2.50607 3.00579 2.57193C2.52256 2.83488 1.28526 3.64506 0.647135 5.30947C0.154627 6.59222 0.328071 8.01085 0.463488 8.70463C0.508009 8.9314 0.747306 9.06218 0.962489 8.97824L8.79485 5.92024C9.35414 5.70181 9.35646 4.91111 8.7981 4.6899L3.39813 2.54827Z" fill="currentColor"/>
+                                    <path d="M15.0167 8.46843C15.243 8.62194 15.5528 8.48652 15.5922 8.21569C15.6961 7.49872 15.7861 6.25076 15.371 5.30933C14.8177 4.05487 13.8786 3.28133 13.433 2.9669C13.292 2.86766 13.1019 2.87786 12.9725 2.99241L10.9959 4.74541C10.6732 5.03154 10.7066 5.54492 11.0636 5.78746L15.0167 8.46936V8.46843Z" fill="currentColor"/>
+                                    <path d="M9.49413 15.1604C9.47372 15.3937 9.67128 15.5866 9.90409 15.5616C10.6531 15.4813 12.1918 15.1841 13.3447 14.0827C14.467 13.0109 14.832 11.7384 14.9382 11.2319C14.9669 11.0951 14.9326 10.9528 14.8445 10.8442L11.3886 6.57909C11.0143 6.11719 10.2681 6.34535 10.2162 6.93757L9.49366 15.1604H9.49413Z" fill="currentColor"/>
+                                  </g>
+                                </svg>
+                              {{- end -}}
+                            {{- end -}}
+                          </a>
+                        {{- end -}}
+                      {{- end -}}
+                    </div>
+                  </div>
+                  {{/* ⚙️ 配置中心（仅开发环境） */}}
+                  {{ if hugo.IsServer }}
+                  <div class="more-item settings-item">
+                    <span class="item-label">后台配置中心</span>
+                    <a href="#" onclick="openAdminCenter(); return false;" class="settings-link" title="配置中心">
+                      <svg class="settings-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                      </svg>
+                    </a>
+                  </div>
+                  {{ end }}
+                </div>
+              </div>
+            </div>
+
+            {{/* 🌗 主题切换 - 桌面端显示 */}}
+            <div class="VPNavBarAppearance appearance">
+              <button class="VPSwitch VPSwitchAppearance" id="theme-toggle" title="切换深色模式" type="button" role="switch" aria-label="切换深色模式" aria-checked="false">
+                <span class="check">
+                  <span class="icon">
+                    <span class="vpi-sun sun"></span>
+                    <span class="vpi-moon moon"></span>
+                  </span>
+                </span>
+              </button>
+            </div>
+
+            {{/* 🔗 社交链接 - 桌面端显示 */}}
+            <div class="VPSocialLinks VPNavBarSocialLinks social-links">
+              {{- with .Site.Params.socialLinks -}}
+                {{- range . -}}
+                  <a href="{{ .link }}"
+                     class="VPSocialLink social-link"
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     aria-label="{{ .title | default .icon }}">
+                    {{- if .icon -}}
+                      {{- if eq .icon "github" -}}
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                        </svg>
+                      {{- else if eq .icon "cnb" -}}
+                        <!-- ☁️ CNB「云原生构建」官方 SVG 图标 -->
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                          <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                          <path d="M12 6v2M12 16v2M6 12h2M16 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                      {{- else if eq .icon "gitee" -}}
+                        <!-- ☁️ CNB「云原生构建」官方 SVG 图标 -->
+                        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+                          <g fill="none">
+                            <path d="M11.5286 1.87149C11.5769 1.73005 11.5356 1.5733 11.4233 1.47452C11.0472 1.14247 10.0965 0.443125 8.66911 0.339708C7.07054 0.223769 6.08089 0.652279 5.58096 0.969951C5.36531 1.10676 5.35326 1.41748 5.55499 1.57422L9.62723 4.73936C9.98617 5.01807 10.5125 4.8604 10.6591 4.43003L11.5286 1.87149Z" fill="currentColor"/>
+                            <path d="M1.49017 11.2664C1.32368 11.3781 1.24855 11.584 1.30235 11.7774C1.45724 12.3339 1.91868 13.4919 3.22833 14.5456C4.53797 15.5992 6.08738 15.7128 6.74962 15.6966C6.94764 15.692 7.12016 15.5617 7.17998 15.3724L9.79046 7.11064C9.97875 6.51425 9.31048 6.01386 8.79154 6.3626L1.49017 11.2664Z" fill="currentColor"/>
+                            <path d="M3.39813 2.54827C3.27013 2.49773 3.12683 2.50607 3.00579 2.57193C2.52256 2.83488 1.28526 3.64506 0.647135 5.30947C0.154627 6.59222 0.328071 8.01085 0.463488 8.70463C0.508009 8.9314 0.747306 9.06218 0.962489 8.97824L8.79485 5.92024C9.35414 5.70181 9.35646 4.91111 8.7981 4.6899L3.39813 2.54827Z" fill="currentColor"/>
+                            <path d="M15.0167 8.46843C15.243 8.62194 15.5528 8.48652 15.5922 8.21569C15.6961 7.49872 15.7861 6.25076 15.371 5.30933C14.8177 4.05487 13.8786 3.28133 13.433 2.9669C13.292 2.86766 13.1019 2.87786 12.9725 2.99241L10.9959 4.74541C10.6732 5.03154 10.7066 5.54492 11.0636 5.78746L15.0167 8.46936V8.46843Z" fill="currentColor"/>
+                            <path d="M9.49413 15.1604C9.47372 15.3937 9.67128 15.5866 9.90409 15.5616C10.6531 15.4813 12.1918 15.1841 13.3447 14.0827C14.467 13.0109 14.832 11.7384 14.9382 11.2319C14.9669 11.0951 14.9326 10.9528 14.8445 10.8442L11.3886 6.57909C11.0143 6.11719 10.2681 6.34535 10.2162 6.93757L9.49366 15.1604H9.49413Z" fill="currentColor"/>
+                          </g>
+                        </svg>
+                      {{- end -}}
+                    {{- end -}}
+                  </a>
+                {{- end -}}
+              {{- end -}}
+              
+              {{/* ⚙️ 配置中心入口（仅开发环境） */}}
+              {{ if hugo.IsServer }}
+              <a href="#" onclick="openAdminCenter(); return false;" class="VPSocialLink social-link" title="配置中心">
+                <!-- ⚙️ 网站管理后台图标-->
+                <svg class="settings-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <style>
+                    .settings-icon {
+                      animation: settings-spin 8s linear infinite;
+                      transform-origin: center;
+                    }
+                    @keyframes settings-spin {
+                      from { transform: rotate(0deg); }
+                      to { transform: rotate(360deg); }
+                    }
+                    .settings-icon:hover {
+                      animation-duration: 2s;
+                    }
+                  </style>
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+              </a>
+              <script>
+              function openAdminCenter() {
+                var hostname = window.location.hostname;
+                var adminUrl;
+
+                if (hostname === 'localhost' || hostname === '127.0.0.1') {
+                  // 本地开发环境
+                  adminUrl = 'http://localhost:5173/admin/';
+                } else if (hostname.includes('.cnb.run')) {
+                  // 云开发环境：替换端口号
+                  // 从 n012fclk49-8090.cnb.run 变为 n012fclk49-5173.cnb.run
+                  adminUrl = window.location.protocol + '//' + hostname.replace(/-\d+\./, '-5173.') + '/admin/';
+                } else {
+                  // 其他环境：使用相对路径（假设 admin 在同域下）
+                  adminUrl = '/admin/';
+                }
+
+                window.open(adminUrl, '_blank');
+              }
+              </script>
+              {{ end }}
+            </div>
+
+            {{/* 额外信息（时钟） */}}
+            <div class="VPNavBarExtra extra">
+              <div class="header-clock" id="header-clock">
+                <svg class="clock-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                  <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span class="clock-time">
+                  <span class="hour">--</span>
+                  <span class="separator">:</span>
+                  <span class="minute">--</span>
+                  <span class="separator">:</span>
+                  <span class="second">--</span>
+                </span>
+              </div>
+            </div>
+
+            {{/* 移动端菜单按钮 */}}
+            <button class="VPNavBarHamburger hamburger" id="mobile-menu-toggle" aria-label="打开移动菜单" aria-expanded="false" type="button">
+              <span class="container" tabindex="-1">
+                <span class="top"></span>
+                <span class="middle"></span>
+                <span class="bottom"></span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="divider">
+      <div class="divider-line"></div>
+    </div>
+  </div>
+</header>
+
+{{/* 移动端抽屉式导航菜单 */}}
+<div class="mobile-nav-drawer" id="mobile-nav-drawer">
+  <div class="mobile-nav-drawer-content">
+    {{/* 导航项 */}}
+    <nav class="mobile-nav-items">
+      {{- $currentPage := . -}}
+
+      {{/* 主导航菜单项（包括首页） */}}
+      {{- range .Site.Menus.main -}}
+        {{- if not .Parent -}}
+          {{- $hasChildren := .HasChildren -}}
+          {{- $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) -}}
+
+          {{- if $hasChildren -}}
+            <div class="mobile-nav-group{{ if $active }} active{{ end }}">
+              <button type="button" class="mobile-nav-item-toggle" data-toggle="collapse">
+                {{- with .Params.icon -}}
+                  <span class="item-icon">{{ . }}</span>
+                {{- end -}}
+                <span class="item-text">{{ .Name }}</span>
+                <svg class="chevron-icon" width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+              <div class="mobile-nav-submenu">
+                {{- range .Children -}}
+                  {{- if .HasChildren -}}
+                    {{/* 二级分组 */}}
+                    <div class="mobile-nav-subgroup">
+                      <p class="subgroup-title">{{ .Name }}</p>
+                      {{- range .Children -}}
+                        <a class="mobile-nav-subitem" href="{{ .URL }}"{{ if .Params.external }} target="_blank" rel="noopener noreferrer"{{ end }}>
+                          <span>{{ .Name }}</span>
+                        </a>
+                      {{- end -}}
+                    </div>
+                  {{- else -}}
+                    <a class="mobile-nav-subitem" href="{{ .URL }}"{{ if .Params.external }} target="_blank" rel="noopener noreferrer"{{ end }}>
+                      <span>{{ .Name }}</span>
+                    </a>
+                  {{- end -}}
+                {{- end -}}
+              </div>
+            </div>
+          {{- else -}}
+            <a class="mobile-nav-item{{ if $active }} active{{ end }}" href="{{ .URL }}"{{ if .Params.external }} target="_blank" rel="noopener noreferrer"{{ end }}>
+              {{- with .Params.icon -}}
+                <span class="item-icon">{{ . }}</span>
+              {{- end -}}
+              <span class="item-text">{{ .Name }}</span>
+            </a>
+          {{- end -}}
+        {{- end -}}
+      {{- end -}}
+    </nav>
+
+    {{/* 底部操作栏 */}}
+    <div class="mobile-nav-footer">
+      {{/* 主题切换 */}}
+      <button class="mobile-theme-toggle" id="mobile-theme-toggle" title="切换深色模式" type="button">
+        <span class="icon sun-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <g stroke="currentColor" stroke-linecap="round" stroke-width="2">
+              <path fill="currentColor" fill-opacity="0" stroke-dasharray="34" stroke-dashoffset="34" d="M12 7C14.76 7 17 9.24 17 12C17 14.76 14.76 17 12 17C9.24 17 7 14.76 7 12C7 9.24 9.24 7 12 7">
+                <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.4s" values="34;0"/>
+                <animate fill="freeze" attributeName="fill-opacity" begin="0.9s" dur="0.5s" values="0;1"/>
+              </path>
+              <g fill="none" stroke-dasharray="2" stroke-dashoffset="2">
+                <path d="M0 0">
+                  <animate fill="freeze" attributeName="d" begin="0.5s" dur="0.2s" values="M12 19v1M19 12h1M12 5v-1M5 12h-1;M12 21v1M21 12h1M12 3v-1M3 12h-1"/>
+                  <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.5s" dur="0.2s" values="2;0"/>
+                </path>
+                <path d="M0 0">
+                  <animate fill="freeze" attributeName="d" begin="0.7s" dur="0.2s" values="M17 17l0.5 0.5M17 7l0.5 -0.5M7 7l-0.5 -0.5M7 17l-0.5 0.5;M18.5 18.5l0.5 0.5M18.5 5.5l0.5 -0.5M5.5 5.5l-0.5 -0.5M5.5 18.5l-0.5 0.5"/>
+                  <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.7s" dur="0.2s" values="2;0"/>
+                </path>
+                <animateTransform attributeName="transform" dur="30s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/>
+              </g>
+            </g>
+          </svg>
+        </span>
+        <span class="icon moon-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24">
+            <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <g stroke-dasharray="2">
+                <path d="M12 21v1M21 12h1M12 3v-1M3 12h-1">
+                  <animate fill="freeze" attributeName="stroke-dashoffset" dur="0.2s" values="4;2"/>
+                </path>
+                <path d="M18.5 18.5l0.5 0.5M18.5 5.5l0.5 -0.5M5.5 5.5l-0.5 -0.5M5.5 18.5l-0.5 0.5">
+                  <animate fill="freeze" attributeName="stroke-dashoffset" begin="0.2s" dur="0.2s" values="4;2"/>
+                </path>
+              </g>
+              <path fill="currentColor" d="M7 6 C7 12.08 11.92 17 18 17 C18.53 17 19.05 16.96 19.56 16.89 C17.95 19.36 15.17 21 12 21 C7.03 21 3 16.97 3 12 C3 8.83 4.64 6.05 7.11 4.44 C7.04 4.95 7 5.47 7 6 Z" opacity="0">
+                <set attributeName="opacity" begin="0.5s" to="1"/>
+              </path>
+            </g>
+            <g fill="currentColor" fill-opacity="0">
+              <path d="m15.22 6.03l2.53-1.94L14.56 4L13.5 1l-1.06 3l-3.19.09l2.53 1.94l-.91 3.06l2.63-1.81l2.63 1.81z">
+                <animate id="stars0" fill="freeze" attributeName="fill-opacity" begin="0.6s;stars0.begin+6s" dur="0.4s" values="0;1"/>
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+2.2s" dur="0.4s" values="1;0"/>
+              </path>
+              <path d="M13.61 5.25L15.25 4l-2.06-.05L12.5 2l-.69 1.95L9.75 4l1.64 1.25l-.59 1.98l1.7-1.17l1.7 1.17z">
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+3s" dur="0.4s" values="0;1"/>
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+5.2s" dur="0.4s" values="1;0"/>
+              </path>
+              <path d="M19.61 12.25L21.25 11l-2.06-.05L18.5 9l-.69 1.95l-2.06.05l1.64 1.25l-.59 1.98l1.7-1.17l1.7 1.17z">
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+0.4s" dur="0.4s" values="0;1"/>
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+2.8s" dur="0.4s" values="1;0"/>
+              </path>
+              <path d="m20.828 9.731l1.876-1.439l-2.366-.067L19.552 6l-.786 2.225l-2.366.067l1.876 1.439L17.601 12l1.951-1.342L21.503 12z">
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+3.4s" dur="0.4s" values="0;1"/>
+                <animate fill="freeze" attributeName="fill-opacity" begin="stars0.begin+5.6s" dur="0.4s" values="1;0"/>
+              </path>
+            </g>
+            <mask id="moon-mask">
+              <circle cx="12" cy="12" r="12" fill="#fff"/>
+              <circle cx="22" cy="2" r="3" fill="#fff">
+                <animate fill="freeze" attributeName="cx" begin="0.1s" dur="0.4s" values="22;18"/>
+                <animate fill="freeze" attributeName="cy" begin="0.1s" dur="0.4s" values="2;6"/>
+                <animate fill="freeze" attributeName="r" begin="0.1s" dur="0.4s" values="3;12"/>
+              </circle>
+              <circle cx="22" cy="2" r="1">
+                <animate fill="freeze" attributeName="cx" begin="0.1s" dur="0.4s" values="22;18"/>
+                <animate fill="freeze" attributeName="cy" begin="0.1s" dur="0.4s" values="2;6"/>
+                <animate fill="freeze" attributeName="r" begin="0.1s" dur="0.4s" values="1;10"/>
+              </circle>
+            </mask>
+            <circle cx="12" cy="12" r="6" fill="currentColor" mask="url(#moon-mask)">
+              <set attributeName="opacity" begin="0.5s" to="0"/>
+              <animate fill="freeze" attributeName="r" begin="0.1s" dur="0.4s" values="6;10"/>
+            </circle>
+          </svg>
+        </span>
+      </button>
+
+      {{/* 社交链接 */}}
+      <div class="mobile-social-links">
+        {{- with .Site.Params.socialLinks -}}
+          {{- range . -}}
+            <a href="{{ .link }}" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="{{ .title | default .icon }}">
+              {{- if eq .icon "github" -}}
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+                </svg>
+              {{- else if eq .icon "cnb" -}}
+                <!-- ☁️ CNB「云原生构建」官方 SVG 图标 -->
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15h-2v-2h2v2zm0-4h-2V7h2v6zm4 4h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                  <path d="M12 6v2M12 16v2M6 12h2M16 12h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              {{- else if eq .icon "gitee" -}}
+                <!-- ☁️ CNB「云原生构建」官方 SVG 图标 -->
+                <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                  <g fill="none">
+                    <path d="M11.5286 1.87149C11.5769 1.73005 11.5356 1.5733 11.4233 1.47452C11.0472 1.14247 10.0965 0.443125 8.66911 0.339708C7.07054 0.223769 6.08089 0.652279 5.58096 0.969951C5.36531 1.10676 5.35326 1.41748 5.55499 1.57422L9.62723 4.73936C9.98617 5.01807 10.5125 4.8604 10.6591 4.43003L11.5286 1.87149Z" fill="currentColor"/>
+                    <path d="M1.49017 11.2664C1.32368 11.3781 1.24855 11.584 1.30235 11.7774C1.45724 12.3339 1.91868 13.4919 3.22833 14.5456C4.53797 15.5992 6.08738 15.7128 6.74962 15.6966C6.94764 15.692 7.12016 15.5617 7.17998 15.3724L9.79046 7.11064C9.97875 6.51425 9.31048 6.01386 8.79154 6.3626L1.49017 11.2664Z" fill="currentColor"/>
+                    <path d="M3.39813 2.54827C3.27013 2.49773 3.12683 2.50607 3.00579 2.57193C2.52256 2.83488 1.28526 3.64506 0.647135 5.30947C0.154627 6.59222 0.328071 8.01085 0.463488 8.70463C0.508009 8.9314 0.747306 9.06218 0.962489 8.97824L8.79485 5.92024C9.35414 5.70181 9.35646 4.91111 8.7981 4.6899L3.39813 2.54827Z" fill="currentColor"/>
+                    <path d="M15.0167 8.46843C15.243 8.62194 15.5528 8.48652 15.5922 8.21569C15.6961 7.49872 15.7861 6.25076 15.371 5.30933C14.8177 4.05487 13.8786 3.28133 13.433 2.9669C13.292 2.86766 13.1019 2.87786 12.9725 2.99241L10.9959 4.74541C10.6732 5.03154 10.7066 5.54492 11.0636 5.78746L15.0167 8.46936V8.46843Z" fill="currentColor"/>
+                    <path d="M9.49413 15.1604C9.47372 15.3937 9.67128 15.5866 9.90409 15.5616C10.6531 15.4813 12.1918 15.1841 13.3447 14.0827C14.467 13.0109 14.832 11.7384 14.9382 11.2319C14.9669 11.0951 14.9326 10.9528 14.8445 10.8442L11.3886 6.57909C11.0143 6.11719 10.2681 6.34535 10.2162 6.93757L9.49366 15.1604H9.49413Z" fill="currentColor"/>
+                  </g>
+                </svg>
+              {{- end -}}
+            </a>
+          {{- end -}}
+        {{- end -}}
+      </div>
+    </div>
+  </div>
+</div>
+
+{{/* 遮罩层 */}}
+<div class="mobile-nav-overlay" id="mobile-nav-overlay"></div>
+

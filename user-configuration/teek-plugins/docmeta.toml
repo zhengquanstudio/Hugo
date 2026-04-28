@@ -1,0 +1,9 @@
+[params]
+[params.docCopyright]
+authorName = '全溪小筑'
+authorUrl = 'https://wiki.xxdevops.cn/'
+enabled = true
+licenseName = 'CC BY-NC-SA 4.0'
+licenseUrl = 'https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh'
+siteName = '全溪小筑のBlog'
+siteUrl = 'https://xxdevops.cn'

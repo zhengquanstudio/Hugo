@@ -1,0 +1,1139 @@
+<!-- 🚀 性能检测器：优先加载，供其他脚本使用 -->
+{{ $performanceDetector := resources.Get "js/performance-detector.js" }}
+{{ if $performanceDetector }}
+  {{ $performanceDetector = $performanceDetector | resources.Minify | resources.Fingerprint }}
+  <!-- 使用 defer 异步加载，不阻塞渲染，但尽早执行 -->
+  <script defer src="{{ $performanceDetector.RelPermalink }}"></script>
+{{ end }}
+
+{{ $mermaidEnabled := .Site.Params.mermaid.enabled | default true }}
+{{ if $mermaidEnabled }}
+<!-- Mermaid 流程图支持 -->
+{{ $mermaidJs := resources.Get "js/mermaid.min.js" }}
+{{ if $mermaidJs }}
+  {{ $mermaidJs = $mermaidJs | resources.Fingerprint }}
+  <script defer src="{{ $mermaidJs.RelPermalink }}"></script>
+{{ end }}
+{{ end }}
+
+<!-- Lazy Loading (load early, before other scripts) -->
+{{ $lazyLoadJs := resources.Get "js/lazy-load.js" }}
+{{ if $lazyLoadJs }}
+  {{ $lazyLoadJs = $lazyLoadJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $lazyLoadJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- 🎨 涟漪式页面跳转动画组件 -->
+<!-- {{ $pageTransitionDrawerJs := resources.Get "js/page-transition-drawer.js" }}
+{{ if $pageTransitionDrawerJs }}
+  {{ $pageTransitionDrawerJs = $pageTransitionDrawerJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $pageTransitionDrawerJs.RelPermalink }}"></script>
+{{ end }} -->
+
+<!-- Core JavaScript Modules -->
+{{ $js := resources.Get "js/main.js" }}
+{{ if $js }}
+  {{ $js = $js | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $js.RelPermalink }}"></script>
+{{ end }}
+
+<!-- 🔗 动态版权链接 - 根据浏览器实际域名动态更新文章链接 -->
+{{ $dynamicCopyrightLinkJs := resources.Get "js/dynamic-copyright-link.js" }}
+{{ if $dynamicCopyrightLinkJs }}
+  {{ $dynamicCopyrightLinkJs = $dynamicCopyrightLinkJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $dynamicCopyrightLinkJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- 🎉 Copy Banner - 全局复制事件横幅提示（自动初始化）-->
+{{ $copyBannerJs := resources.Get "js/copy-banner.js" }}
+{{ if $copyBannerJs }}
+  {{ $copyBannerJs = $copyBannerJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $copyBannerJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- URL Auto Link - Convert plain text URLs to clickable links -->
+{{ $urlAutoLinkJs := resources.Get "js/url-auto-link.js" }}
+{{ if $urlAutoLinkJs }}
+  {{ $urlAutoLinkJs = $urlAutoLinkJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $urlAutoLinkJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- 💜 Table Wrapper - 为超宽表格添加滚动容器 -->
+{{ $tableWrapperJs := resources.Get "js/table-wrapper.js" }}
+{{ if $tableWrapperJs }}
+  {{ $tableWrapperJs = $tableWrapperJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $tableWrapperJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ $scrollConfig := .Site.Params.scrollProgress | default dict }}
+{{ if ne (default true $scrollConfig.enabled) false }}
+  {{ $scrollProgressJs := resources.Get "js/scroll-progress.js" }}
+  {{ if $scrollProgressJs }}
+    {{ $scrollProgressJs = $scrollProgressJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $scrollProgressJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Theme Toggle -->
+{{ $themeJs := resources.Get "js/theme-toggle.js" }}
+{{ if $themeJs }}
+  {{ $themeJs = $themeJs | resources.Minify | resources.Fingerprint }}
+  <!-- 🎨 不使用 defer，确保在 body 创建后立即执行，避免主题闪烁 -->
+  <script src="{{ $themeJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Mobile Navigation -->
+{{ $mobileNavJs := resources.Get "js/mobile-nav.js" }}
+{{ if $mobileNavJs }}
+  {{ $mobileNavJs = $mobileNavJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $mobileNavJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Mobile Enhancements -->
+{{ $mobileEnhancementsJs := resources.Get "js/mobile-enhancements.js" }}
+{{ if $mobileEnhancementsJs }}
+  {{ $mobileEnhancementsJs = $mobileEnhancementsJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $mobileEnhancementsJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Custom Block Details (for ::: details syntax) -->
+{{ $customBlockDetailsJs := resources.Get "js/custom-block-details.js" }}
+{{ if $customBlockDetailsJs }}
+  {{ $customBlockDetailsJs = $customBlockDetailsJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $customBlockDetailsJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- 🔤 代码语言图标（需要在 code-group 之前加载） -->
+{{ $codeLanguageIconsJs := resources.Get "js/code-language-icons.js" }}
+{{ if $codeLanguageIconsJs }}
+  {{ $codeLanguageIconsJs = $codeLanguageIconsJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $codeLanguageIconsJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Code Group (for ::: code-group syntax) -->
+{{ $codeGroupJs := resources.Get "js/code-group.js" }}
+{{ if $codeGroupJs }}
+  {{ $codeGroupJs = $codeGroupJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $codeGroupJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ $titleConfig := .Site.Params.titleChange | default dict }}
+{{ if ne (default true $titleConfig.enabled) false }}
+  {{ $titleChangeJs := resources.Get "js/title-change.js" }}
+  {{ if $titleChangeJs }}
+    {{ $titleChangeJs = $titleChangeJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $titleChangeJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Header Scroll Effect (homepage only) -->
+{{ if .IsHome }}
+  {{ $headerScrollJs := resources.Get "js/header-scroll.js" }}
+  {{ if $headerScrollJs }}
+    {{ $headerScrollJs = $headerScrollJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $headerScrollJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Clock Component -->
+{{ $clockJs := resources.Get "js/clock.js" }}
+{{ if $clockJs }}
+  {{ $clockJs = $clockJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $clockJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Calendar Component (homepage only) -->
+{{ if .IsHome }}
+  {{ $calendarJs := resources.Get "js/calendar.js" }}
+  {{ if $calendarJs }}
+    {{ $calendarJs = $calendarJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $calendarJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Twikoo Comment System -->
+{{ if .Site.Params.comment.enabled }}
+  {{ $twikoo := resources.Get "js/twikoo.all.min.js" }}
+  {{ if $twikoo }}
+    {{ if or .IsPage (eq .Type "docs") }}
+      <!-- Article/Docs page: 延迟 500ms 加载（评论区在页面下方，非首屏） -->
+      <script>
+      (function() {
+        // 页面加载完成后延迟 500ms 加载 Twikoo（评论区在下方，用户需要滚动）
+        window.addEventListener('load', function() {
+          setTimeout(function() {
+            var script = document.createElement('script');
+            script.src = '{{ $twikoo.RelPermalink }}';
+            script.defer = true;
+            // 脚本加载完成后触发事件，通知 comment.html 初始化
+            script.onload = function() {
+              console.log('[Twikoo] 库加载完成');
+              window.dispatchEvent(new CustomEvent('twikoo-loaded'));
+              
+              // 💬 初始化管理员后台新页面打开功能
+              (function() {
+                const ADMIN_PAGE_PATH = '/twikoo-admin/';
+                
+                function handleAdminClick(e) {
+                  const adminBtn = e.target.closest('.tk-admin');
+                  if (!adminBtn) return;
+                  e.preventDefault();
+                  e.stopPropagation();
+                  e.stopImmediatePropagation();
+                  window.open(ADMIN_PAGE_PATH, '_blank');
+                  return false;
+                }
+                
+                // 添加隐藏样式
+                const style = document.createElement('style');
+                style.textContent = '.tk-admin-container { display: none !important; }';
+                document.head.appendChild(style);
+                
+                // 捕获阶段监听点击
+                document.addEventListener('click', handleAdminClick, true);
+                
+                console.log('[TwikooAdminLink] ✅ 已初始化');
+              })();
+              
+              // ⚙️ 初始化齿轮图标点击效果
+              (function() {
+                // 创建提示元素的样式
+                const tooltipStyle = document.createElement('style');
+                tooltipStyle.textContent = `
+                  .tk-gear-tooltip {
+                    position: fixed;
+                    background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+                    color: white;
+                    padding: 10px 16px;
+                    border-radius: 12px;
+                    font-size: 14px;
+                    font-weight: 600;
+                    box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+                    z-index: 99999;
+                    pointer-events: none;
+                    opacity: 0;
+                    transform: scale(0.8);
+                    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                    white-space: nowrap;
+                    animation: tk-tooltip-bounce 0.5s ease;
+                  }
+                  .tk-gear-tooltip.show {
+                    opacity: 1;
+                    transform: scale(1);
+                  }
+                  @keyframes tk-tooltip-bounce {
+                    0% { transform: scale(0.3) rotate(-10deg); }
+                    50% { transform: scale(1.1) rotate(5deg); }
+                    100% { transform: scale(1) rotate(0deg); }
+                  }
+                `;
+                document.head.appendChild(tooltipStyle);
+                
+                // 处理齿轮图标点击
+                function handleGearClick(e) {
+                  const target = e.target;
+                  
+                  // 只捕捉点击 svg 元素
+                  if (target.tagName !== 'svg' && target.tagName !== 'SVG') return;
+                  
+                  // 检查是否在 Twikoo 评论区域内
+                  const twikooContainer = target.closest('#twikoo, .twikoo, .tk-comments, [class*="twikoo"]');
+                  if (!twikooContainer) return;
+                  
+                  // 获取父元素 span
+                  const parentSpan = target.closest('span');
+                  if (!parentSpan) return;
+                  
+                  // 避免点击表情库图标按钮 - 检查父元素或祖先元素
+                  const parentClass = parentSpan.className || '';
+                  const grandparent = parentSpan.parentElement;
+                  const grandparentClass = grandparent ? (grandparent.className || '') : '';
+                  
+                  // 检查是否包含 emoji 相关类名
+                  if (parentClass.includes('emoji') || 
+                      grandparentClass.includes('emoji') ||
+                      parentClass.includes('tk-emoji') ||
+                      grandparentClass.includes('tk-emoji')) {
+                    return;
+                  }
+                  
+                  // 检查按钮的 title 或 aria-label
+                  const btn = parentSpan.closest('button');
+                  if (btn) {
+                    const btnTitle = btn.getAttribute('title') || '';
+                    const btnAria = btn.getAttribute('aria-label') || '';
+                    if (btnTitle.includes('表情') || btnAria.includes('表情') ||
+                        btnTitle.includes('emoji') || btnAria.includes('emoji')) {
+                      return;
+                    }
+                  }
+                  
+                  // 排除刷新按钮 - 检查父元素、祖父元素和按钮属性
+                  const refreshBtn = parentSpan.closest('button');
+                  if (refreshBtn) {
+                    const refreshBtnClass = refreshBtn.className || '';
+                    const refreshBtnTitle = refreshBtn.getAttribute('title') || '';
+                    const refreshBtnAria = refreshBtn.getAttribute('aria-label') || '';
+                    
+                    if (refreshBtnClass.includes('refresh') || 
+                        refreshBtnClass.includes('reload') ||
+                        refreshBtnTitle.includes('刷新') ||
+                        refreshBtnTitle.includes('reload') ||
+                        refreshBtnAria.includes('刷新') ||
+                        refreshBtnAria.includes('reload')) {
+                      return;
+                    }
+                  }
+                  
+                  // 也检查父元素和祖父元素的类名
+                  if (parentClass.includes('refresh') || 
+                      grandparentClass.includes('refresh') ||
+                      parentClass.includes('reload') ||
+                      grandparentClass.includes('reload')) {
+                    return;
+                  }
+                  
+                  // 获取实际的目标元素（使用父元素 span 作为定位参考）
+                  const gearIcon = parentSpan;
+                  
+                  e.preventDefault();
+                  e.stopPropagation();
+                  
+                  // 获取点击位置
+                  const rect = gearIcon.getBoundingClientRect();
+                  const clickX = rect.left + rect.width / 2;
+                  const clickY = rect.top + rect.height / 2;
+                  
+                  // 随机选择位置（上下左右）
+                  const positions = ['top', 'bottom', 'left', 'right'];
+                  const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+                  
+                  // 创建提示元素
+                  const tooltip = document.createElement('div');
+                  tooltip.className = 'tk-gear-tooltip';
+                  tooltip.textContent = 'oi~点什么点吖？是管理员吗你就点！';
+                  document.body.appendChild(tooltip);
+                  
+                  // 计算位置
+                  const offset = 20;
+                  let left, top;
+                  
+                  switch(randomPosition) {
+                    case 'top':
+                      left = clickX;
+                      top = clickY - offset;
+                      tooltip.style.transform = 'translate(-50%, -100%) scale(0.8)';
+                      break;
+                    case 'bottom':
+                      left = clickX;
+                      top = clickY + offset;
+                      tooltip.style.transform = 'translate(-50%, 0) scale(0.8)';
+                      break;
+                    case 'left':
+                      left = clickX - offset;
+                      top = clickY;
+                      tooltip.style.transform = 'translate(-100%, -50%) scale(0.8)';
+                      break;
+                    case 'right':
+                      left = clickX + offset;
+                      top = clickY;
+                      tooltip.style.transform = 'translate(0, -50%) scale(0.8)';
+                      break;
+                  }
+                  
+                  // 确保不超出视口
+                  const tooltipRect = tooltip.getBoundingClientRect();
+                  const viewportWidth = window.innerWidth;
+                  const viewportHeight = window.innerHeight;
+                  
+                  if (left < 10) left = 10;
+                  if (left > viewportWidth - 10) left = viewportWidth - 10;
+                  if (top < 10) top = 10;
+                  if (top > viewportHeight - 10) top = viewportHeight - 10;
+                  
+                  tooltip.style.left = left + 'px';
+                  tooltip.style.top = top + 'px';
+                  
+                  // 显示动画
+                  requestAnimationFrame(() => {
+                    tooltip.classList.add('show');
+                  });
+                  
+                  // 2秒后自动消失
+                  setTimeout(() => {
+                    tooltip.classList.remove('show');
+                    setTimeout(() => {
+                      tooltip.remove();
+                    }, 300);
+                  }, 2000);
+                  
+                  return false;
+                }
+                
+                // 使用事件委托监听点击
+                document.addEventListener('click', handleGearClick, true);
+                
+                console.log('[TwikooGear] ⚙️ 齿轮图标交互已初始化');
+              })();
+            };
+            script.onerror = function() {
+              console.error('[Twikoo] 库加载失败');
+            };
+            document.body.appendChild(script);
+          }, 500);
+        });
+      })();
+      </script>
+    {{ else if .IsHome }}
+      <!-- Home page: Lazy load when recent comments card is visible -->
+      <script id="twikoo-script" data-src="{{ $twikoo.RelPermalink }}" type="text/plain"></script>
+      <script>
+        (function() {
+          function setupLazyLoad() {
+            const recentCommentsCard = document.querySelector('.recent-comments-card');
+            if (!recentCommentsCard) {
+              setTimeout(setupLazyLoad, 100);
+              return;
+            }
+
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  const script = document.createElement('script');
+                  script.src = document.getElementById('twikoo-script').dataset.src;
+                  script.defer = true;
+                  script.onload = function() {
+                    window.dispatchEvent(new CustomEvent('twikoo-loaded'));
+                    
+                    // 💬 初始化管理员后台新页面打开功能
+                    (function() {
+                      const ADMIN_PAGE_PATH = '/twikoo-admin/';
+                      
+                      function handleAdminClick(e) {
+                        const adminBtn = e.target.closest('.tk-admin');
+                        if (!adminBtn) return;
+                        e.preventDefault();
+                        e.stopPropagation();
+                        e.stopImmediatePropagation();
+                        window.open(ADMIN_PAGE_PATH, '_blank');
+                        return false;
+                      }
+                      
+                      // 添加隐藏样式
+                      const style = document.createElement('style');
+                      style.textContent = '.tk-admin-container { display: none !important; }';
+                      document.head.appendChild(style);
+                      
+                      // 捕获阶段监听点击
+                      document.addEventListener('click', handleAdminClick, true);
+                      
+                      console.log('[TwikooAdminLink] ✅ 已初始化');
+                    })();
+                    
+                    // ⚙️ 初始化齿轮图标点击效果
+                    (function() {
+                      // 创建提示元素的样式
+                      const tooltipStyle = document.createElement('style');
+                      tooltipStyle.textContent = `
+                        .tk-gear-tooltip {
+                          position: fixed;
+                          background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+                          color: white;
+                          padding: 10px 16px;
+                          border-radius: 12px;
+                          font-size: 14px;
+                          font-weight: 600;
+                          box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4);
+                          z-index: 99999;
+                          pointer-events: none;
+                          opacity: 0;
+                          transform: scale(0.8);
+                          transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+                          white-space: nowrap;
+                          animation: tk-tooltip-bounce 0.5s ease;
+                        }
+                        .tk-gear-tooltip.show {
+                          opacity: 1;
+                          transform: scale(1);
+                        }
+                        @keyframes tk-tooltip-bounce {
+                          0% { transform: scale(0.3) rotate(-10deg); }
+                          50% { transform: scale(1.1) rotate(5deg); }
+                          100% { transform: scale(1) rotate(0deg); }
+                        }
+                      `;
+                      document.head.appendChild(tooltipStyle);
+                      
+                      // 处理齿轮图标点击
+                      function handleGearClick(e) {
+                        const target = e.target;
+                        
+                        // 只捕捉点击 svg 元素
+                        if (target.tagName !== 'svg' && target.tagName !== 'SVG') return;
+                        
+                        // 检查是否在 Twikoo 评论区域内
+                        const twikooContainer = target.closest('#twikoo, .twikoo, .tk-comments, [class*="twikoo"]');
+                        if (!twikooContainer) return;
+                        
+                        // 获取父元素 span
+                        const parentSpan = target.closest('span');
+                        if (!parentSpan) return;
+                        
+                        // 避免点击表情库图标按钮 - 检查父元素或祖先元素
+                        const parentClass = parentSpan.className || '';
+                        const grandparent = parentSpan.parentElement;
+                        const grandparentClass = grandparent ? (grandparent.className || '') : '';
+                        
+                        // 检查是否包含 emoji 相关类名
+                        if (parentClass.includes('emoji') || 
+                            grandparentClass.includes('emoji') ||
+                            parentClass.includes('tk-emoji') ||
+                            grandparentClass.includes('tk-emoji')) {
+                          return;
+                        }
+                        
+                        // 检查按钮的 title 或 aria-label
+                        const btn = parentSpan.closest('button');
+                        if (btn) {
+                          const btnTitle = btn.getAttribute('title') || '';
+                          const btnAria = btn.getAttribute('aria-label') || '';
+                          if (btnTitle.includes('表情') || btnAria.includes('表情') ||
+                              btnTitle.includes('emoji') || btnAria.includes('emoji')) {
+                            return;
+                          }
+                        }
+                        
+                        // 排除刷新按钮 - 检查父元素、祖父元素和按钮属性
+                        const refreshBtn = parentSpan.closest('button');
+                        if (refreshBtn) {
+                          const refreshBtnClass = refreshBtn.className || '';
+                          const refreshBtnTitle = refreshBtn.getAttribute('title') || '';
+                          const refreshBtnAria = refreshBtn.getAttribute('aria-label') || '';
+                          
+                          if (refreshBtnClass.includes('refresh') || 
+                              refreshBtnClass.includes('reload') ||
+                              refreshBtnTitle.includes('刷新') ||
+                              refreshBtnTitle.includes('reload') ||
+                              refreshBtnAria.includes('刷新') ||
+                              refreshBtnAria.includes('reload')) {
+                            return;
+                          }
+                        }
+                        
+                        // 也检查父元素和祖父元素的类名
+                        if (parentClass.includes('refresh') || 
+                            grandparentClass.includes('refresh') ||
+                            parentClass.includes('reload') ||
+                            grandparentClass.includes('reload')) {
+                          return;
+                        }
+                        
+                        // 获取实际的目标元素（使用父元素 span 作为定位参考）
+                        const gearIcon = parentSpan;
+                        
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        // 获取点击位置
+                        const rect = gearIcon.getBoundingClientRect();
+                        const clickX = rect.left + rect.width / 2;
+                        const clickY = rect.top + rect.height / 2;
+                        
+                        // 随机选择位置（上下左右）
+                        const positions = ['top', 'bottom', 'left', 'right'];
+                        const randomPosition = positions[Math.floor(Math.random() * positions.length)];
+                        
+                        // 创建提示元素
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tk-gear-tooltip';
+                        tooltip.textContent = 'oi~点什么点吖？是管理员吗你就点！';
+                        document.body.appendChild(tooltip);
+                        
+                        // 计算位置
+                        const offset = 20;
+                        let left, top;
+                        
+                        switch(randomPosition) {
+                          case 'top':
+                            left = clickX;
+                            top = clickY - offset;
+                            tooltip.style.transform = 'translate(-50%, -100%) scale(0.8)';
+                            break;
+                          case 'bottom':
+                            left = clickX;
+                            top = clickY + offset;
+                            tooltip.style.transform = 'translate(-50%, 0) scale(0.8)';
+                            break;
+                          case 'left':
+                            left = clickX - offset;
+                            top = clickY;
+                            tooltip.style.transform = 'translate(-100%, -50%) scale(0.8)';
+                            break;
+                          case 'right':
+                            left = clickX + offset;
+                            top = clickY;
+                            tooltip.style.transform = 'translate(0, -50%) scale(0.8)';
+                            break;
+                        }
+                        
+                        // 确保不超出视口
+                        const tooltipRect = tooltip.getBoundingClientRect();
+                        const viewportWidth = window.innerWidth;
+                        const viewportHeight = window.innerHeight;
+                        
+                        if (left < 10) left = 10;
+                        if (left > viewportWidth - 10) left = viewportWidth - 10;
+                        if (top < 10) top = 10;
+                        if (top > viewportHeight - 10) top = viewportHeight - 10;
+                        
+                        tooltip.style.left = left + 'px';
+                        tooltip.style.top = top + 'px';
+                        
+                        // 显示动画
+                        requestAnimationFrame(() => {
+                          tooltip.classList.add('show');
+                        });
+                        
+                        // 2秒后自动消失
+                        setTimeout(() => {
+                          tooltip.classList.remove('show');
+                          setTimeout(() => {
+                            tooltip.remove();
+                          }, 300);
+                        }, 2000);
+                        
+                        return false;
+                      }
+                      
+                      // 使用事件委托监听点击
+                      document.addEventListener('click', handleGearClick, true);
+                      
+                      console.log('[TwikooGear] ⚙️ 齿轮图标交互已初始化');
+                    })();
+                  };
+                  document.body.appendChild(script);
+                  observer.disconnect();
+                }
+              });
+            }, { rootMargin: '200px' });
+
+            observer.observe(recentCommentsCard);
+          }
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupLazyLoad);
+          } else {
+            setupLazyLoad();
+          }
+        })();
+      </script>
+
+      <!-- Load recent comments script -->
+      {{ $recentCommentsJs := resources.Get "js/recent-comments.js" }}
+      {{ if $recentCommentsJs }}
+        {{ $recentCommentsJs = $recentCommentsJs | resources.Minify | resources.Fingerprint }}
+        <script src="{{ $recentCommentsJs.RelPermalink }}" defer></script>
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- Share Button -->
+{{ $shareCardJs := resources.Get "js/share-card.js" }}
+{{ if $shareCardJs }}
+  {{ $shareCardJs = $shareCardJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $shareCardJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Widget Carousel (homepage only - for friend links/sponsors cards) -->
+{{ if .IsHome }}
+  {{ $widgetCarouselJs := resources.Get "js/widget-carousel.js" }}
+  {{ if $widgetCarouselJs }}
+    {{ $widgetCarouselJs = $widgetCarouselJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $widgetCarouselJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- Sidebar Lazy Load (homepage performance optimization) -->
+  {{ $sidebarLazyLoadJs := resources.Get "js/sidebar-lazy-load.js" }}
+  {{ if $sidebarLazyLoadJs }}
+    {{ $sidebarLazyLoadJs = $sidebarLazyLoadJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $sidebarLazyLoadJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Hero Background Slider (homepage only, when enabled) -->
+{{ if and .IsHome .Site.Params.heroBg.enabled }}
+  {{ $heroBgJs := resources.Get "js/hero-bg.js" }}
+  {{ if $heroBgJs }}
+    {{ $heroBgJs = $heroBgJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $heroBgJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Hero Fullscreen (homepage only) -->
+{{ if .IsHome }}
+  {{ $heroFullscreenJs := resources.Get "js/hero-fullscreen.js" }}
+  {{ if $heroFullscreenJs }}
+    {{ $heroFullscreenJs = $heroFullscreenJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $heroFullscreenJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Hero Subtitle Typewriter (homepage only) -->
+{{ if .IsHome }}
+  {{ $heroSubtitleJs := resources.Get "js/hero-subtitle.js" }}
+  {{ if $heroSubtitleJs }}
+    {{ $heroSubtitleJs = $heroSubtitleJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $heroSubtitleJs.RelPermalink }}"></script>
+  {{ end }}
+  {{ $articleFilterJs := resources.Get "js/article-filter.js" }}
+  {{ if $articleFilterJs }}
+    {{ $articleFilterJs = $articleFilterJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $articleFilterJs.RelPermalink }}"></script>
+  {{ end }}
+  {{ $cardExpandJs := resources.Get "js/card-expand.js" }}
+  {{ if $cardExpandJs }}
+    {{ $cardExpandJs = $cardExpandJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $cardExpandJs.RelPermalink }}"></script>
+  {{ end }}
+  {{ $excerptTooltipJs := resources.Get "js/excerpt-tooltip.js" }}
+  {{ if $excerptTooltipJs }}
+    {{ $excerptTooltipJs = $excerptTooltipJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $excerptTooltipJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- TOC Tooltip (文章页面 TOC 悬浮提示) -->
+{{ $tocTooltipJs := resources.Get "js/toc-tooltip.js" }}
+{{ if $tocTooltipJs }}
+  {{ $tocTooltipJs = $tocTooltipJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $tocTooltipJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Back to Top Button - 懒加载：滚动后再加载 -->
+{{ $backToTopJs := resources.Get "js/back-to-top.js" }}
+{{ if $backToTopJs }}
+  {{ $backToTopJs = $backToTopJs | resources.Minify | resources.Fingerprint }}
+  <script>
+  // 滚动超过 300px 后再加载回到顶部按钮（非首屏功能）
+  (function() {
+    var loaded = false;
+    function loadBackToTop() {
+      if (loaded) return;
+      loaded = true;
+      var script = document.createElement('script');
+      script.src = '{{ $backToTopJs.RelPermalink }}';
+      script.defer = true;
+      document.body.appendChild(script);
+    }
+
+    // 滚动触发或 3 秒后自动加载（保底）
+    window.addEventListener('scroll', function checkScroll() {
+      if (window.pageYOffset > 300) {
+        loadBackToTop();
+        window.removeEventListener('scroll', checkScroll);
+      }
+    }, { passive: true });
+
+    setTimeout(loadBackToTop, 3000);
+  })();
+  </script>
+{{ end }}
+
+<!-- WeChat QR Code Modal (Must load BEFORE Image Viewer to prevent conflicts) -->
+{{ $wechatQrcodeModalJs := resources.Get "js/wechat-qrcode-modal.js" }}
+{{ if $wechatQrcodeModalJs }}
+  {{ $wechatQrcodeModalJs = $wechatQrcodeModalJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $wechatQrcodeModalJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Image Viewer (Global - works on all pages) -->
+{{ $imageViewerJs := resources.Get "js/image-viewer.js" }}
+{{ if $imageViewerJs }}
+  {{ $imageViewerJs = $imageViewerJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $imageViewerJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Cursor Particle Effect (VP光标彩色粒子效果 - Global) -->
+{{ $cursorParticleJs := resources.Get "js/cursor-particle-effect.js" }}
+{{ if $cursorParticleJs }}
+  {{ $cursorParticleJs = $cursorParticleJs | resources.Minify | resources.Fingerprint }}
+  <script defer src="{{ $cursorParticleJs.RelPermalink }}"></script>
+{{ end }}
+
+<!-- Code Block Features (post pages only) -->
+{{ if .IsPage }}
+  <!-- VitePress Style Code Blocks (复刻 vitepress-theme-teek 效果) -->
+  {{ $codeBlockVPJs := resources.Get "js/code-block-vitepress.js" }}
+  {{ if $codeBlockVPJs }}
+    {{ $codeBlockVPJs = $codeBlockVPJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $codeBlockVPJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- 🎨 代码块底部滚动条指示器（当代码内容超宽时显示） -->
+  {{ $codeBlockScrollbarJs := resources.Get "js/code-block-scrollbar.js" }}
+  {{ if $codeBlockScrollbarJs }}
+    {{ $codeBlockScrollbarJs = $codeBlockScrollbarJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $codeBlockScrollbarJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- Appreciation Component -->
+  {{ if .Site.Params.appreciation.enabled }}
+    {{ $appreciationJs := resources.Get "js/appreciation.js" }}
+    {{ if $appreciationJs }}
+      {{ $appreciationJs = $appreciationJs | resources.Minify | resources.Fingerprint }}
+      <script defer src="{{ $appreciationJs.RelPermalink }}"></script>
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+<!-- Docs Features (docs pages only) -->
+{{ if eq .Type "docs" }}
+  {{ $docsJs := resources.Get "js/docs.js" }}
+  {{ if $docsJs }}
+    {{/* 临时禁用Minify,验证是否是压缩问题导致TOC功能失效 */}}
+    {{ $docsJs = $docsJs | resources.Fingerprint }}
+    <script defer src="{{ $docsJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- ⚠️ 新版: Simple Sidebar (零VP依赖的简单sidebar系统) -->
+  {{ $simpleSidebarJs := resources.Get "js/simple-sidebar.js" }}
+  {{ if $simpleSidebarJs }}
+    {{ $simpleSidebarJs = $simpleSidebarJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $simpleSidebarJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- Sidebar Resize功能 -->
+  {{ $sidebarResizeJs := resources.Get "js/sidebar-resize.js" }}
+  {{ if $sidebarResizeJs }}
+    {{ $sidebarResizeJs = $sidebarResizeJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $sidebarResizeJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- Sidebar Collapse功能 -->
+  {{ $sidebarCollapseJs := resources.Get "js/sidebar-collapse.js" }}
+  {{ if $sidebarCollapseJs }}
+    {{ $sidebarCollapseJs = $sidebarCollapseJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $sidebarCollapseJs.RelPermalink }}"></script>
+  {{ end }}
+
+  {{/* 旧版sidebar-dynamic.js已被simple-sidebar.js替代
+  {{ $sidebarDynamicJs := resources.Get "js/sidebar-dynamic.js" }}
+  {{ if $sidebarDynamicJs }}
+    {{ $sidebarDynamicJs = $sidebarDynamicJs | resources.Fingerprint }}
+    <script defer src="{{ $sidebarDynamicJs.RelPermalink }}"></script>
+  {{ end }}
+  */}}
+
+  <!-- Article Meta Dropdown (分类/标签展开) -->
+  {{ $articleMetaDropdownJs := resources.Get "js/article-meta-dropdown.js" }}
+  {{ if $articleMetaDropdownJs }}
+    {{ $articleMetaDropdownJs = $articleMetaDropdownJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $articleMetaDropdownJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- 🆕 TOC Enhanced (Rspress 风格优化) -->
+  {{ $tocEnhancedJs := resources.Get "js/toc-enhanced.js" }}
+  {{ if $tocEnhancedJs }}
+    {{ $tocEnhancedJs = $tocEnhancedJs | resources.Fingerprint }}
+    <script defer src="{{ $tocEnhancedJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- TOC Resize (目录宽度拖拽调整) -->
+  {{ $tocResizeJs := resources.Get "js/toc-resize.js" }}
+  {{ if $tocResizeJs }}
+    {{ $tocResizeJs = $tocResizeJs | resources.Fingerprint }}
+    <script defer src="{{ $tocResizeJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- Appreciation Component (docs pages) -->
+  {{ if .Site.Params.appreciation.enabled }}
+    {{ $appreciationJs := resources.Get "js/appreciation.js" }}
+    {{ if $appreciationJs }}
+      {{ $appreciationJs = $appreciationJs | resources.Minify | resources.Fingerprint }}
+      <script defer src="{{ $appreciationJs.RelPermalink }}"></script>
+    {{ end }}
+  {{ end }}
+  {{ $inlineTocJs := resources.Get "js/inline-toc.js" }}
+  {{ if $inlineTocJs }}
+    {{ $inlineTocJs = $inlineTocJs | resources.Fingerprint }}
+    <script defer src="{{ $inlineTocJs.RelPermalink }}"></script>
+  {{ end }}
+  {{ $demoJs := resources.Get "js/demo-runner.js" }}
+  {{ if $demoJs }}
+    {{ $demoJs = $demoJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $demoJs.RelPermalink }}"></script>
+  {{ end }}
+  {{ $headingJs := resources.Get "js/article-heading-highlight.js" }}
+  {{ if $headingJs }}
+    {{ $headingJs = $headingJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $headingJs.RelPermalink }}"></script>
+  {{ end }}
+  {{ $styleJs := resources.Get "js/article-page-style.js" }}
+  {{ if $styleJs }}
+    {{ $styleJs = $styleJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $styleJs.RelPermalink }}"></script>
+  {{ end }}
+
+  {{/* share-card.js已移至全局加载 */}}
+  {{/* 移动端工具栏交互 - 新版 */}}
+  {{ $mobileToolbarJs := resources.Get "js/mobile-toolbar.js" }}
+  {{ if $mobileToolbarJs }}
+    {{ $mobileToolbarJs = $mobileToolbarJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $mobileToolbarJs.RelPermalink }}"></script>
+  {{ end }}
+  {{/* 移动端FAB按钮交互 - 旧版（已注释，保留以防需要回滚）
+  {{ $mobileFabJs := resources.Get "js/mobile-fab.js" }}
+  {{ if $mobileFabJs }}
+    {{ $mobileFabJs = $mobileFabJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $mobileFabJs.RelPermalink }}"></script>
+  {{ end }}
+  */}}
+  {{/* 文章内容丝滑淡入 - 已禁用（实现即时切换效果） */}}
+  {{/*
+  {{ $contentFadeInJs := resources.Get "js/content-fade-in.js" }}
+  {{ if $contentFadeInJs }}
+    {{ $contentFadeInJs = $contentFadeInJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $contentFadeInJs.RelPermalink }}"></script>
+  {{ end }}
+  */}}
+
+  <!-- WeChat Unlock Feature (公众号解锁功能) -->
+  {{ if .Site.Params.wechatUnlock.enabled }}
+    <script>
+      // Expose wechatUnlock config to JavaScript
+      window.siteConfig = window.siteConfig || {};
+      window.siteConfig.wechatUnlock = {
+        salt: "{{ .Site.Params.wechatUnlock.salt | default "default-salt-2025" }}",
+        maxAttempts: {{ .Site.Params.wechatUnlock.maxAttempts | default 5 }},
+        lockTime: {{ .Site.Params.wechatUnlock.lockTime | default 3600 }},
+        verifyDelay: {{ .Site.Params.wechatUnlock.verifyDelay | default 500 }},
+        accountName: "{{ .Site.Params.wechatOfficial.name | default "公众号" }}"
+      };
+    </script>
+    {{ $wechatUnlockJs := resources.Get "js/wechat-unlock.js" }}
+    {{ if $wechatUnlockJs }}
+      {{ $wechatUnlockJs = $wechatUnlockJs | resources.Minify | resources.Fingerprint }}
+      <script defer src="{{ $wechatUnlockJs.RelPermalink }}"></script>
+    {{ end }}
+  {{ end }}
+{{ end }}
+
+{{ if or (.HasShortcode "confetti") (.Params.confetti) }}
+  {{ $confettiJs := resources.Get "js/confetti.js" }}
+  {{ if $confettiJs }}
+    {{ $confettiJs = $confettiJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $confettiJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Sponsor Modal (thanks page) -->
+{{ if or (.HasShortcode "sponsor-list") (eq .RelPermalink "/about/thanks/") }}
+  {{ $sponsorModalJs := resources.Get "js/sponsor-modal.js" }}
+  {{ if $sponsorModalJs }}
+    {{ $sponsorModalJs = $sponsorModalJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $sponsorModalJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Search (if enabled) -->
+{{ if .Site.Params.search.enabled }}
+  <!-- Pako gzip 解压库 (用于解压搜索索引) -->
+  {{ $pakoLib := resources.Get "js/pako.min.js" }}
+  {{ if $pakoLib }}
+    {{ $pakoLib = $pakoLib | resources.Fingerprint }}
+    <script defer src="{{ $pakoLib.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- FlexSearch 库 (本地) -->
+  {{ $flexSearchLib := resources.Get "js/flexsearch.bundle.min.js" }}
+  {{ if $flexSearchLib }}
+    {{ $flexSearchLib = $flexSearchLib | resources.Fingerprint }}
+    <script defer src="{{ $flexSearchLib.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- FlexSearch 提供者 -->
+  {{ $searchFlexSearchJs := resources.Get "js/search-flexsearch.js" }}
+  {{ if $searchFlexSearchJs }}
+    {{ $searchFlexSearchJs = $searchFlexSearchJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $searchFlexSearchJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- 搜索匹配器 (三层匹配逻辑) -->
+  {{ $searchMatcherJs := resources.Get "js/search-matcher.js" }}
+  {{ if $searchMatcherJs }}
+    {{ $searchMatcherJs = $searchMatcherJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $searchMatcherJs.RelPermalink }}"></script>
+  {{ end }}
+
+  <!-- 搜索 UI (FlexSearch 版本) -->
+  {{ $searchUIJs := resources.Get "js/search-flexsearch-ui.js" }}
+  {{ if $searchUIJs }}
+    {{ $searchUIJs = $searchUIJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $searchUIJs.RelPermalink }}"></script>
+  {{ end }}
+
+{{ end }}
+
+<!-- Busuanzi Analytics - 优化加载速度 -->
+{{ if .Site.Params.analytics.busuanzi.enabled }}
+{{ $busuanziUrl := .Site.Params.analytics.busuanzi.url }}
+{{ $busuanziApi := .Site.Params.analytics.busuanzi.api | default "https://busuanzi.xxdevops.cn/api" }}
+{{ $busuanziPrefix := .Site.Params.analytics.busuanzi.prefix | default "busuanzi" }}
+{{ $busuanziStyle := .Site.Params.analytics.busuanzi.style | default "default" }}
+{{ $busuanziPjax := .Site.Params.analytics.busuanzi.pjax }}
+{{ $busuanziType := .Site.Params.analytics.busuanzi.type | default "classic" }}
+{{ if eq $busuanziType "eo" }}
+<!-- EO 版本：先设置全局配置（确保在 busuanzi.eo.js 加载前执行） -->
+<script>
+  window.BUSUANZI_API_URL = '{{ $busuanziApi }}';
+  window.BUSUANZI_CONFIG = {
+    apiUrl: '{{ $busuanziApi }}',
+    autoInit: true,
+    debug: false
+  };
+</script>
+{{ end }}
+<script>
+(function() {
+  // 优化加载策略：减少延迟，提升用户体验
+  function loadBusuanzi() {
+    var script = document.createElement('script');
+    script.src = '{{ $busuanziUrl }}';
+    {{ if eq $busuanziType "classic" }}
+    script.setAttribute('data-api', '{{ $busuanziApi }}');
+    script.setAttribute('data-prefix', '{{ $busuanziPrefix }}');
+    script.setAttribute('data-style', '{{ $busuanziStyle }}');
+    {{ if $busuanziPjax }}script.setAttribute('pjax', '');{{ end }}
+    {{ end }}
+    script.async = true;
+    document.body.appendChild(script);
+  }
+
+  // 首页立即加载，其他页面使用空闲时加载
+  var isHomePage = document.body.classList.contains('home-page');
+
+  if (document.readyState === 'complete') {
+    // 页面已经加载完成
+    if (isHomePage) {
+      // 首页：立即加载或仅延迟200ms
+      setTimeout(loadBusuanzi, 200);
+    } else {
+      // 其他页面：空闲时加载或延迟500ms
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadBusuanzi);
+      } else {
+        setTimeout(loadBusuanzi, 500);
+      }
+    }
+  } else {
+    // 等待DOM加载完成即可（不等完整load）
+    if (document.readyState === 'interactive' || document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function() {
+        if (isHomePage) {
+          setTimeout(loadBusuanzi, 200);
+        } else {
+          if ('requestIdleCallback' in window) {
+            requestIdleCallback(loadBusuanzi);
+          } else {
+            setTimeout(loadBusuanzi, 500);
+          }
+        }
+      });
+    }
+  }
+})();
+</script>
+{{ end }}
+
+<!-- Friend Links Page (friends page only) -->
+{{ if eq .Type "friends" }}
+  {{ $friendLinksPageJs := resources.Get "js/friend-links-page.js" }}
+  {{ if $friendLinksPageJs }}
+    {{ $friendLinksPageJs = $friendLinksPageJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $friendLinksPageJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Archives Page (archives page only) -->
+{{ if eq .Layout "archives" }}
+  {{ $archivesJs := resources.Get "js/archives-lazy-load.js" }}
+  {{ if $archivesJs }}
+    {{ $archivesJs = $archivesJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $archivesJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!--  PjaxLite - 轻量级 SPA 页面过渡 (仅文档页面，本地文件) -->
+{{ if or (eq .Section "docs") (eq .Type "docs") (in (slice "linux" "frontend" "code" "hacker" "topic" "tools") .Section) }}
+  {{ $pjaxLiteJs := resources.Get "js/pjax-lite.js" }}
+  {{ if $pjaxLiteJs }}
+    {{ $pjaxLiteJs = $pjaxLiteJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $pjaxLiteJs.RelPermalink }}"></script>
+  {{ end }}
+
+  {{ $pjaxInitJs := resources.Get "js/pjax-init.js" }}
+  {{ if $pjaxInitJs }}
+    {{ $pjaxInitJs = $pjaxInitJs | resources.Minify | resources.Fingerprint }}
+    <script defer src="{{ $pjaxInitJs.RelPermalink }}"></script>
+  {{ end }}
+{{ end }}
+
+<!-- Mermaid 初始化脚本 -->
+{{ if $mermaidEnabled }}
+<script>
+(function() {
+  function initMermaid() {
+    if (typeof mermaid === 'undefined') {
+      console.warn('[Mermaid] 库未加载');
+      return;
+    }
+
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: isDark ? 'dark' : 'default',
+      securityLevel: 'loose',
+      flowchart: {
+        useMaxWidth: true,
+        htmlLabels: true,
+        curve: 'basis'
+      }
+    });
+
+    var mermaidElements = document.querySelectorAll('.mermaid');
+    if (mermaidElements.length > 0) {
+      mermaid.run({ nodes: mermaidElements }).then(function() {
+        console.log('[Mermaid] 流程图渲染完成，共 ' + mermaidElements.length + ' 个');
+      }).catch(function(err) {
+        console.error('[Mermaid] 渲染失败:', err);
+      });
+    }
+  }
+
+  window.addEventListener('theme-changed', function() {
+    var isDark = document.documentElement.classList.contains('dark-mode');
+    if (typeof mermaid !== 'undefined') {
+      mermaid.initialize({
+        theme: isDark ? 'dark' : 'default'
+      });
+      var mermaidElements = document.querySelectorAll('.mermaid');
+      if (mermaidElements.length > 0) {
+        mermaid.run({ nodes: mermaidElements }).catch(function(err) {
+          console.error('[Mermaid] 主题切换后渲染失败:', err);
+        });
+      }
+    }
+  });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMermaid);
+  } else {
+    initMermaid();
+  }
+
+  // pjax 页面切换后重新初始化
+  document.addEventListener('pjax:complete', initMermaid);
+})();
+</script>
+{{ end }}

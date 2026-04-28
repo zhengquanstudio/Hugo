@@ -1,0 +1,104 @@
+{{ define "main" }}
+  {{ $pages := .RegularPagesRecursive }}
+  {{ if eq (len $pages) 0 }}
+    {{ $pages = .Pages }}
+  {{ end }}
+  {{ $paginator := .Paginate ($pages.ByDate.Reverse) }}
+
+  <section class="page-shell page-list-shell">
+    <div class="container">
+      <header class="page-hero glass-card">
+        <p class="page-kicker">Section</p>
+        <h1 class="page-title">{{ .Title }}</h1>
+        {{ with .Description }}
+          <p class="page-description">{{ . }}</p>
+        {{ else }}
+          <p class="page-description">{{ .Site.Params.description }}</p>
+        {{ end }}
+      </header>
+
+      {{ with .Content }}
+        <div class="page-prose glass-card">
+          {{ . }}
+        </div>
+      {{ end }}
+
+      {{ if gt (len $paginator.Pages) 0 }}
+        <div class="docs-grid docs-grid--archive">
+          {{ range $paginator.Pages }}
+            {{ $category := partial "hugo-doc/page-category.html" . }}
+            {{ $cover := .Params.coverImg }}
+            {{ if not $cover }}
+              {{ $cover = .Site.Params.defaultCoverImage }}
+            {{ end }}
+            {{ $coverURL := $cover }}
+            {{ if and $cover (not (or (hasPrefix $cover "http://") (hasPrefix $cover "https://") (hasPrefix $cover "//"))) }}
+              {{ $coverURL = $cover | relURL }}
+            {{ end }}
+            <article class="doc-card glass-card">
+              <div class="doc-image{{ if not $coverURL }} doc-image--empty{{ end }}">
+                {{ if $coverURL }}
+                  <img src="{{ $coverURL }}" alt="{{ .Title }}" loading="lazy">
+                {{ else }}
+                  <div class="doc-fallback-icon">{{ .Site.Params.hugoDoc.brandIcon | default "🪁" }}</div>
+                {{ end }}
+                <div class="doc-category">{{ $category }}</div>
+              </div>
+              <div class="doc-content">
+                <h2 class="doc-title">
+                  <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                </h2>
+                <p class="doc-excerpt">{{ .Description | default (.Summary | plainify) | plainify | truncate 110 }}</p>
+                <div class="doc-meta">
+                  <div class="doc-author">
+                    <span class="author-avatar">{{ .Site.Params.hugoDoc.brandIcon | default "🪁" }}</span>
+                    <span class="author-name">{{ .Site.Params.author.name | default .Site.Title }}</span>
+                  </div>
+                  <div class="doc-stats">
+                    <span class="stat-item">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                      </svg>
+                      {{ .ReadingTime }} 分钟
+                    </span>
+                    <span class="stat-item">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 19.5V4.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v15"></path>
+                        <path d="M8 7h7"></path>
+                        <path d="M8 11h7"></path>
+                        <path d="M8 15h5"></path>
+                      </svg>
+                      {{ .WordCount }} 字
+                    </span>
+                  </div>
+                </div>
+                <div class="doc-date">{{ .Date.Format "2006-01-02" }}</div>
+              </div>
+            </article>
+          {{ end }}
+        </div>
+
+        {{ if gt $paginator.TotalPages 1 }}
+          <nav class="pagination glass-card" aria-label="Pagination">
+            {{ if $paginator.HasPrev }}
+              <a class="pagination-link" href="{{ $paginator.Prev.URL }}">上一页</a>
+            {{ else }}
+              <span class="pagination-link is-disabled">上一页</span>
+            {{ end }}
+            <span class="pagination-summary">第 {{ $paginator.PageNumber }} / {{ $paginator.TotalPages }} 页</span>
+            {{ if $paginator.HasNext }}
+              <a class="pagination-link" href="{{ $paginator.Next.URL }}">下一页</a>
+            {{ else }}
+              <span class="pagination-link is-disabled">下一页</span>
+            {{ end }}
+          </nav>
+        {{ end }}
+      {{ else }}
+        <div class="empty-state glass-card">
+          <p>这里还没有内容。</p>
+        </div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

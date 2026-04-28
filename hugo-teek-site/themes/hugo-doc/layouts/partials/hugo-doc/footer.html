@@ -1,0 +1,112 @@
+{{ $brandName := .Site.Params.hugoDoc.brandName | default .Site.Title }}
+{{ $brandIcon := .Site.Params.hugoDoc.brandIcon | default "🪁" }}
+{{ $homeURL := .Site.Home.RelPermalink }}
+{{ if .IsHome }}
+  {{ $homeURL = "" }}
+{{ end }}
+{{ $policyURL := .Site.Params.hugoDoc.policyURL | default "#" }}
+{{ $termsURL := .Site.Params.hugoDoc.termsURL | default "#" }}
+{{ $location := .Site.Params.hugoDoc.footerLocation | default "中国 · 互联网" }}
+{{ $email := .Site.Params.author.email | default .Site.Params.hugoDoc.footerEmail }}
+{{ $docsRoot := "/docs/" | relURL }}
+{{ $mainSections := .Site.Params.mainSections | default (slice "docs") }}
+{{ if gt (len $mainSections) 0 }}
+  {{ $docsRoot = printf "/%s/" (index $mainSections 0) | relURL }}
+{{ end }}
+<footer class="footer-section" id="about">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-brand">
+        <a href="{{ printf "%s#home" $homeURL }}" class="footer-logo">
+          <span class="logo-icon">{{ $brandIcon }}</span>
+          <span class="logo-text">{{ $brandName }}</span>
+        </a>
+        <p class="footer-desc">
+          {{ .Site.Params.description | default .Site.Params.footer.custom_message | default "热爱技术与设计的创作者，专注于构建优雅且实用的数字产品。" }}
+        </p>
+        <div class="footer-social">
+          {{ with .Site.Params.blogger.social }}
+            {{ range . }}
+              {{ partial "hugo-doc/social-link.html" (dict "url" .url "label" .name "icon" .icon) }}
+            {{ end }}
+          {{ else }}
+            {{ with $.Site.Params.author.link }}
+              {{ partial "hugo-doc/social-link.html" (dict "url" . "label" "网站" "icon" "link") }}
+            {{ end }}
+            {{ with $email }}
+              {{ partial "hugo-doc/social-link.html" (dict "url" (printf "mailto:%s" .) "label" "邮箱" "icon" "mail") }}
+            {{ end }}
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="links-title">快速链接</h4>
+        <ul class="links-list">
+          <li><a href="{{ printf "%s#home" $homeURL }}">首页</a></li>
+          <li><a href="{{ printf "%s#skills" $homeURL }}">技能</a></li>
+          <li><a href="{{ printf "%s#docs" $homeURL }}">文章</a></li>
+          <li><a href="{{ printf "%s#projects" $homeURL }}">项目</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-links">
+        <h4 class="links-title">资源</h4>
+        <ul class="links-list">
+          <li><a href="{{ $docsRoot }}">最新文章</a></li>
+          <li><a href="{{ "/archives/" | relURL }}">归档</a></li>
+          <li><a href="{{ "/about/" | relURL }}">关于我</a></li>
+          {{ with .Site.Params.author.link }}
+            {{ $authorLink := . }}
+            {{ $authorLinkBlank := or (hasPrefix $authorLink "http://") (hasPrefix $authorLink "https://") (hasPrefix $authorLink "//") }}
+            <li><a href="{{ $authorLink | safeURL }}"{{ if $authorLinkBlank }} target="_blank" rel="noopener"{{ end }}>个人主页</a></li>
+          {{ end }}
+        </ul>
+      </div>
+
+      <div class="footer-contact">
+        <h4 class="links-title">联系方式</h4>
+        <ul class="contact-list">
+          {{ with $email }}
+            <li class="contact-item">
+              {{ partial "hugo-doc/social-icon.html" (dict "icon" "mail") }}
+              <span>{{ . }}</span>
+            </li>
+          {{ end }}
+          <li class="contact-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0Z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>{{ $location }}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="copyright">
+        <p>&copy; {{ now.Format "2006" }} {{ $brandName }}. All rights reserved.</p>
+        <p class="copyright-author">
+          Made with glass & code by
+          {{ $creditURL := .Site.Params.author.link | default "/" }}
+          {{ $creditBlank := or (hasPrefix $creditURL "http://") (hasPrefix $creditURL "https://") (hasPrefix $creditURL "//") }}
+          <a href="{{ $creditURL | safeURL }}"{{ if $creditBlank }} target="_blank" rel="noopener"{{ end }}>
+            {{ .Site.Params.author.name | default $brandName }}
+          </a>
+        </p>
+      </div>
+      <div class="footer-legal">
+        <a href="{{ $policyURL }}">隐私政策</a>
+        <span class="divider">|</span>
+        <a href="{{ $termsURL }}">使用条款</a>
+      </div>
+    </div>
+  </div>
+
+  <button class="back-to-top" id="backToTop" aria-label="返回顶部">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M18 15l-6-6-6 6"></path>
+    </svg>
+  </button>
+</footer>

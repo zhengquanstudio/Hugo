@@ -1,0 +1,215 @@
+{{/* 💬 评论弹幕组件 - 从页面底部向上漂浮渐显 */}}
+{{/* 🕊️白木 开发 🔗gl.baimu.live */}}
+{{ if .Site.Params.comment.enabled }}
+<div class="comment-danmaku-container" id="commentDanmaku">
+  {{/* 左侧弹幕轨道 */}}
+  <div class="danmaku-track danmaku-left" id="danmakuLeft"></div>
+  {{/* 右侧弹幕轨道 */}}
+  <div class="danmaku-track danmaku-right" id="danmakuRight"></div>
+</div>
+
+{{/* 弹幕配置 */}}
+<script id="danmaku-config" type="application/json">
+{
+  "envId": "{{ .Site.Params.comment.envId }}",
+  "pageSize": 100
+}
+</script>
+
+<script>
+/**
+ * 💬 评论弹幕功能
+ * 从页面底部向上漂浮，渐显渐隐效果
+ * 🕊️白木 开发 🔗gl.baimu.live
+ */
+(function() {
+  'use strict';
+
+  let danmakuData = [];      /* 📦 所有评论数据 */
+  let isInitialized = false; /* 🚀 是否已初始化 */
+  let waitAttempts = 0;      /* ⏱️ 等待尝试次数 */
+  const MAX_WAIT_ATTEMPTS = 100; /* 🚫 最大等待次数 (10秒) */
+
+  /* 🔗 初始化弹幕 */
+  function init() {
+    const container = document.getElementById('commentDanmaku');
+    if (!container) return;
+
+    const configEl = document.getElementById('danmaku-config');
+    if (!configEl) {
+      console.error('[Danmaku] Config not found');
+      return;
+    }
+
+    let config;
+    try {
+      config = JSON.parse(configEl.textContent);
+    } catch (e) {
+      console.error('[Danmaku] Invalid config:', e);
+      return;
+    }
+
+    /* ⏳ 等待 Twikoo 加载 */
+    waitForTwikoo(() => {
+      loadComments(config);
+    });
+  }
+
+  /* ⏳ 等待 Twikoo 库加载 - 带超时控制 */
+  function waitForTwikoo(callback) {
+    if (typeof twikoo !== 'undefined' && twikoo.getRecentComments) {
+      callback();
+    } else {
+      waitAttempts++;
+      if (waitAttempts > MAX_WAIT_ATTEMPTS) {
+        console.warn('[Danmaku] 等待 Twikoo 加载超时，跳过弹幕初始化');
+        return;
+      }
+      setTimeout(() => waitForTwikoo(callback), 100);
+    }
+  }
+
+  /* 📥 加载评论数据 */
+  function loadComments(config) {
+    console.log('[Danmaku] Loading comments...');
+
+    twikoo.getRecentComments({
+      envId: config.envId,
+      pageSize: config.pageSize || 100,
+      includeReply: true
+    }).then(res => {
+      if (res && res.length > 0) {
+        danmakuData = res;
+        console.log('[Danmaku] Loaded', danmakuData.length, 'comments');
+        startDanmaku();
+      } else {
+        console.log('[Danmaku] No comments found');
+      }
+    }).catch(err => {
+      console.error('[Danmaku] Load error:', err);
+    });
+  }
+
+  /* 🎬 启动弹幕 */
+  function startDanmaku() {
+    if (isInitialized) return;
+    isInitialized = true;
+
+    const leftTrack = document.getElementById('danmakuLeft');
+    const rightTrack = document.getElementById('danmakuRight');
+
+    if (!leftTrack || !rightTrack) return;
+
+    /* 🎲 随机打乱评论数据 */
+    const shuffled = [...danmakuData].sort(() => Math.random() - 0.5);
+    
+    /* 📊 分配到左右两侧 */
+    const leftComments = shuffled.filter((_, i) => i % 2 === 0);
+    const rightComments = shuffled.filter((_, i) => i % 2 === 1);
+
+    /* 🚀 开始生成弹幕 - 每侧同时运行多个生成器 */
+    /* ◀️ 左侧启动 3 个生成器，错开时间 */
+    generateDanmaku(leftTrack, leftComments, 0);
+    generateDanmaku(leftTrack, leftComments, 5000);
+    generateDanmaku(leftTrack, leftComments, 10000);
+    
+    /* ◀️ 右侧启动 3 个生成器，错开时间 */
+    setTimeout(() => {
+      generateDanmaku(rightTrack, rightComments, 0);
+      generateDanmaku(rightTrack, rightComments, 5000);
+      generateDanmaku(rightTrack, rightComments, 10000);
+    }, 2500);
+  }
+
+  /* 🎨 生成弹幕 */
+  function generateDanmaku(track, comments, initialDelay) {
+    let index = Math.floor(Math.random() * comments.length); /* ◀️ 随机起始位置 */
+    
+    /* ⏱️ 初始延迟后启动 */
+    setTimeout(() => {
+      createNext();
+    }, initialDelay);
+    
+    /* 🔄 循环创建弹幕 */
+    function createNext() {
+      if (comments.length === 0) return;
+      
+      const comment = comments[index % comments.length];
+      const item = createDanmakuItem(comment);
+      track.appendChild(item);
+
+      /* 🎬 启动单个弹幕动画 */
+      requestAnimationFrame(() => {
+        /* ◀️ 强制重绘确保初始状态应用 */
+        item.offsetHeight;
+        
+        /* 🎬 添加动画类启动动画 */
+        item.classList.add('animating');
+        
+        /* 🎵 动画结束清理 */
+        item.addEventListener('animationend', () => {
+          if (item.parentNode) {
+            item.parentNode.removeChild(item);
+          }
+        }, { once: true });
+      });
+
+      index++;
+      
+      /* ⏱️ 随机间隔创建下一个（1.5-4秒）- 更短的间隔允许多个弹幕同时显示 */
+      const delay = 1500 + Math.random() * 2500;
+      setTimeout(createNext, delay);
+    }
+  }
+
+  /* 🎨 创建弹幕元素 */
+  function createDanmakuItem(comment) {
+    const item = document.createElement('div');
+    item.className = 'danmaku-item';
+    
+    const avatar = comment.avatar || 'https://cravatar.cn/avatar/d41d8cd98f00b204e9800998ecf8427e?d=mp';
+    const nick = escapeHtml(comment.nick || '匿名');
+    const content = escapeHtml(truncateText(stripHtml(comment.comment), 50));
+
+    item.innerHTML = `
+      <div class="danmaku-avatar">
+        <img src="${avatar}" alt="${nick}" loading="lazy">
+      </div>
+      <div class="danmaku-content">
+        <div class="danmaku-author">${nick}</div>
+        <div class="danmaku-text">${content}</div>
+      </div>
+    `;
+
+    return item;
+  }
+
+  /* 🛡️ 转义 HTML */
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  /* 🏷️ 移除 HTML 标签 */
+  function stripHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || div.innerText || '';
+  }
+
+  /* ✂️ 截断文本 */
+  function truncateText(text, maxLength) {
+    if (text.length <= maxLength) return text;
+    return text.substring(0, maxLength) + '...';
+  }
+
+  /* 🚀 初始化 */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+{{ end }}

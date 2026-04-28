@@ -1,0 +1,74 @@
+# Hugo Teek Theme - Editor Configuration
+# https://editorconfig.org/
+# 目的：确保不同编辑器和 IDE 之间的一致编码风格
+
+root = true
+
+# 所有文件的默认设置
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+# Go 文件（gofmt 标准）
+[*.go]
+indent_style = tab
+indent_size = 4
+
+# Makefiles 需要制表符
+[Makefile]
+indent_style = tab
+
+[*.mk]
+indent_style = tab
+
+# Shell 脚本
+[*.{sh,bash}]
+indent_size = 2
+
+# Windows 脚本
+# 批处理文件必须使用 CRLF（Windows CMD.exe 要求）
+[*.{bat,cmd}]
+indent_size = 2
+end_of_line = crlf
+
+# PowerShell 脚本可以使用 LF
+[*.ps1]
+indent_size = 2
+
+# JavaScript/TypeScript/Vue
+[*.{js,ts,jsx,tsx,vue}]
+indent_size = 2
+
+# CSS/SCSS
+[*.{css,scss,sass,less}]
+indent_size = 2
+
+# HTML
+[*.html]
+indent_size = 2
+
+# Markdown（允许尾随空格用于换行）
+[*.md]
+trim_trailing_whitespace = false
+indent_size = 2
+
+# YAML（需要 2 个空格）
+[*.{yml,yaml}]
+indent_size = 2
+
+# TOML
+[*.toml]
+indent_size = 2
+
+# JSON
+[*.json]
+indent_size = 2
+
+# 包管理器锁文件（不格式化）
+[{package-lock.json,pnpm-lock.yaml,yarn.lock}]
+indent_style = unset
+insert_final_newline = unset

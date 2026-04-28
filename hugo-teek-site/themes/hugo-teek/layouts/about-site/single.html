@@ -1,0 +1,2197 @@
+{{ define "main" }}
+{{/* 🥳 关于本站页面 - 卡片网格布局 */}}
+{{/* 🕊️白木 开发 🔗gl.baimu.live */}}
+
+{{/* ◀️ 获取 about-site.md 中的配置数据 */}}
+{{ $aboutSite := .Params.aboutSite }}
+{{ $siteInfo := $aboutSite.siteInfo }}
+{{ $mission := $aboutSite.mission }}
+{{ $techStack := $aboutSite.techStack }}
+{{ $contact := $aboutSite.contact }}
+{{ $thanks := $aboutSite.thanks }}
+{{ $status := $aboutSite.status }}
+{{ $umami := $aboutSite.umami }}
+
+{{/* ◀️ 站点基本信息 */}}
+{{ $siteName := $siteInfo.name | default (.Site.Title) }}
+{{ $themeName := $siteInfo.theme | default "Hugo Teek" }}
+{{ $authorName := $siteInfo.owner | default "博主" }}
+{{ $authorRole := $siteInfo.role | default "独立开发者" }}
+{{ $authorMotto := $siteInfo.motto | default "" }}
+{{ $authorAvatar := .Site.Params.author.avatar | default "" }}
+{{ $authorLink := $siteInfo.homeLink | default "#" }}
+{{ $siteStartDate := $siteInfo.startDate | default "2024-01-01" }}
+{{ $docsCount := len (where .Site.RegularPages "Type" "docs") }}
+
+<div class="about-site-bento">
+  {{/* 🌐 顶部站点信息卡片 */}}
+  <section class="bento-header-card animate-fade-in-up animate-delay-1">
+    <div class="header-content">
+      <div class="site-avatar">
+        {{ if $authorAvatar }}
+        <img src="{{ $authorAvatar }}" alt="{{ $authorName }}" loading="eager">
+        {{ else }}
+        <div class="avatar-placeholder">👤</div>
+        {{ end }}
+      </div>
+      <div class="site-info">
+        <h1 class="site-name">{{ $siteName }}</h1>
+        <p class="site-role">{{ $authorRole }}</p>
+      </div>
+    </div>
+    <a href="{{ $authorLink }}" class="follow-btn" target="_blank">
+      <span>访问主页</span>
+    </a>
+  </section>
+
+  {{/* 📊 Bento 网格 - 站点统计 */}}
+  <div class="bento-grid animate-fade-in-up animate-delay-2">
+    {{/* 🎨 主题卡片 */}}
+    <div class="bento-card theme-card">
+      <div class="card-badge pink">
+        <span class="badge-icon">🎨</span>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">当前主题</h3>
+        <p class="card-value">{{ $themeName }}</p>
+        <div class="card-tags">
+          <span class="tag">Hugo</span>
+          <span class="tag">静态站点</span>
+        </div>
+      </div>
+    </div>
+
+    {{/* 👤 归属人卡片 */}}
+    <div class="bento-card owner-card">
+      <div class="card-badge blue">
+        <span class="badge-icon">👤</span>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">归属人</h3>
+        <p class="card-value">{{ $authorName }}</p>
+        {{ if $authorMotto }}
+        <p class="card-desc">{{ $authorMotto }}</p>
+        {{ end }}
+      </div>
+    </div>
+
+    {{/* ⏱️ 运行时长卡片 */}}
+    <div class="bento-card uptime-card">
+      <div class="card-badge orange">
+        <span class="badge-icon">⏱️</span>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">已运行</h3>
+        <p class="card-value" id="siteUptime" data-start="{{ $siteStartDate }}">计算中...</p>
+        <p class="card-desc">自 {{ $siteStartDate }} 起</p>
+      </div>
+    </div>
+
+    {{/* 📝 文章数量卡片 */}}
+    <div class="bento-card posts-card">
+      <div class="card-badge purple">
+        <span class="badge-icon">📝</span>
+      </div>
+      <div class="card-content">
+        <h3 class="card-title">文章数量</h3>
+        <p class="card-value">{{ $docsCount }} 篇</p>
+        <div class="card-tags">
+          <span class="tag">技术</span>
+          <span class="tag">文档</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{/* 📊 站点状态监控大卡片 */}}
+  {{ if $status.enabled }}
+  {{ $normalCount := 0 }}
+  <section class="bento-section animate-fade-in-up animate-delay-3">
+  {{ range $status.services }}
+    {{ if eq .status "normal" }}
+      {{ $normalCount = add $normalCount 1 }}
+    {{ end }}
+  {{ end }}
+  <section class="bento-section">
+    <a href="{{ $status.url }}" class="status-big-card" target="_blank">
+      <div class="status-card-header">
+        <div class="status-icon-wrapper">
+          <span class="status-icon">📊</span>
+        </div>
+        <div class="status-title-wrapper">
+          <h2 class="status-title">{{ $status.title | default "站点状态监控" }}</h2>
+          <span class="status-subtitle">实时服务状态监控</span>
+        </div>
+        <div class="status-overall {{ if eq $normalCount (len $status.services) }}status-ok{{ else }}status-error{{ end }}">
+          <span class="overall-dot"></span>
+          <span class="overall-text">{{ if eq $normalCount (len $status.services) }}运行良好{{ else }}部分故障{{ end }}</span>
+        </div>
+      </div>
+      <div class="status-services-grid">
+        {{ range $status.services }}
+        <div class="service-item {{ .status }}">
+          <div class="service-header">
+            <span class="service-name">{{ .name }}</span>
+            <span class="service-uptime">{{ .uptime }}</span>
+          </div>
+          <div class="service-status-bar">
+            <div class="status-progress" style="width: {{ .uptime }}"></div>
+          </div>
+          <div class="service-footer">
+            <span class="status-badge {{ .status }}">
+              {{ if eq .status "normal" }}✓ 正常{{ else if eq .status "error" }}✗ 故障{{ else }}! 警告{{ end }}
+            </span>
+            <span class="service-time">1h</span>
+          </div>
+        </div>
+        {{ end }}
+      </div>
+      <div class="status-card-footer">
+        <span class="view-more">查看详细状态 →</span>
+      </div>
+    </a>
+  </section>
+  {{ end }}
+
+  {{/* 📚 最近文档 - 无限滚动动画 */}}
+  {{ $recentDocs := where .Site.RegularPages "Type" "docs" }}
+  {{ $recentDocs := $recentDocs.ByDate.Reverse }}
+  {{ $docCount := len $recentDocs }}
+  {{ if gt $docCount 0 }}
+  <section class="bento-section animate-fade-in-up animate-delay-4">
+    <div class="section-header">
+      <div class="section-badge">
+        <span>{{ $docCount }}</span>
+      </div>
+      <h2 class="section-title">最近文档</h2>
+    </div>
+    <div class="docs-marquee-container">
+      <div class="docs-marquee" id="docsMarquee">
+        {{/* 🔄 第一组文档 */}}
+        {{ range first 6 $recentDocs }}
+        <a href="{{ .RelPermalink }}" class="doc-bento-card">
+          <div class="doc-image-wrapper">
+            {{ if .Params.coverImg }}
+            <img src="{{ .Params.coverImg }}" alt="{{ .Title }}" class="doc-image" loading="lazy">
+            {{ else }}
+            <div class="doc-image-placeholder">
+              <span>📄</span>
+            </div>
+            {{ end }}
+          </div>
+          <div class="doc-info">
+            <h4 class="doc-title">{{ .Title }}</h4>
+            <span class="doc-date">{{ .Date.Format "01-02" }}</span>
+          </div>
+        </a>
+        {{ end }}
+        {{/* 🔄 复制一组用于无缝循环 */}}
+        {{ range first 6 $recentDocs }}
+        <a href="{{ .RelPermalink }}" class="doc-bento-card">
+          <div class="doc-image-wrapper">
+            {{ if .Params.coverImg }}
+            <img src="{{ .Params.coverImg }}" alt="{{ .Title }}" class="doc-image" loading="lazy">
+            {{ else }}
+            <div class="doc-image-placeholder">
+              <span>📄</span>
+            </div>
+            {{ end }}
+          </div>
+          <div class="doc-info">
+            <h4 class="doc-title">{{ .Title }}</h4>
+            <span class="doc-date">{{ .Date.Format "01-02" }}</span>
+          </div>
+        </a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* 💬 最新评论 */}}
+  <section class="bento-section animate-fade-in-up animate-delay-5">
+    <div class="section-header">
+      <div class="section-badge comment-badge">
+        <span>💬</span>
+      </div>
+      <h2 class="section-title">最新评论</h2>
+    </div>
+    <div class="comments-bento-grid" id="recentCommentsList">
+      <div class="comments-loading">
+        <span class="loading-dots"></span>
+      </div>
+    </div>
+  </section>
+
+  {{/* 🎯 站点信息卡片区域 - Bento布局 */}}
+  {{ if or $mission.enabled $techStack.enabled $contact.enabled }}
+  <div class="info-cards-grid animate-fade-in-up animate-delay-6">
+    {{/* 🎯 站点使命卡片 */}}
+    {{ if $mission.enabled }}
+    <div class="info-card mission-card">
+      <div class="info-card-header">
+        <div class="info-icon">🎯</div>
+        <h3>{{ $mission.title | default "站点使命" }}</h3>
+      </div>
+      <div class="info-card-body">
+        <p>{{ $mission.content | default "本站致力于分享技术干货与实践经验。" }}</p>
+      </div>
+    </div>
+    {{ end }}
+
+    {{/* 🛠️ 技术栈卡片 */}}
+    {{ if $techStack.enabled }}
+    <div class="info-card tech-card">
+      <div class="info-card-header">
+        <div class="info-icon">🛠️</div>
+        <h3>{{ $techStack.title | default "技术栈" }}</h3>
+      </div>
+      <div class="info-card-body">
+        <div class="tech-list">
+          {{ range $techStack.items }}
+          <div class="tech-item">
+            <span class="tech-dot {{ .color }}"></span>
+            <span class="tech-name">{{ .name }}</span>
+            <span class="tech-value">{{ .value }}</span>
+          </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+
+    {{/* 📮 联系方式卡片 */}}
+    {{ if $contact.enabled }}
+    <div class="info-card contact-card">
+      <div class="info-card-header">
+        <div class="info-icon">📮</div>
+        <h3>{{ $contact.title | default "联系方式" }}</h3>
+      </div>
+      <div class="info-card-body">
+        <p class="contact-desc">{{ $contact.desc | default "如有任何问题或建议，欢迎联系：" }}</p>
+        <div class="contact-links">
+          {{ range $contact.links }}
+          <a href="{{ .url }}" class="contact-link" {{ if .openInNewTab }}target="_blank"{{ end }}>
+            <span class="link-icon">{{ .icon }}</span>
+            <span class="link-text">{{ .text }}</span>
+            <span class="link-arrow">→</span>
+          </a>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{/* 📈 Umami 站点统计卡片 */}}
+  {{ if $umami.enabled }}
+  <section class="bento-section animate-fade-in-up animate-delay-7">
+    <a href="{{ $umami.shareUrl }}" class="umami-stats-card" target="_blank" id="umamiStatsCard">
+      <div class="umami-header">
+        <div class="umami-icon-wrapper">
+          <span class="umami-icon">📈</span>
+        </div>
+        <div class="umami-title-wrapper">
+          <h2 class="umami-title">{{ $umami.title | default "站点统计" }}</h2>
+          <span class="umami-subtitle">实时访问数据分析</span>
+        </div>
+        <div class="umami-live-badge">
+          <span class="live-dot"></span>
+          <span>LIVE</span>
+        </div>
+      </div>
+      
+      <div class="umami-metrics-grid" id="umamiMetrics">
+        {{ range $umami.metrics }}
+        <div class="umami-metric" data-key="{{ .key }}">
+          <span class="metric-icon">{{ .icon }}</span>
+          <span class="metric-label">{{ .label }}</span>
+          <span class="metric-value loading">--</span>
+        </div>
+        {{ end }}
+      </div>
+
+      {{ if $umami.map.enabled }}
+      <div class="umami-map-section">
+        <h3 class="map-title">{{ $umami.map.title | default "🌍 全球访问分布" }}</h3>
+        <div class="umami-map-container" id="umamiMap">
+          <div class="map-loading">
+            <span class="loading-spinner"></span>
+            <span>加载地图数据...</span>
+          </div>
+        </div>
+      </div>
+      {{ end }}
+      
+      <div class="umami-footer">
+        <span class="view-more">查看详细统计 →</span>
+      </div>
+    </a>
+  </section>
+  {{ end }}
+
+  {{/* 🙏 致谢区域 */}}
+  {{ if $thanks }}
+  <section class="bento-thanks-section animate-fade-in-up animate-delay-8">
+    <div class="thanks-card">
+      <div class="thanks-icon">🙏</div>
+      <p class="thanks-text">{{ $thanks.desc | default "感谢支持！" }}</p>
+      <button class="coffee-btn" onclick="showRewardModal()">
+        <span>{{ $thanks.buttonText | default "投喂作者" }}</span>
+      </button>
+    </div>
+  </section>
+  {{ end }}
+
+  {{/* 💭 评论区 */}}
+  <section class="bento-comments-section animate-fade-in-up animate-delay-9" id="comments">
+    <div class="section-header">
+      <div class="section-badge comment-badge">
+        <span>💭</span>
+      </div>
+      <h2 class="section-title">留言板</h2>
+    </div>
+    <div class="comment-card">
+      {{ partial "comment.html" . }}
+    </div>
+  </section>
+</div>
+
+{{/* 💰 打赏弹窗 */}}
+<div id="rewardModal" class="bento-reward-modal">
+  <div class="modal-overlay" onclick="closeRewardModal()"></div>
+  <div class="modal-content">
+    <button class="modal-close" onclick="closeRewardModal()">×</button>
+    <div class="modal-header">
+      <span class="modal-icon">☕</span>
+      <h3>请作者喝杯咖啡</h3>
+    </div>
+    <div class="reward-grid">
+      <div class="reward-item">
+        {{ with .Site.Params.appreciation.wechatQR }}
+        <img src="{{ . }}" alt="微信打赏">
+        {{ else }}
+        <div class="reward-placeholder">
+          <span>微信</span>
+        </div>
+        {{ end }}
+        <span class="reward-label">微信支付</span>
+      </div>
+      <div class="reward-item">
+        {{ with .Site.Params.appreciation.alipayQR }}
+        <img src="{{ . }}" alt="支付宝打赏">
+        {{ else }}
+        <div class="reward-placeholder alipay">
+          <span>支付宝</span>
+        </div>
+        {{ end }}
+        <span class="reward-label">支付宝</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* 🔗 站点运行时长计算 */
+(function() {
+  const uptimeElement = document.getElementById('siteUptime');
+  if (!uptimeElement) return;
+
+  const startDate = new Date(uptimeElement.dataset.start);
+  if (isNaN(startDate.getTime())) {
+    uptimeElement.textContent = '未知';
+    return;
+  }
+
+  function updateUptime() {
+    const now = new Date();
+    const diff = now - startDate;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    uptimeElement.textContent = days + ' 天';
+  }
+
+  updateUptime();
+  var uptimeTimer = setInterval(function() {
+    if (!document.getElementById('siteUptime')) {
+      clearInterval(uptimeTimer);
+      return;
+    }
+    updateUptime();
+  }, 60000);
+  
+  // 页面卸载时清理定时器
+  window.addEventListener('beforeunload', function() {
+    clearInterval(uptimeTimer);
+  });
+})();
+
+/* 💰 打赏弹窗控制 */
+function showRewardModal() {
+  const modal = document.getElementById('rewardModal');
+  if (modal) {
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+function closeRewardModal() {
+  const modal = document.getElementById('rewardModal');
+  if (modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeRewardModal();
+});
+
+/* 💬 加载最新评论 - 获取所有页面的最新评论 */
+(function() {
+  const commentsList = document.getElementById('recentCommentsList');
+  if (!commentsList) return;
+
+  /* ◀️ 存储所有评论 */
+  let allComments = [];
+
+  function loadRecentComments() {
+    /* ◀️ 检查 Twikoo 是否可用 */
+    if (typeof twikoo !== 'undefined' && twikoo.getRecentComments) {
+      /* ◀️ 获取所有页面的最新评论，不限制页面 */
+      twikoo.getRecentComments({
+        envId: '{{ .Site.Params.twikoo.envId }}',
+        pageSize: 20, /* ◀️ 获取更多评论用于筛选 */
+        includeReply: true /* ◀️ 包含回复 */
+      }).then(function(res) {
+        if (res && res.length > 0) {
+          /* ◀️ 按时间排序，取最新的4条 */
+          allComments = res.sort(function(a, b) {
+            return new Date(b.created) - new Date(a.created);
+          }).slice(0, 4);
+          renderComments(allComments);
+        } else {
+          showNoComments();
+        }
+      }).catch(function(err) {
+        console.log('加载评论失败:', err);
+        showNoComments();
+      });
+    } else {
+      /* ◀️ 如果没有 Twikoo，尝试 Waline */
+      if (typeof Waline !== 'undefined' && Waline.RecentComments) {
+        loadWalineComments();
+      } else {
+        setTimeout(showNoComments, 800);
+      }
+    }
+  }
+
+  /* ◀️ Waline 评论系统支持 */
+  function loadWalineComments() {
+    const waline = Waline.init({
+      el: null,
+      serverURL: '{{ .Site.Params.waline.serverURL }}'
+    });
+
+    if (waline && waline.RecentComments) {
+      waline.RecentComments({
+        count: 4
+      }).then(function(comments) {
+        if (comments && comments.length > 0) {
+          renderWalineComments(comments);
+        } else {
+          showNoComments();
+        }
+      }).catch(function() {
+        showNoComments();
+      });
+    } else {
+      showNoComments();
+    }
+  }
+
+  function renderComments(comments) {
+    if (!comments || comments.length === 0) {
+      showNoComments();
+      return;
+    }
+
+    let html = '';
+    comments.forEach(function(comment) {
+      const avatar = comment.avatar || 'https://cravatar.cn/avatar/?d=mp';
+      /* ◀️ 去除 HTML 标签并截取前 50 个字符 */
+      const text = comment.comment.replace(/<[^>]+>/g, '').substring(0, 50);
+      const url = comment.url || '/';
+      const nick = comment.nick || '匿名';
+      const created = comment.created ? new Date(comment.created).toLocaleDateString() : '';
+
+      html += `
+        <div class="comment-bento-card">
+          <div class="comment-avatar">
+            <img src="${avatar}" alt="${nick}" loading="lazy">
+          </div>
+          <div class="comment-info">
+            <div class="comment-meta">
+              <span class="comment-author">${nick}</span>
+              <span class="comment-time">${created}</span>
+            </div>
+            <p class="comment-text">${text}...</p>
+          </div>
+          <a href="${url}" class="comment-arrow">→</a>
+        </div>
+      `;
+    });
+
+    commentsList.innerHTML = html;
+  }
+
+  function renderWalineComments(comments) {
+    let html = '';
+    comments.forEach(function(comment) {
+      const avatar = comment.avatar || 'https://cravatar.cn/avatar/?d=mp';
+      const text = (comment.comment || '').replace(/<[^>]+>/g, '').substring(0, 50);
+      const url = comment.url || '/';
+      const nick = comment.nick || '匿名';
+      const time = comment.time ? new Date(comment.time).toLocaleDateString() : '';
+
+      html += `
+        <div class="comment-bento-card">
+          <div class="comment-avatar">
+            <img src="${avatar}" alt="${nick}" loading="lazy">
+          </div>
+          <div class="comment-info">
+            <div class="comment-meta">
+              <span class="comment-author">${nick}</span>
+              <span class="comment-time">${time}</span>
+            </div>
+            <p class="comment-text">${text}...</p>
+          </div>
+          <a href="${url}" class="comment-arrow">→</a>
+        </div>
+      `;
+    });
+
+    commentsList.innerHTML = html;
+  }
+
+  function showNoComments() {
+    commentsList.innerHTML = `
+      <div class="comments-empty-bento">
+        <span>💭</span>
+        <p>暂无评论，快来抢沙发吧~</p>
+      </div>
+    `;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', loadRecentComments);
+  } else {
+    loadRecentComments();
+  }
+})();
+
+/* 📈 Umami 站点统计数据获取 */
+(function() {
+  const umamiCard = document.getElementById('umamiStatsCard');
+  if (!umamiCard) return;
+
+  /* ◀️ Umami API 配置 */
+  const UMAMI_API_URL = '{{ $umami.apiUrl }}';
+  const UMAMI_SHARE_URL = '{{ $umami.shareUrl }}';
+
+  /* ◀️ 格式化数字 */
+  function formatNumber(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
+  }
+
+  /* ◀️ 加载 Umami 统计数据 */
+  async function loadUmamiStats() {
+    try {
+      /* ◀️ 尝试从 Umami 分享页面获取数据 */
+      const response = await fetch(UMAMI_API_URL, {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        /* ◀️ 如果 API 无法访问，使用模拟数据展示效果 */
+        console.log('Umami API 无法访问，使用模拟数据');
+        useMockData();
+        return;
+      }
+
+      const data = await response.json();
+      updateMetrics(data);
+      renderMap(data.countries || []);
+    } catch (error) {
+      console.log('加载 Umami 数据失败:', error);
+      useMockData();
+    }
+  }
+
+  /* ◀️ 使用模拟数据（当 API 无法访问时） */
+  function useMockData() {
+    const mockData = {
+      pageviews: { value: 12580 },
+      visitors: { value: 3420 },
+      visits: { value: 5680 },
+      bounce_rate: { value: 42.5 },
+      countries: [
+        { name: '中国', value: 8560, code: 'CN' },
+        { name: '美国', value: 1820, code: 'US' },
+        { name: '日本', value: 680, code: 'JP' },
+        { name: '德国', value: 420, code: 'DE' },
+        { name: '英国', value: 380, code: 'GB' },
+        { name: '法国', value: 320, code: 'FR' },
+        { name: '新加坡', value: 280, code: 'SG' },
+        { name: '韩国', value: 240, code: 'KR' }
+      ]
+    };
+    updateMetrics(mockData);
+    renderMap(mockData.countries);
+  }
+
+  /* ◀️ 更新统计数据 */
+  function updateMetrics(data) {
+    const metricsContainer = document.getElementById('umamiMetrics');
+    if (!metricsContainer) return;
+
+    const metricElements = metricsContainer.querySelectorAll('.umami-metric');
+    metricElements.forEach(function(el) {
+      const key = el.dataset.key;
+      const valueEl = el.querySelector('.metric-value');
+      
+      if (data[key]) {
+        let value = data[key].value || data[key];
+        
+        /* ◀️ 格式化数值 */
+        if (key === 'bounce_rate') {
+          value = value + '%';
+        } else if (typeof value === 'number') {
+          value = formatNumber(value);
+        }
+        
+        valueEl.textContent = value;
+        valueEl.classList.remove('loading');
+      }
+    });
+  }
+
+  /* ◀️ 渲染世界地图热点 */
+  function renderMap(countries) {
+    const mapContainer = document.getElementById('umamiMap');
+    if (!mapContainer) return;
+
+    if (!countries || countries.length === 0) {
+      mapContainer.innerHTML = '<div class="map-empty">暂无地理分布数据</div>';
+      return;
+    }
+
+    /* ◀️ 计算最大值用于缩放 */
+    const maxValue = Math.max(...countries.map(c => c.value || c.count || 0));
+
+    /* ◀️ 生成地图热点 HTML */
+    let html = '<div class="umami-map">';
+    
+    /* ◀️ 简化的世界地图可视化 - 使用条形图展示国家分布 */
+    html += '<div class="countries-list">';
+    countries.slice(0, 8).forEach(function(country) {
+      const value = country.value || country.count || 0;
+      const percentage = (value / maxValue * 100).toFixed(1);
+      const name = country.name || country.country || '未知';
+      const code = country.code || country.country_code || '';
+      
+      html += `
+        <div class="country-item">
+          <div class="country-info">
+            <span class="country-flag">${getFlagEmoji(code)}</span>
+            <span class="country-name">${name}</span>
+          </div>
+          <div class="country-bar-wrapper">
+            <div class="country-bar" style="width: ${percentage}%"></div>
+            <span class="country-value">${formatNumber(value)}</span>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div>';
+    
+    html += '</div>';
+    mapContainer.innerHTML = html;
+  }
+
+  /* ◀️ 根据国家代码获取国旗 emoji */
+  function getFlagEmoji(countryCode) {
+    if (!countryCode) return '🌍';
+    const codePoints = countryCode
+      .toUpperCase()
+      .slice(0, 2)
+      .split('')
+      .map(char => 127397 + char.charCodeAt(0));
+    return String.fromCodePoint(...codePoints);
+  }
+
+  /* ◀️ 延迟加载，等待页面其他资源加载完成 */
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+      setTimeout(loadUmamiStats, 500);
+    });
+  } else {
+    setTimeout(loadUmamiStats, 500);
+  }
+})();
+</script>
+
+<style>
+/* ✨ 向上渐显动画 - 页面加载时模块依次显示 */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🎭 动画基础类 */
+.animate-fade-in-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ⏱️ 动画延迟变量 */
+.animate-delay-1 { animation-delay: 0.1s; }
+.animate-delay-2 { animation-delay: 0.2s; }
+.animate-delay-3 { animation-delay: 0.3s; }
+.animate-delay-4 { animation-delay: 0.4s; }
+.animate-delay-5 { animation-delay: 0.5s; }
+.animate-delay-6 { animation-delay: 0.6s; }
+.animate-delay-7 { animation-delay: 0.7s; }
+.animate-delay-8 { animation-delay: 0.8s; }
+.animate-delay-9 { animation-delay: 0.9s; }
+.animate-delay-10 { animation-delay: 1.0s; }
+
+/* 🥳 Bento 网格布局样式 */
+.about-site-bento {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  padding-top: 88px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 🌐 顶部站点信息卡片 */
+.bento-header-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 24px;
+  margin-bottom: 20px;
+  color: white;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.site-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.site-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+}
+
+.site-name {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+}
+
+.site-role {
+  font-size: 14px;
+  opacity: 0.9;
+  margin: 0;
+}
+
+.follow-btn {
+  padding: 10px 24px;
+  background: white;
+  color: #667eea;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.follow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* 📊 Bento 网格 */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 🎴 Bento 卡片 */
+.bento-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 20px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  transition: all 0.3s ease;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.card-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.card-badge.blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.card-badge.orange {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.card-badge.purple {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+
+.card-badge.green {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.badge-icon {
+  font-size: 20px;
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary, #6b7280);
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 8px 0;
+}
+
+.card-desc {
+  font-size: 12px;
+  color: var(--text-tertiary, #9ca3af);
+  margin: 0;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tag {
+  padding: 4px 10px;
+  background: var(--tag-bg, #f3f4f6);
+  border-radius: 12px;
+  font-size: 11px;
+  color: var(--text-secondary, #6b7280);
+}
+
+/* 📊 站点状态卡片 */
+.status-card {
+  text-decoration: none;
+  color: inherit;
+}
+
+.status-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.status-count {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.status-text {
+  font-size: 12px;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.status-indicator.has-issue .status-dot {
+  background: #ef4444;
+  animation: pulse-red 2s ease-in-out infinite;
+}
+
+.status-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #22c55e;
+}
+
+.status-indicator.has-issue .status-label {
+  color: #ef4444;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* 📊 站点状态大卡片 */
+.status-big-card {
+  display: block;
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.status-big-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.status-card-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.status-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.status-icon {
+  font-size: 24px;
+}
+
+.status-title-wrapper {
+  flex: 1;
+}
+
+.status-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 4px 0;
+}
+
+.status-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.status-overall {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: #dcfce7;
+}
+
+.status-overall.status-error {
+  background: #fee2e2;
+}
+
+.overall-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.status-overall.status-error .overall-dot {
+  background: #ef4444;
+  animation: pulse-red 2s ease-in-out infinite;
+}
+
+.overall-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.status-overall.status-error .overall-text {
+  color: #dc2626;
+}
+
+.status-services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 640px) {
+  .status-services-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.service-item {
+  padding: 16px;
+  background: var(--hover-bg, #f9fafb);
+  border-radius: 12px;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.service-item.normal {
+  border-color: #86efac;
+}
+
+.service-item.error {
+  border-color: #fca5a5;
+  background: #fef2f2;
+}
+
+.service-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.service-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+}
+
+.service-uptime {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.service-status-bar {
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.status-progress {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e 0%, #4ade80 100%);
+  border-radius: 3px;
+  transition: width 0.5s ease;
+}
+
+.service-item.error .status-progress {
+  background: linear-gradient(90deg, #ef4444 0%, #f87171 100%);
+}
+
+.service-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.status-badge {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+}
+
+.status-badge.normal {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.status-badge.error {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+.service-time {
+  font-size: 12px;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+.status-card-footer {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.view-more {
+  font-size: 14px;
+  font-weight: 600;
+  color: #667eea;
+  transition: all 0.2s ease;
+}
+
+.status-big-card:hover .view-more {
+  color: #764ba2;
+}
+
+/* � Umami 站点统计卡片 */
+.umami-stats-card {
+  display: block;
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.umami-stats-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+}
+
+.umami-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.umami-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.umami-icon {
+  font-size: 24px;
+}
+
+.umami-title-wrapper {
+  flex: 1;
+}
+
+.umami-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 4px 0;
+}
+
+.umami-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.umami-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: #dcfce7;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.umami-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 640px) {
+  .umami-metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.umami-metric {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background: var(--hover-bg, #f9fafb);
+  border-radius: 12px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+
+.umami-metric:hover {
+  background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+  transform: translateY(-2px);
+}
+
+.metric-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.metric-label {
+  font-size: 12px;
+  color: var(--text-secondary, #6b7280);
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+}
+
+.metric-value.loading {
+  color: var(--text-tertiary, #9ca3af);
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.umami-map-section {
+  margin-bottom: 20px;
+}
+
+.map-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 16px 0;
+}
+
+.umami-map-container {
+  background: var(--hover-bg, #f9fafb);
+  border-radius: 12px;
+  padding: 16px;
+  min-height: 200px;
+}
+
+.map-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--text-secondary, #6b7280);
+  gap: 12px;
+}
+
+.map-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.umami-map {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.countries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.country-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.country-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.country-flag {
+  font-size: 20px;
+}
+
+.country-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #1f2937);
+}
+
+.country-bar-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.country-bar {
+  height: 8px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.country-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  width: 50px;
+  text-align: right;
+}
+
+.umami-footer {
+  text-align: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.umami-stats-card:hover .view-more {
+  color: #764ba2;
+}
+
+/* �📚 区域标题 */
+.bento-section {
+  margin-bottom: 24px;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-badge {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.section-badge.comment-badge {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin: 0;
+}
+
+/* 📄 文档无限滚动动画 */
+.docs-marquee-container {
+  overflow: hidden;
+  border-radius: 16px;
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.docs-marquee {
+  display: flex;
+  gap: 16px;
+  width: max-content;
+  animation: marqueeScroll 30s linear infinite;
+}
+
+.docs-marquee-container:hover .docs-marquee {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+
+
+.doc-bento-card {
+  flex-shrink: 0;
+  width: 180px;
+  background: var(--card-bg, #ffffff);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--border-color, #e5e7eb);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.3s ease;
+}
+
+.doc-bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+.doc-image-wrapper {
+  height: 110px;
+  overflow: hidden;
+}
+
+.doc-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.doc-bento-card:hover .doc-image {
+  transform: scale(1.05);
+}
+
+.doc-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 36px;
+}
+
+.doc-info {
+  padding: 12px;
+}
+
+.doc-info .doc-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+  margin: 0 0 4px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.doc-date {
+  font-size: 11px;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+/* 💬 评论网格 */
+.comments-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 640px) {
+  .comments-bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.comment-bento-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: var(--card-bg, #ffffff);
+  border-radius: 16px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  transition: all 0.3s ease;
+}
+
+.comment-bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.comment-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.comment-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.comment-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.comment-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.comment-author {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+}
+
+.comment-time {
+  font-size: 11px;
+  color: var(--text-tertiary, #9ca3af);
+}
+
+.comment-text {
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.comment-arrow {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--hover-bg, #f3f4f6);
+  border-radius: 8px;
+  color: var(--text-secondary, #6b7280);
+  text-decoration: none;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.comment-arrow:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.comments-empty-bento {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.comments-empty-bento span {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.comments-empty-bento p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.loading-dots {
+  display: inline-block;
+  width: 40px;
+  height: 8px;
+  background: radial-gradient(circle, #667eea 2px, transparent 2px) 0 50%,
+              radial-gradient(circle, #667eea 2px, transparent 2px) 16px 50%,
+              radial-gradient(circle, #667eea 2px, transparent 2px) 32px 50%;
+  background-size: 8px 8px;
+  background-repeat: no-repeat;
+  animation: loadingDots 1.4s infinite linear;
+}
+
+@keyframes loadingDots {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* 🎯 信息卡片网格 - Bento布局 */
+.info-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .info-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .mission-card {
+    grid-column: span 2;
+  }
+}
+
+.info-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+}
+
+.info-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.mission-card .info-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+.tech-card .info-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.contact-card .info-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.info-card-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin: 0;
+}
+
+.info-card-body {
+  color: var(--text-secondary, #4b5563);
+  line-height: 1.7;
+}
+
+.info-card-body p {
+  margin: 0;
+  font-size: 14px;
+}
+
+/* 🛠️ 技术栈列表 */
+.tech-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tech-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--hover-bg, #f9fafb);
+  border-radius: 12px;
+}
+
+.tech-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  flex-shrink: 0;
+}
+
+.tech-dot.blue {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+
+.tech-dot.green {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.tech-dot.orange {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+
+.tech-name {
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
+  flex: 1;
+}
+
+.tech-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #1f2937);
+}
+
+/* 📮 联系方式 */
+.contact-desc {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--hover-bg, #f9fafb);
+  border-radius: 12px;
+  text-decoration: none;
+  color: var(--text-primary, #1f2937);
+  transition: all 0.2s ease;
+}
+
+.contact-link:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.contact-link:hover .link-text {
+  color: white;
+}
+
+.contact-link:hover .link-arrow {
+  color: white;
+}
+
+.link-icon {
+  font-size: 18px;
+}
+
+.link-text {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.link-arrow {
+  font-size: 16px;
+  color: var(--text-tertiary, #9ca3af);
+  transition: all 0.2s ease;
+}
+
+/* 🙏 致谢区域 */
+.bento-thanks-section {
+  margin-bottom: 24px;
+}
+
+.thanks-card {
+  text-align: center;
+  padding: 32px;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  border-radius: 20px;
+}
+
+.thanks-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.thanks-text {
+  font-size: 15px;
+  color: #7c3aed;
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+}
+
+.coffee-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  background: white;
+  color: #7c3aed;
+  border: none;
+  border-radius: 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 16px rgba(124, 58, 237, 0.2);
+}
+
+.coffee-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3);
+}
+
+.coffee-icon {
+  font-size: 18px;
+}
+
+/* 💭 评论区 */
+.bento-comments-section {
+  margin-bottom: 24px;
+}
+
+.comment-card {
+  background: var(--card-bg, #ffffff);
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--border-color, #e5e7eb);
+}
+
+/* 💰 打赏弹窗 */
+.bento-reward-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.bento-reward-modal.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.modal-content {
+  position: relative;
+  background: var(--card-bg, #ffffff);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 400px;
+  width: 90%;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+}
+
+.bento-reward-modal.active .modal-content {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--hover-bg, #f3f4f6);
+  border: none;
+  border-radius: 50%;
+  font-size: 20px;
+  color: var(--text-secondary, #6b7280);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover {
+  background: var(--border-color, #e5e7eb);
+}
+
+.modal-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.modal-icon {
+  font-size: 40px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary, #1f2937);
+  margin: 0;
+}
+
+.reward-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.reward-item {
+  text-align: center;
+}
+
+.reward-item img,
+.reward-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 16px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}
+
+.reward-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.reward-placeholder.alipay {
+  background: linear-gradient(135deg, #1677ff 0%, #0958d9 100%);
+}
+
+.reward-label {
+  font-size: 13px;
+  color: var(--text-secondary, #6b7280);
+}
+
+/* 🌆 暗色模式适配 */
+@media (prefers-color-scheme: dark) {
+  .bento-card,
+  .doc-bento-card,
+  .comment-bento-card,
+  .info-card,
+  .comment-card,
+  .modal-content {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .card-value,
+  .section-title,
+  .doc-info .doc-title,
+  .comment-author,
+  .modal-header h3,
+  .info-card-header h3,
+  .tech-value {
+    color: #f9fafb;
+  }
+
+  .card-title,
+  .card-desc,
+  .tag,
+  .doc-date,
+  .comment-time,
+  .comment-text,
+  .info-card-body,
+  .tech-name,
+  .contact-desc,
+  .reward-label {
+    color: #9ca3af;
+  }
+
+  .follow-btn {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .comment-arrow,
+  .tech-item,
+  .contact-link {
+    background: #374151;
+  }
+
+  .contact-link:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .modal-close {
+    background: #374151;
+    color: #9ca3af;
+  }
+
+  .modal-close:hover {
+    background: #4b5563;
+  }
+}
+
+/* 📱 响应式适配 */
+@media (max-width: 640px) {
+  .about-site-bento {
+    padding: 16px;
+    padding-top: 80px;
+  }
+
+  .bento-header-card {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+
+  .header-content {
+    flex-direction: column;
+  }
+
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .bento-card {
+    padding: 16px;
+  }
+
+  .card-value {
+    font-size: 16px;
+  }
+
+  .doc-bento-card {
+    width: 150px;
+  }
+
+  .doc-image-wrapper {
+    height: 90px;
+  }
+
+  .info-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mission-card {
+    grid-column: span 1;
+  }
+
+  .info-card {
+    padding: 20px;
+  }
+
+  .thanks-card {
+    padding: 24px;
+  }
+
+  .modal-content {
+    padding: 24px;
+  }
+}
+</style>
+{{ end }}

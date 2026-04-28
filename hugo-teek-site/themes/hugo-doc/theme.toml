@@ -1,0 +1,12 @@
+name = "Hugo Doc"
+license = "MIT"
+licenselink = "https://github.com/yourname/hugo-doc/blob/main/LICENSE"
+description = "A glassmorphism-inspired Hugo documentation and personal brand theme converted from a static HTML design"
+homepage = "https://github.com/yourname/hugo-doc"
+tags = ["documentation", "portfolio", "glassmorphism", "responsive", "blog"]
+features = ["responsive", "documentation", "portfolio sections", "latest articles", "glass UI"]
+min_version = "0.150.0"
+
+[author]
+  name = "白木 / Converted for Hugo"
+  homepage = "https://gl.baimu.live/"

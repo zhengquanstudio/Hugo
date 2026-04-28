@@ -1,0 +1,346 @@
+/* 🕊️白木 开发 🔗gl.baimu.live */
+/* 🖼️ 图片加载失败占位图样式 - 自适应16:9动画占位图 */
+
+/* 💕 图片加载失败占位图容器 */
+.img-error-placeholder {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--img-error-aspect-ratio);
+  background: var(--img-error-bg);
+  border-radius: var(--img-error-border-radius);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* ◀️ 隐藏原始图片 */
+  & ~ img,
+  & + img {
+    display: none !important;
+  }
+}
+
+/* 🎬 动画容器 */
+.img-error-placeholder__animation {
+  width: 8em;
+  height: 1em;
+  font-size: 35px;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+  @media (max-width: 768px) {
+    font-size: 25px;
+  }
+}
+
+/* 💃 动画元素 */
+.img-error-placeholder__girl {
+  width: 1em;
+  height: 1em;
+  animation: img-error-slide var(--img-error-animation-duration) ease-in-out infinite alternate;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    border-radius: 15%;
+    background-color: var(--img-error-girl-color);
+    box-shadow: 0 0 0.1em rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* 👦 动画容器 */
+.img-error-placeholder__boys {
+  width: 6em;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* 👦 单个动画元素 */
+.img-error-placeholder__boy {
+  width: 1em;
+  height: 1em;
+  position: relative;
+  animation: var(--img-error-animation-duration) ease-in-out infinite alternate;
+
+  /* ◀️ 为每个设置不同的动画 */
+  &:nth-child(1) {
+    animation-name: img-error-jump-off-1;
+  }
+
+  &:nth-child(2) {
+    animation-name: img-error-jump-off-2;
+  }
+
+  &:nth-child(3) {
+    animation-name: img-error-jump-off-3;
+  }
+
+  &:nth-child(4) {
+    animation-name: img-error-jump-off-4;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    width: inherit;
+    height: inherit;
+    border-radius: 15%;
+    background-color: var(--img-error-boy-color);
+    box-shadow: 0 0 0.1em rgba(0, 0, 0, 0.3);
+    animation: var(--img-error-animation-duration) ease-in-out infinite alternate;
+  }
+
+  /* ◀️ 为每个设置不同的下落动画和亮度 */
+  &:nth-child(1)::before {
+    filter: brightness(1);
+    animation-name: img-error-jump-down-1;
+  }
+
+  &:nth-child(2)::before {
+    filter: brightness(1.15);
+    animation-name: img-error-jump-down-2;
+  }
+
+  &:nth-child(3)::before {
+    filter: brightness(1.3);
+    animation-name: img-error-jump-down-3;
+  }
+
+  &:nth-child(4)::before {
+    filter: brightness(1.45);
+    animation-name: img-error-jump-down-4;
+  }
+}
+
+/* 🎭 滑动动画 */
+@keyframes img-error-slide {
+  0% {
+    transform: translateX(0);
+    filter: brightness(1);
+  }
+  100% {
+    transform: translateX(6.75em);
+    filter: brightness(1.45);
+  }
+}
+
+/* 🎭 跳离动画 - 第1个 */
+@keyframes img-error-jump-off-1 {
+  0%, 15% {
+    transform: rotate(0deg);
+  }
+  35%, 100% {
+    transform-origin: -50% center;
+    transform: rotate(-180deg);
+  }
+}
+
+/* 🎭 跳离动画 - 第2个 */
+@keyframes img-error-jump-off-2 {
+  0%, 30% {
+    transform: rotate(0deg);
+  }
+  50%, 100% {
+    transform-origin: -50% center;
+    transform: rotate(-180deg);
+  }
+}
+
+/* 🎭 跳离动画 - 第3个 */
+@keyframes img-error-jump-off-3 {
+  0%, 45% {
+    transform: rotate(0deg);
+  }
+  65%, 100% {
+    transform-origin: -50% center;
+    transform: rotate(-180deg);
+  }
+}
+
+/* 🎭 跳离动画 - 第4个 */
+@keyframes img-error-jump-off-4 {
+  0%, 60% {
+    transform: rotate(0deg);
+  }
+  80%, 100% {
+    transform-origin: -50% center;
+    transform: rotate(-180deg);
+  }
+}
+
+/* 🎭 下落动画 - 第1个 */
+@keyframes img-error-jump-down-1 {
+  5% {
+    transform: scale(1, 1);
+  }
+  15% {
+    transform-origin: center bottom;
+    transform: scale(1.3, 0.7);
+  }
+  20%, 25% {
+    transform-origin: center bottom;
+    transform: scale(0.8, 1.4);
+  }
+  40% {
+    transform-origin: center top;
+    transform: scale(1.3, 0.7);
+  }
+  55%, 100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 🎭 下落动画 - 第2个 */
+@keyframes img-error-jump-down-2 {
+  20% {
+    transform: scale(1, 1);
+  }
+  30% {
+    transform-origin: center bottom;
+    transform: scale(1.3, 0.7);
+  }
+  35%, 40% {
+    transform-origin: center bottom;
+    transform: scale(0.8, 1.4);
+  }
+  55% {
+    transform-origin: center top;
+    transform: scale(1.3, 0.7);
+  }
+  70%, 100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 🎭 下落动画 - 第3个 */
+@keyframes img-error-jump-down-3 {
+  35% {
+    transform: scale(1, 1);
+  }
+  45% {
+    transform-origin: center bottom;
+    transform: scale(1.3, 0.7);
+  }
+  50%, 55% {
+    transform-origin: center bottom;
+    transform: scale(0.8, 1.4);
+  }
+  70% {
+    transform-origin: center top;
+    transform: scale(1.3, 0.7);
+  }
+  85%, 100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 🎭 下落动画 - 第4个 */
+@keyframes img-error-jump-down-4 {
+  50% {
+    transform: scale(1, 1);
+  }
+  60% {
+    transform-origin: center bottom;
+    transform: scale(1.3, 0.7);
+  }
+  65%, 70% {
+    transform-origin: center bottom;
+    transform: scale(0.8, 1.4);
+  }
+  85% {
+    transform-origin: center top;
+    transform: scale(1.3, 0.7);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+/* 🖼️ 图片加载失败状态 - 应用于原始图片元素 */
+img.img-error-failed {
+  display: none !important;
+
+  & + .img-error-placeholder,
+  & ~ .img-error-placeholder {
+    display: flex;
+  }
+}
+
+/* 📦 图片容器 - 用于包裹图片和占位图 */
+.img-error-wrapper {
+  position: relative;
+  width: 100%;
+  display: block;
+
+  /* ◀️ 默认隐藏占位图 */
+  .img-error-placeholder {
+    display: none;
+  }
+
+  /* ◀️ 图片初始状态 - 透明 */
+  img {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  /* ⏳ 加载中状态 - 显示占位图，隐藏图片 */
+  &.is-loading {
+    img {
+      opacity: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .img-error-placeholder {
+      display: flex;
+    }
+  }
+
+  /* ✅ 加载完成状态 - 显示图片，隐藏占位图 */
+  &.is-loaded {
+    img {
+      opacity: 1;
+      position: relative;
+    }
+
+    .img-error-placeholder {
+      display: none;
+    }
+  }
+
+  /* ❌ 当图片加载失败时显示占位图 */
+  &.has-error {
+    img {
+      display: none !important;
+    }
+
+    .img-error-placeholder {
+      display: flex;
+    }
+  }
+}
+
+/* 📝 文档内容中的图片容器样式 */
+.vp-doc .img-error-wrapper,
+.content-container .img-error-wrapper,
+.post-content .img-error-wrapper {
+  display: block;
+  margin: 1.5rem 0;
+
+  img {
+    margin: 0;
+    border-radius: 8px;
+  }
+
+  /* ◀️ 文档中的占位图样式调整 */
+  .img-error-placeholder {
+    border-radius: 8px;
+  }
+}

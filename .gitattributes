@@ -1,0 +1,112 @@
+# Hugo Teek Theme - Git Attributes Configuration
+# 目的：在所有平台强制 LF 行尾，确保跨平台一致性
+# 现代 Windows (10+) 正确处理 LF 的批处理文件
+
+# 默认：所有文本文件规范化为 LF
+* text=auto eol=lf
+
+# Shell 脚本（Unix 兼容性必须 LF）
+*.sh text eol=lf
+*.bash text eol=lf
+
+# Windows 脚本
+# 批处理文件必须使用 CRLF，因为 Windows CMD.exe 要求 CRLF 才能正确解析
+# 使用 -text 以防止 Git 规范化，直接存储 CRLF
+# PowerShell 脚本可以使用 LF
+*.bat -text
+*.cmd -text
+*.ps1 text eol=lf
+
+# 源代码（LF 是标准）
+*.go text eol=lf diff=golang
+*.js text eol=lf
+*.ts text eol=lf
+*.vue text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+*.json text eol=lf
+*.md text eol=lf diff=markdown
+*.html text eol=lf diff=html
+*.css text eol=lf diff=css
+*.scss text eol=lf diff=css
+
+# 配置文件（LF 是标准）
+*.toml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.xml text eol=lf
+*.ini text eol=lf
+*.conf text eol=lf
+*.config text eol=lf
+
+# Makefiles（必须 LF，需要制表符）
+Makefile text eol=lf
+makefile text eol=lf
+*.mk text eol=lf
+.editorconfig text eol=lf
+
+# 文档
+*.txt text eol=lf
+LICENSE text eol=lf
+README text eol=lf
+AUTHORS text eol=lf
+CHANGELOG text eol=lf
+CONTRIBUTING text eol=lf
+CLAUDE.md text eol=lf
+
+# Docker（Linux 容器必须 LF）
+Dockerfile text eol=lf
+*.dockerfile text eol=lf
+.dockerignore text eol=lf
+
+# Git 文件
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.gitmodules text eol=lf
+
+# CI/CD
+.gitlab-ci.yml text eol=lf
+.travis.yml text eol=lf
+*.cnb.yml text eol=lf
+
+# 环境文件
+.env text eol=lf
+.env.* text eol=lf
+
+# 二进制文件（不规范化）
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.ttf binary
+*.otf binary
+*.pdf binary
+*.exe binary
+*.dll binary
+*.so binary
+*.dylib binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.bz2 binary
+*.7z binary
+*.rar binary
+*.mp4 binary
+*.mp3 binary
+*.mov binary
+*.avi binary
+*.tgz binary
+*.rpm binary
+*.deb binary
+
+# 锁文件（自动生成，但应保持一致）
+package-lock.json text eol=lf
+pnpm-lock.yaml text eol=lf
+go.sum text eol=lf
+go.mod text eol=lf

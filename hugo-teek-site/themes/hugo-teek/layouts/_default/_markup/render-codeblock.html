@@ -1,0 +1,17 @@
+{{ $lang := .Type }}
+{{ $code := .Inner }}
+{{ $options := .Options }}
+{{ $title := .Attributes.title }}
+
+{{/* 🎨 高亮代码 */}}
+{{ $highlighted := highlight $code $lang $options }}
+
+{{/* 🔤 添加 data-lang 属性用于代码块语言图标识别 */}}
+{{ $highlighted = $highlighted | replaceRE `^<div class="highlight">` (printf `<div class="highlight" data-lang="%s">` $lang) }}
+
+{{/* 📝 如果有标题，在 .highlight div 上添加 data-title 属性 */}}
+{{ if $title }}
+  {{ $highlighted = $highlighted | replaceRE (printf `data-lang="%s"` $lang) (printf `data-lang="%s" data-title="%s"` $lang $title) }}
+{{ end }}
+
+{{ $highlighted | safeHTML }}

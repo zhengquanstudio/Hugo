@@ -1,0 +1,10 @@
+{{ define "main" }}
+  {{ partial "hugo-doc/banner.html" . }}
+  {{ if ne .Site.Params.hugoDoc.skillsEnabled false }}
+    {{ partial "hugo-doc/skills.html" . }}
+  {{ end }}
+  {{ partial "hugo-doc/docs.html" . }}
+  {{ if ne .Site.Params.hugoDoc.projectsEnabled false }}
+    {{ partial "hugo-doc/projects.html" . }}
+  {{ end }}
+{{ end }}

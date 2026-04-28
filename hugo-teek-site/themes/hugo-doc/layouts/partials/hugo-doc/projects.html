@@ -1,0 +1,86 @@
+{{ $projects := .Site.Data.hugo_doc.projects }}
+{{ $defaultCTAURL := .Site.Params.author.link | default "/" }}
+{{ $ctaURL := $defaultCTAURL }}
+{{ $ctaIcon := "link" }}
+{{ $ctaText := "访问主页" }}
+{{ with .Site.Params.blogger.social }}
+  {{ range . }}
+    {{ if and (eq $ctaURL $defaultCTAURL) (or (eq .icon "github") (eq .icon "cnb") (eq .icon "gitee")) }}
+      {{ $ctaURL = .url }}
+      {{ $ctaIcon = .icon }}
+      {{ if eq .icon "github" }}
+        {{ $ctaText = "访问 GitHub" }}
+      {{ else if eq .icon "gitee" }}
+        {{ $ctaText = "访问 Gitee" }}
+      {{ else if eq .icon "cnb" }}
+        {{ $ctaText = "访问 CNB" }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $ctaBlank := or (hasPrefix $ctaURL "http://") (hasPrefix $ctaURL "https://") (hasPrefix $ctaURL "//") }}
+
+<section class="projects-section section" id="projects">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{{ $projects.title }}</h2>
+      <p class="section-subtitle">{{ $projects.subtitle }}</p>
+    </div>
+
+    <div class="projects-grid">
+      {{ range $projects.items }}
+        <article class="project-card glass-card reveal">
+          <div class="project-preview">
+            <div class="project-image">
+              <div class="project-icon">{{ .icon }}</div>
+            </div>
+            <div class="project-overlay">
+              <a href="{{ .url }}" target="_blank" rel="noopener" class="project-link" aria-label="查看项目">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"></path>
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="project-content">
+            <h3 class="project-title">{{ .title }}</h3>
+            <p class="project-description">{{ .description }}</p>
+            <div class="project-tech">
+              {{ range .tech }}
+                <span class="tech-tag">{{ . }}</span>
+              {{ end }}
+            </div>
+            <div class="project-stats">
+              <span class="project-stat">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35Z"></path>
+                </svg>
+                {{ .likes }}
+              </span>
+              <span class="project-stat">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93Zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39Z"></path>
+                </svg>
+                {{ .views }}
+              </span>
+            </div>
+          </div>
+        </article>
+      {{ end }}
+    </div>
+
+    <div class="projects-cta reveal">
+      <div class="cta-card glass-card">
+        <div class="cta-content">
+          <div class="cta-icon">💻</div>
+          <h3 class="cta-title">{{ $projects.cta_title }}</h3>
+          <p class="cta-text">{{ $projects.cta_text }}</p>
+          <a href="{{ $ctaURL }}"{{ if $ctaBlank }} target="_blank" rel="noopener"{{ end }} class="glass-btn glass-btn-primary">
+            {{ partial "hugo-doc/social-icon.html" (dict "icon" $ctaIcon) }}
+            <span>{{ $ctaText }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

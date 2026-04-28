@@ -1,0 +1,432 @@
+/* ========================================
+   📱 移动端 Back-to-Top 按钮位置修复 - VP火箭样式
+   Mobile Back-to-Top Button Position Fix - VP Rocket Style
+   ======================================== */
+
+/* 🔧 修复移动端 back-to-top 按钮与 FAB 按钮的位置冲突 */
+@media (max-width: 1146px) {
+  /* 🚀 火箭轮盘容器 - 白木开发 🔗https://gl.baimu.live/  */
+  .rocket-wheel {
+    bottom: 5.5rem;
+    right: 0.5rem;
+    z-index: 1000;
+    gap: 0.5rem;
+    flex-direction: row;
+  }
+
+  /* 🎯 轮盘菜单 - 白木开发 🔗https://gl.baimu.live/   */
+  .rocket-wheel-menu {
+    gap: 0.5rem;
+    flex-direction: row;
+    order: -1;
+  }
+
+  /* 🔘 轮盘按钮 - 白木开发 🔗https://gl.baimu.live/   */
+  .wheel-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+
+    .wheel-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* 💬 移动端聊天气泡样式 */
+    .wheel-label {
+      bottom: calc(100% + 10px);
+      padding: 0.375rem 0.625rem;
+      font-size: 0.75rem;
+      border-radius: 10px;
+      z-index: 1001;
+
+      &::after {
+        border-width: 6px 6px 0 6px;
+        bottom: -6px;
+      }
+    }
+
+    /* ◀️ 增强移动端触摸反馈 */
+    &:active {
+      transform: translateY(-2px) scale(0.95);
+      transition: transform 0.1s ease;
+    }
+  }
+
+  .back-to-top {
+    /* ◀️ 调整位置避免与右下角FAB按钮冲突 */
+    width: 44px;
+    height: 44px;
+
+    /* ◀️ VP火箭样式 - 确保渐变生效 */
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+
+    &:hover {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    }
+
+    /* ◀️ VP进度圆环尺寸（需要匹配HTML中的circle元素） */
+    .progress-circle {
+      width: 44px;
+      height: 44px;
+    }
+
+    /* ◀️ VP火箭图标尺寸 */
+    .rocket-icon {
+      width: 45%;
+      height: 45%;
+    }
+
+    /* ◀️ 增强移动端触摸反馈 */
+    &:active {
+      transform: translateY(-2px) scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    /* ◀️ 轮盘打开时状态 - 白木开发 🔗https://gl.baimu.live/   */
+    .rocket-wheel.wheel-open & {
+      background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);
+    }
+  }
+
+  .scroll-to-comment {
+    /* ◀️ 评论按钮位置 */
+    bottom: 2rem;
+    right: 0.5rem;
+    z-index: 1001;
+
+    /* ◀️ 移动端尺寸 - 火箭按钮 */
+    width: 40px;
+    height: 40px;
+
+    /* ◀️ 自定义蓝色 */
+    background: #3a5ccc;
+    box-shadow: 0 4px 20px rgba(58, 92, 204, 0.3);
+
+    &:hover {
+      background: #2d4aa8;
+      box-shadow: 0 6px 25px rgba(58, 92, 204, 0.4);
+    }
+
+    .comment-icon {
+      width: 20px;
+      height: 20px;
+      color: white;
+    }
+
+    /* ◀️ 增强移动端触摸反馈 */
+    &:active {
+      transform: translateY(-2px) scale(0.95);
+      transition: transform 0.1s ease;
+    }
+  }
+}
+
+/* 📱 超小屏幕优化（小于480px） */
+@media (max-width: 480px) {
+  .rocket-wheel {
+    bottom: 5rem;
+    right: 0.5rem;
+  }
+
+  .wheel-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+
+    .wheel-icon {
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  .back-to-top {
+    width: 42px;
+    height: 42px;
+
+    .progress-circle {
+      width: 42px;
+      height: 42px;
+    }
+
+    .rocket-icon {
+      width: 45%;
+      height: 45%;
+    }
+  }
+
+  .scroll-to-comment {
+    bottom: 1.5rem;
+    right: 0.5rem;
+    width: 38px;
+    height: 38px;
+    background: #3a5ccc;
+    box-shadow: 0 4px 20px rgba(58, 92, 204, 0.3);
+
+    .comment-icon {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+  }
+}
+
+/* ========================================
+   📱 1146px-1279px 断点专用样式
+   移动端文档工具 + 三按钮垂直排列
+   ======================================== */
+
+/* 📱 中等屏幕（1146px-1279px）- 文档工具专用断点 */
+@media (min-width: 1146px) and (max-width: 1279px) {
+  /* 🎯 火箭轮盘容器 - 960px-1279px 断点下只保留基本样式 */
+  .rocket-wheel {
+    /* ◀️ 按钮已独立定位，容器不需要额外样式 */
+  }
+
+  /* 🚀 小火箭按钮 - 中等屏幕 */
+  .back-to-top {
+    position: fixed;
+    bottom: 0.1rem;
+    right: 0.5rem !important; /* ◀️ 统一 right 值与其他按钮对齐，使用 !important 防止被覆盖 */
+    width: 46px;
+    height: 46px;
+
+    .progress-circle {
+      width: 46px;
+      height: 46px;
+    }
+  }
+
+  /* 💬 评论按钮 - 中等屏幕 */
+  .scroll-to-comment {
+    position: fixed;
+    bottom: 0.3rem;
+    right: 0.5rem !important; /* ◀️ 统一 right 值与其他按钮对齐，使用 !important 防止被覆盖 */
+    width: 46px;
+    height: 46px;
+    z-index: 1001;
+    background: #3a5ccc;
+    box-shadow: 0 4px 20px rgba(58, 92, 204, 0.3);
+
+    &:hover {
+      background: #2d4aa8;
+      box-shadow: 0 6px 25px rgba(58, 92, 204, 0.4);
+    }
+
+    .comment-icon {
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  /* 📱 文档工具 - 中等屏幕 */
+  .mobile-doc-tools {
+    position: fixed;
+    bottom: calc(2rem + 46px + 0.75rem + 46px + 1.3rem);
+    right: 0.5rem !important; /* ◀️ 统一 right 值与其他按钮对齐，使用 !important 防止被覆盖 */
+    z-index: 1001;
+    width: 46px;
+    height: 46px;
+  }
+
+  /* 🔘 工具轮盘按钮 - 中等屏幕 */
+  .mobile-doc-tools-btn {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: white;
+    z-index: 2;
+
+    &:hover {
+      background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(16, 185, 129, 0.4);
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(0.95);
+    }
+
+    .tools-icon {
+      width: 22px;
+      height: 22px;
+      transition: transform 0.3s ease;
+    }
+
+    /* ◀️ 菜单打开时旋转图标 - 中等屏幕 */
+    .mobile-doc-tools.tools-menu-open & .tools-icon {
+      transform: rotate(45deg);
+    }
+  }
+
+  /* 🎯 工具轮盘菜单  - 中等屏幕 */
+  .mobile-doc-tools-menu {
+    position: absolute;
+    top: 50%;
+    right: calc(100% + 0.5rem);
+    transform: translateY(-50%) scale(0.8);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: right center;
+
+    /* ◀️ 菜单打开状态 - 中等屏幕 */
+    .mobile-doc-tools.tools-menu-open & {
+      opacity: 1;
+      transform: translateY(-50%) scale(1);
+      pointer-events: auto;
+    }
+  }
+
+  /* 🔘 工具按钮 - 中等屏幕 */
+  .mobile-tool-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    width: 42px;
+    height: 42px;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #e5e7eb);
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.08),
+      0 2px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+
+    &:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.12),
+        0 4px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    .tool-icon {
+      width: 18px;
+      height: 18px;
+      color: var(--text-color, #374151);
+      transition: all 0.3s ease;
+    }
+
+    /* 📑 本页导航按钮 - 中等屏幕 */
+    &.mobile-tool-toc {
+      &:hover {
+        background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+        border-color: transparent;
+
+        .tool-icon {
+          color: white;
+        }
+      }
+    }
+
+    /* 🔗 分享按钮 - 中等屏幕 */
+    &.mobile-tool-share {
+      &:hover {
+        background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+        border-color: transparent;
+
+        .tool-icon {
+          color: white;
+        }
+      }
+    }
+  }
+
+  /* 🏷️ 工具按钮标签 - 中等屏幕 */
+  .tool-label {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    padding: 0.375rem 0.625rem;
+    background: var(--text-color, #1f2937);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 500;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    /* ◀️ 聊天气泡小三角 - 中等屏幕 */
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-width: 5px 5px 0 5px;
+      border-style: solid;
+      border-color: var(--text-color, #1f2937) transparent transparent transparent;
+    }
+
+    /* ◀️ 悬停显示 - 中等屏幕 */
+    .mobile-tool-btn:hover & {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  }
+}
+
+/* 🌆 暗色模式适配 - 中等屏幕 */
+.dark-mode {
+  @media (min-width: 1146px) and (max-width: 1279px) {
+    .mobile-tool-btn {
+      background: var(--card-bg, #1e293b);
+      border-color: var(--border-color, #334155);
+      box-shadow:
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 2px 4px rgba(0, 0, 0, 0.2);
+
+      .tool-icon {
+        color: var(--text-secondary, #9ca3af);
+      }
+
+      &:hover {
+        box-shadow:
+          0 8px 20px rgba(0, 0, 0, 0.4),
+          0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    .tool-label {
+      background: var(--text-color, #f3f4f6);
+      color: var(--bg-color, #0f172a);
+
+      &::after {
+        border-color: var(--text-color, #f3f4f6) transparent transparent transparent;
+      }
+    }
+  }
+}
+
+/* 🚫 其他尺寸隐藏文档工具 - 中等屏幕 */
+@media (max-width: 1145px), (min-width: 1280px) {
+  .mobile-doc-tools {
+    display: none !important;
+  }
+}

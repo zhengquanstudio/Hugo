@@ -1,0 +1,325 @@
+/**
+ * =====================================================
+ * 文件说明：随机文档列表区域样式
+ * 文件用途：定义文档列表展示区域的样式
+ * =====================================================
+ * 【 白木 原创开发🕊️ https://gl.baimu.live/ 】
+ * =====================================================
+ */
+
+/* ========================================
+   文档区域整体布局
+   ======================================== */
+.docs-section {
+  position: relative;
+  background: var(--color-white);
+}
+
+/* ========================================
+   分类筛选标签
+   ======================================== */
+.docs-filter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.filter-btn {
+  padding: var(--space-sm) var(--space-xl);
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.filter-btn:hover {
+  background: var(--glass-white-heavy);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass);
+}
+
+.filter-btn.active {
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  border-color: transparent;
+  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.3);
+}
+
+/* ========================================
+   文档卡片网格
+   ======================================== */
+.docs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-2xl);
+}
+
+/* ========================================
+   文档卡片样式
+   ======================================== */
+.doc-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.doc-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-glass-elevated);
+}
+
+.doc-card.hidden {
+  display: none;
+}
+
+/* 文档图片区域 */
+.doc-image {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  background: var(--gradient-glass);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.doc-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--duration-slow) var(--ease-out);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.doc-card:hover .doc-image img {
+  transform: scale(1.05);
+}
+
+/* 图片加载失败时的emoji图标 */
+.doc-fallback-icon {
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glass);
+  z-index: 1;
+}
+
+/* 分类标签 */
+.doc-category {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  padding: var(--space-xs) var(--space-md);
+  background: var(--gradient-primary);
+  color: var(--color-white);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-sm);
+}
+
+/* 文档内容区域 */
+.doc-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: var(--space-lg);
+}
+
+.doc-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-sm);
+  line-height: var(--line-height-tight);
+}
+
+.doc-title a {
+  color: inherit;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.doc-title a:hover {
+  color: var(--color-primary);
+}
+
+.doc-excerpt {
+  font-size: var(--font-size-sm);
+  color: var(--color-gray-600);
+  line-height: var(--line-height-relaxed);
+  margin-bottom: var(--space-md);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+/* 文档元信息 */
+.doc-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--glass-white);
+  margin-bottom: var(--space-sm);
+}
+
+.doc-author {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.author-avatar {
+  font-size: 20px;
+}
+
+.author-name {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+}
+
+.doc-stats {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-500);
+}
+
+.stat-item svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* 文档日期 */
+.doc-date {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-400);
+  text-align: right;
+}
+
+/* ========================================
+   查看更多按钮
+   ======================================== */
+.docs-more {
+  text-align: center;
+}
+
+.docs-more .glass-btn {
+  min-width: 200px;
+}
+
+/* ========================================
+   加载动画
+   ======================================== */
+.docs-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-3xl) 0;
+}
+
+.docs-loading .loading-spinner {
+  width: 48px;
+  height: 48px;
+  border-width: 4px;
+}
+
+/* ========================================
+   空状态
+   ======================================== */
+.docs-empty {
+  text-align: center;
+  padding: var(--space-3xl) 0;
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: var(--space-lg);
+  opacity: 0.5;
+}
+
+.empty-text {
+  font-size: var(--font-size-lg);
+  color: var(--color-gray-500);
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+@media (max-width: 1024px) {
+  .docs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .docs-filter {
+    gap: var(--space-sm);
+  }
+  
+  .filter-btn {
+    padding: var(--space-xs) var(--space-lg);
+    font-size: var(--font-size-sm);
+  }
+  
+  .docs-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+  
+  .doc-image {
+    height: 200px;
+  }
+  
+  .doc-content {
+    padding: var(--space-md);
+  }
+  
+  .doc-title {
+    font-size: var(--font-size-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .doc-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+  }
+  
+  .doc-stats {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

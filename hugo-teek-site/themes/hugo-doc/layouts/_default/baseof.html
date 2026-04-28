@@ -1,0 +1,15 @@
+{{ $lang := .Site.Language.LanguageCode | default .Site.LanguageCode | default .Site.Language.Lang | default "zh-CN" }}
+<!DOCTYPE html>
+<html lang="{{ $lang }}">
+<head>
+  {{ partial "hugo-doc/head.html" . }}
+</head>
+<body class="hugo-doc-theme{{ if .IsHome }} is-home{{ else }} is-inner{{ end }}">
+  {{ partial "hugo-doc/nav.html" . }}
+  <main class="site-main">
+    {{ block "main" . }}{{ end }}
+  </main>
+  {{ partial "hugo-doc/footer.html" . }}
+  <script src="{{ "hugo-doc/js/main.js" | relURL }}" defer></script>
+</body>
+</html>

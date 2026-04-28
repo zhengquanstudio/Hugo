@@ -1,0 +1,11 @@
+[params]
+author = 'admin'
+avatarImage = 'https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif'
+avatarLink = '/about/'
+description = '余温Gueen - 技术博客'
+heroImage = '/images/banner/slide6.jpg'
+heroSubtitle = '纵然世间晦暗，仍有一点星光。'
+heroTitle = 'wiki.xxdevops.cn | 余温Gueen'
+
+[params.search]
+enabled = false

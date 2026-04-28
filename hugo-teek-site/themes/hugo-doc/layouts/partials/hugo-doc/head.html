@@ -1,0 +1,39 @@
+{{ $title := .Site.Title }}
+{{ if not .IsHome }}
+  {{ $title = printf "%s | %s" .Title .Site.Title }}
+{{ end }}
+{{ $description := .Description | default (.Summary | plainify) | default .Site.Params.description | default .Site.Title }}
+{{ $description = $description | plainify | truncate 160 }}
+{{ $cover := .Params.coverImg | default .Site.Params.defaultCoverImage }}
+{{ if and $cover (not (or (hasPrefix $cover "http://") (hasPrefix $cover "https://") (hasPrefix $cover "//"))) }}
+  {{ $cover = $cover | relURL }}
+{{ end }}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{{ $title }}</title>
+<meta name="description" content="{{ $description }}">
+{{ with .Site.Params.keywords }}
+  <meta name="keywords" content="{{ delimit . ", " }}">
+{{ end }}
+{{ with .Site.Params.author.name }}
+  <meta name="author" content="{{ . }}">
+{{ end }}
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:type" content="{{ if .IsHome }}website{{ else }}article{{ end }}">
+<meta property="og:url" content="{{ .Permalink }}">
+{{ with $cover }}
+  <meta property="og:image" content="{{ . }}">
+{{ end }}
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="preload" href="{{ "hugo-doc/assets/ZiHun232Hao.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "hugo-doc/assets/筑紫A丸.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ "hugo-doc/css/common.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/sections/nav.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/sections/banner.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/sections/skills.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/sections/docs.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/sections/projects.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/sections/footer.css" | relURL }}">
+<link rel="stylesheet" href="{{ "hugo-doc/css/hugo-doc.css" | relURL }}">

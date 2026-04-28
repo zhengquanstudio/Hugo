@@ -1,0 +1,14 @@
+[params]
+[params.sectionMapping]
+'100.Teek' = '/teek/'
+'11.运维' = '/linux/'
+'20.前端' = '/frontend/'
+'30.编程' = '/code/'
+'35.黑客' = '/hacker/'
+'40.专题' = '/topic/'
+'50.工具' = '/tools/'
+'60.生活' = '/life/'
+'70.精神小屋' = '/love/'
+'80.娱乐' = '/entertainment/'
+'90.关于' = '/about/'
+'hugo-teek默认文档' = '/hobby/'

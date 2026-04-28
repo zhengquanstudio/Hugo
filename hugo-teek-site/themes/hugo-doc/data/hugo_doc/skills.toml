@@ -1,0 +1,84 @@
+title = "专业技能"
+subtitle = "多年开发经验积累，涵盖前端、后端及设计领域，持续学习新技术，追求代码与设计的完美结合"
+tags_title = "更多技术栈"
+tags = ["Hugo", "Vite", "Vue", "React", "TypeScript", "Node.js", "Docker", "Figma", "REST API", "SCSS", "Linux", "Open Source"]
+
+[[groups]]
+key = "frontend"
+title = "前端开发"
+
+[[groups.items]]
+name = "HTML5 / CSS3"
+percent = 95
+
+[[groups.items]]
+name = "JavaScript / TypeScript"
+percent = 90
+
+[[groups.items]]
+name = "Vue.js / React"
+percent = 88
+
+[[groups.items]]
+name = "Tailwind / SCSS"
+percent = 92
+
+[[groups]]
+key = "backend"
+title = "后端开发"
+
+[[groups.items]]
+name = "Node.js"
+percent = 85
+
+[[groups.items]]
+name = "Python / Django"
+percent = 80
+
+[[groups.items]]
+name = "MySQL / MongoDB"
+percent = 82
+
+[[groups.items]]
+name = "RESTful API"
+percent = 90
+
+[[groups]]
+key = "design"
+title = "设计工具"
+
+[[groups.items]]
+name = "Figma"
+percent = 88
+
+[[groups.items]]
+name = "Photoshop"
+percent = 75
+
+[[groups.items]]
+name = "Illustrator"
+percent = 70
+
+[[groups.items]]
+name = "UI / UX Design"
+percent = 85
+
+[[groups]]
+key = "tools"
+title = "开发工具"
+
+[[groups.items]]
+name = "Git / GitHub"
+percent = 92
+
+[[groups.items]]
+name = "Docker"
+percent = 78
+
+[[groups.items]]
+name = "VS Code"
+percent = 95
+
+[[groups.items]]
+name = "Linux / Shell"
+percent = 80

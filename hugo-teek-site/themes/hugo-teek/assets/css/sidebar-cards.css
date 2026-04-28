@@ -1,0 +1,505 @@
+/* 🎴 首页侧边栏卡片统一样式 */
+/* 🔗 独立 CSS 文件，样式全部使用 CSS 变量，方便后续维护 */
+/* 🕊️ 白木 开发 🔗gl.baimu.live */
+
+/* ========================================
+   1. 🎴 基础卡片样式
+   ======================================== */
+
+/* 🎴 通用侧边栏卡片容器 */
+.sidebar-card-base {
+  background: var(--sidebar-card-bg);
+  border-radius: var(--sidebar-card-border-radius);
+  box-shadow: var(--sidebar-card-shadow);
+  overflow: visible;
+  transition: var(--sidebar-card-hover-transition);
+  margin-bottom: var(--sidebar-card-margin-bottom);
+  position: relative; /* ◀️ 建立层叠上下文，确保悬停光晕不被切割 */
+  padding: var(--sidebar-card-padding);
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+/* ✨ 卡片悬停光晕效果 - 亮色模式 ☀️ */
+.sidebar-card-base:hover {
+  transform: var(--sidebar-card-hover-transform);
+  box-shadow:
+    /* ✨ 外层柔和光晕 - 小范围扩散 */
+    0 0 30px 4px var(--sidebar-card-hover-glow-outer),
+    /* ✨ 中层光晕 */
+    0 0 20px 2px var(--sidebar-card-hover-glow-mid),
+    /* ✨ 内层核心光晕 */
+    0 0 12px 1px var(--sidebar-card-hover-glow-inner),
+    /* ✨ 核心高亮 */
+    0 0 6px 0px var(--sidebar-card-hover-glow-core),
+    /* ✨ 基础阴影 */
+    var(--sidebar-card-hover-shadow);
+}
+
+/* ========================================
+   2. 📝 卡片标题样式
+   ======================================== */
+
+/* 📝 卡片标题 */
+.sidebar-card-title {
+  font-size: var(--sidebar-card-title-font-size);
+  margin-bottom: var(--sidebar-card-title-margin-bottom);
+  padding-bottom: var(--sidebar-card-title-padding-bottom);
+  border-bottom: var(--sidebar-card-title-border-width) solid var(--primary-color);
+  display: flex;
+  align-items: center;
+  gap: var(--sidebar-card-title-gap);
+  font-weight: var(--sidebar-card-title-font-weight);
+  color: var(--text-color);
+}
+
+/* 📝 卡片标题图标 */
+.sidebar-card-title .widget-icon,
+.sidebar-card-title .title-icon {
+  font-size: var(--sidebar-card-title-icon-size);
+}
+
+/* ========================================
+   3. 📋 卡片列表样式
+   ======================================== */
+
+/* 📋 卡片列表 */
+.sidebar-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* 📋 列表项 */
+.sidebar-card-list li {
+  margin-bottom: var(--sidebar-card-list-item-margin-bottom);
+  padding-bottom: var(--sidebar-card-list-item-padding-bottom);
+  border-bottom: 1px dashed var(--border-color);
+}
+
+/* 📋 最后一项无底部边框 */
+.sidebar-card-list li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* 📋 列表链接 */
+.sidebar-card-list li a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-size: var(--sidebar-card-list-item-font-size);
+  transition: color 0.3s;
+}
+
+/* 📋 列表链接悬停 */
+.sidebar-card-list li a:hover {
+  color: var(--primary-color);
+}
+
+/* ========================================
+   4. 🏠 侧边栏容器样式
+   ======================================== */
+
+/* 🏠 首页侧边栏容器 */
+.home-sidebar {
+  position: relative;
+  height: auto;
+  max-height: none;
+  overflow-y: auto;
+  overflow-x: visible;
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
+  padding-right: var(--sidebar-container-padding-right);
+  padding-left: var(--sidebar-container-padding-x);
+  padding-top: var(--sidebar-container-padding-y);
+  margin-left: var(--sidebar-container-margin-left);
+  margin-top: var(--sidebar-container-margin-top);
+  align-self: start;
+  width: calc(100% + var(--sidebar-container-width-offset));
+
+  /* 🔥 完全隐藏滚动条 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* 🏠 Webkit 浏览器隐藏滚动条 */
+.home-sidebar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
+.home-sidebar::-webkit-scrollbar-button,
+.home-sidebar::-webkit-scrollbar-track,
+.home-sidebar::-webkit-scrollbar-track-piece,
+.home-sidebar::-webkit-scrollbar-thumb,
+.home-sidebar::-webkit-scrollbar-corner {
+  display: none;
+  background: transparent;
+}
+
+/* ========================================
+   5. 🎯 Scroll-Snap 卡片对齐
+   ======================================== */
+
+/* 🎯 卡片滚动对齐 */
+.home-sidebar .sidebar-card-base,
+.home-sidebar .sidebar-widget,
+.home-sidebar .blogger-card,
+.home-sidebar .tk-page-card,
+.home-sidebar .featured-posts-card,
+.home-sidebar .wechat-official-card-wrapper,
+.home-sidebar .tk-sponsors-card,
+.home-sidebar .tk-widget-card {
+  scroll-snap-align: start;
+  scroll-margin-top: var(--sidebar-mobile-scroll-snap-margin);
+}
+
+/* 🎯 最后一个卡片无底部间距 */
+.home-sidebar .sidebar-card-base:last-child,
+.home-sidebar .sidebar-widget:last-child,
+.home-sidebar .blogger-card:last-child,
+.home-sidebar .tk-page-card:last-child {
+  margin-bottom: 0;
+}
+
+/* ========================================
+   6. 💬 滚动提示气泡
+   ======================================== */
+
+/* 💬 提示气泡容器 */
+.sidebar-scroll-hint {
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+  background: var(--sidebar-hint-bg);
+  backdrop-filter: blur(var(--sidebar-hint-backdrop-blur));
+  -webkit-backdrop-filter: blur(var(--sidebar-hint-backdrop-blur));
+  border-radius: var(--sidebar-hint-border-radius);
+  padding: var(--sidebar-hint-padding-y) var(--sidebar-hint-padding-x);
+  color: #ffffff;
+  font-size: var(--sidebar-hint-font-size);
+  font-weight: var(--sidebar-hint-font-weight);
+  box-shadow: var(--sidebar-hint-shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+  z-index: var(--sidebar-hint-z-index);
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+
+/* 💬 提示气泡显示状态 */
+.sidebar-scroll-hint.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* 💬 提示气泡图标 */
+.sidebar-scroll-hint .hint-icon {
+  display: inline-block;
+  margin-right: 6px;
+  animation: hint-bounce 1.5s ease-in-out infinite;
+}
+
+/* ========================================
+   7. 🎬 卡片渐显动画
+   ======================================== */
+
+/* 🎬 卡片初始状态 */
+.sidebar-card-base.sidebar-card-fade-init,
+.sidebar-widget.sidebar-card-fade-init,
+.blogger-card.sidebar-card-fade-init,
+.tk-page-card.sidebar-card-fade-init,
+.featured-posts-card.sidebar-card-fade-init,
+.wechat-official-card-wrapper.sidebar-card-fade-init,
+.tk-sponsors-card.sidebar-card-fade-init,
+.tk-widget-card.sidebar-card-fade-init {
+  opacity: 0;
+  transform: translateY(var(--sidebar-card-fade-offset));
+  transition: none;
+}
+
+/* 🎬 卡片渐显动画 */
+.sidebar-card-base.sidebar-card-fade-in,
+.sidebar-widget.sidebar-card-fade-in,
+.blogger-card.sidebar-card-fade-in,
+.tk-page-card.sidebar-card-fade-in,
+.featured-posts-card.sidebar-card-fade-in,
+.wechat-official-card-wrapper.sidebar-card-fade-in,
+.tk-sponsors-card.sidebar-card-fade-in,
+.tk-widget-card.sidebar-card-fade-in {
+  animation: sidebarCardFadeInUp var(--sidebar-card-fade-duration) var(--sidebar-card-fade-easing) forwards;
+}
+
+/* ========================================
+   8. 🌆 暗色模式适配
+   ======================================== */
+
+/* 🌆 暗色模式悬停光晕 */
+.dark-mode .sidebar-card-base:hover,
+.dark-mode .sidebar-widget:hover,
+.dark-mode .blogger-card:hover,
+.dark-mode .tk-page-card:hover,
+.dark-mode .featured-posts-card:hover,
+.dark-mode .wechat-official-card-wrapper:hover,
+.dark-mode .tk-sponsors-card:hover {
+  transform: var(--sidebar-card-hover-transform);
+  box-shadow:
+    0 0 36px 5px var(--sidebar-card-hover-glow-outer),
+    0 0 24px 3px var(--sidebar-card-hover-glow-mid),
+    0 0 14px 1px var(--sidebar-card-hover-glow-inner),
+    0 0 8px 0px var(--sidebar-card-hover-glow-core),
+    var(--sidebar-card-hover-shadow);
+}
+
+/* 🌆 暗色模式状态图标透明背景 */
+.dark-mode .sidebar-card-base .status-icon,
+.dark-mode .blogger-card .status-icon {
+  background: transparent;
+}
+
+/* ========================================
+   9. 📱 移动端响应式
+   ======================================== */
+
+/* 📱 移动端侧边栏容器 */
+@media (max-width: 768px) {
+  .home-sidebar {
+    max-height: none;
+    height: auto;
+    overflow-y: visible;
+    overflow-x: visible;
+    scroll-snap-type: none;
+    padding-right: 0;
+    padding-left: 0;
+    padding-top: var(--sidebar-container-mobile-padding-y);
+    margin-left: 0;
+    margin-top: var(--sidebar-container-mobile-margin-top);
+    width: 100%;
+  }
+
+  /* 📱 移动端卡片样式 */
+  .sidebar-card-base,
+  .sidebar-widget,
+  .blogger-card,
+  .tk-page-card {
+    padding: var(--sidebar-card-padding-mobile);
+  }
+
+  /* 📱 移动端卡片光晕修复 */
+  .home-sidebar {
+    padding: 4px 12px !important;
+    margin: 0 auto !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+  }
+
+  /* 📱 移动端卡片间距和层级 */
+  .sidebar-card-base,
+  .sidebar-widget,
+  .blogger-card,
+  .tk-page-card,
+  .featured-posts-card,
+  .wechat-official-card-wrapper,
+  .tk-sponsors-card,
+  .tk-friend-links-card,
+  .tk-calendar-card,
+  .tk-widget-card,
+  .site-stats-card,
+  .tk-categories,
+  .tk-hot-tags,
+  .tk-time-progress-card {
+    margin-bottom: var(--sidebar-card-margin-bottom) !important;
+  }
+
+  .sidebar-card-base:hover,
+  .sidebar-widget:hover,
+  .blogger-card:hover,
+  .tk-page-card:hover,
+  .featured-posts-card:hover,
+  .wechat-official-card-wrapper:hover,
+  .tk-sponsors-card:hover,
+  .tk-friend-links-card:hover,
+  .tk-calendar-card:hover,
+  .tk-widget-card:hover,
+  .site-stats-card:hover,
+  .tk-categories:hover,
+  .tk-hot-tags:hover,
+  .tk-time-progress-card:hover {
+    z-index: 10;
+  }
+
+  /* 📱 移动端卡片边框 */
+  .sidebar-card-base,
+  .sidebar-widget,
+  .blogger-card,
+  .tk-page-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+    border: 1px solid var(--mobile-aside-border-color) !important;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .sidebar-card-base:hover,
+  .sidebar-widget:hover,
+  .blogger-card:hover,
+  .tk-page-card:hover {
+    border-color: var(--vp-c-brand-1, var(--primary-color)) !important;
+  }
+
+  /* 📱 移动端隐藏提示气泡 */
+  .sidebar-scroll-hint {
+    display: none;
+  }
+}
+
+/* 📱 平板端卡片内边距 */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .sidebar-card-base,
+  .sidebar-widget {
+    padding: var(--sidebar-card-padding-tablet);
+  }
+}
+
+/* 💻 PC端卡片内边距 */
+@media (min-width: 1024px) {
+  .sidebar-card-base,
+  .sidebar-widget {
+    padding: var(--sidebar-card-padding);
+  }
+}
+
+/* ========================================
+   10. ♿ 减少动画偏好
+   ======================================== */
+
+/* ♿ 尊重用户减少动画设置 */
+@media (prefers-reduced-motion: reduce) {
+  .sidebar-card-base.sidebar-card-fade-init,
+  .sidebar-widget.sidebar-card-fade-init,
+  .blogger-card.sidebar-card-fade-init,
+  .tk-page-card.sidebar-card-fade-init,
+  .featured-posts-card.sidebar-card-fade-init,
+  .wechat-official-card-wrapper.sidebar-card-fade-init,
+  .tk-sponsors-card.sidebar-card-fade-init,
+  .tk-widget-card.sidebar-card-fade-init {
+    opacity: 1;
+    transform: none;
+  }
+
+  .sidebar-card-base.sidebar-card-fade-in,
+  .sidebar-widget.sidebar-card-fade-in,
+  .blogger-card.sidebar-card-fade-in,
+  .tk-page-card.sidebar-card-fade-in,
+  .featured-posts-card.sidebar-card-fade-in,
+  .wechat-official-card-wrapper.sidebar-card-fade-in,
+  .tk-sponsors-card.sidebar-card-fade-in,
+  .tk-widget-card.sidebar-card-fade-in {
+    animation: none;
+  }
+}
+
+/* ========================================
+   11. 🖨️ 打印样式
+   ======================================== */
+
+@media print {
+  .home-sidebar {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .sidebar-scroll-hint {
+    display: none;
+  }
+}
+
+/* ========================================
+   12. 🎬 关键帧动画
+   ======================================== */
+
+/* 🎬 卡片向上渐显动画 */
+@keyframes sidebarCardFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--sidebar-card-fade-offset));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🎬 提示气泡弹跳动画 */
+@keyframes hint-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* 🎬 通用脉冲动画 */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.05);
+  }
+}
+
+/* 🎬 闪烁动画 */
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* 🎬 顺时针旋转动画 */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 🎬 顺时针旋转动画（别名） */
+@keyframes rotateClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 🎬 逆时针旋转动画 */
+@keyframes rotateCounterClockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}

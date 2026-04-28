@@ -1,0 +1,247 @@
+// Light mode colors - Balanced Cyberpunk
+:root {
+  --primary-color: #0e7490;      // 深青色主色调 (更高对比度，满足 WCAG AA 标准)
+  --secondary-color: #06b6d4;    // 亮青色次要色
+  --accent-color: #ec4899;       // 粉色强调色
+  --text-color: #1f2937;
+  --text-secondary: #6b7280;
+  --bg-color: #f9fafb;
+  --card-bg: #ffffff;
+  --header-bg: #ffffff;
+  --footer-bg: #f9fafb;
+  --border-color: #e5e7eb;
+  --tag-bg: #ecfeff;             // 淡青色标签背景
+  --code-bg: #e8f5f5;            // 浅青色/薄荷色背景（编辑器风格）
+  --light-cyan: #cffafe;         // 更浅的青色
+
+  // 赛博朋克渐变色
+  --gradient-primary: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%);
+  --gradient-secondary: linear-gradient(135deg, #06b6d4 0%, #22d3ee 100%);
+  --gradient-cyber: linear-gradient(120deg, #0e7490 0%, #06b6d4 50%, #22d3ee 100%);
+
+  // VitePress compatible variables
+  --vp-nav-height: 64px;
+  --vp-layout-max-width: 1440px; // 默认最大宽度
+  --vp-c-divider: rgba(60, 60, 67, 0.12);
+  --vp-c-gutter: rgba(0, 0, 0, 0.04);
+  --vp-nav-bg-color: rgba(255, 255, 255, 0.98);
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f6f7;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-text-1: #1f2937;
+  --vp-c-text-2: #6b7280;
+  --vp-sidebar-width: 280px;
+  --vp-sidebar-bg-color: transparent;
+
+  // Teek theme variable aliases (tk- prefix for VitePress Teek compatibility)
+  --tk-bg-color: var(--bg-color);
+  --tk-line-color: var(--border-color);
+  --tk-theme-color: var(--primary-color);
+  --tk-text-color: var(--text-color);
+  --tk-fill-color: var(--tag-bg);
+  --tk-fill-color-light: rgba(14, 116, 144, 0.08);
+  --tk-transition-duration: 0.3s;
+  --tk-layout-full-width-max-width: 1440px; // 默认全宽布局最大宽度
+  --tk-layout-page-max-width: 100%; // 默认页面最大宽度
+  --tk-layout-doc-max-width: 100%; // 默认文档内容最大宽度（保持良好阅读体验）
+  --tk-sidebar-trigger-doc-offset: 0px;
+  --vp-c-brand-1: #0e7490;
+  --vp-c-brand-2: #06b6d4;
+  --vp-c-border: #c2c2c4;
+  --vp-c-default-soft: rgba(0, 0, 0, 0.04);
+  --vp-c-neutral-inverse: #ffffff;
+  --vp-input-border-color: #c2c2c4;
+  --vp-input-switch-bg-color: rgba(0, 0, 0, 0.04);
+  --vp-font-family-mono: 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+  --vp-shadow-1: 0 1px 2px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --vp-shadow-2: 0 3px 12px rgba(0, 0, 0, 0.07), 0 1px 4px rgba(0, 0, 0, 0.07);
+  --vp-shadow-3: 0 12px 32px rgba(0, 0, 0, 0.1), 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  /* 🔮 高斯模糊拟态半透明背景色 ☀️ */
+  --glass-bg-color: rgba(255, 255, 255, 0.35);
+  --glass-border-color: rgba(255, 255, 255, 0.3);
+  --glass-backdrop-blur: 20px;
+
+  /* 📱 移动端 aside 卡片描边色 ☀️ */
+  --mobile-aside-border-color: rgba(14, 116, 144, 0.25); /* ◀️ 半透明蓝色描边 */
+
+  /* 🎨 主题切换过渡动画时长变量 */
+  --theme-transition-duration: 0.15s;
+  --theme-transition-timing: ease-out;
+
+  /* 📊 表格配色变量 */
+  --tk-table-header-bg: var(--light-cyan); /* ◀️ 表头背景色 */
+  --tk-table-header-text: #0e4690; /* ◀️ 表头文字色 */
+  --tk-table-header-border: #75e2f5; /* ◀️ 表头底部边框色 */
+  --tk-table-row-odd: rgba(207, 250, 254, 0.4); /* ◀️ 奇数行背景色 */
+  --tk-table-row-even: #ffffff; /* ◀️ 偶数行背景色 */
+  --tk-table-row-hover: rgba(207, 250, 254, 0.6); /* ◀️ 悬停行背景色 */
+  --tk-table-cell-border: rgba(6, 182, 212, 0.3); /* ◀️ 单元格分割线色 */
+  --tk-table-shadow: rgba(6, 182, 212, 0.2); /* ◀️ 表格阴影色 */
+
+  /* 🎴 侧边栏卡片变量 ☀️ */
+  --sidebar-card-bg: var(--card-bg);
+  --sidebar-card-border-radius: 12px;
+  --sidebar-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --sidebar-card-margin-bottom: 1.5rem;
+  --sidebar-card-padding: 1.5rem;
+  --sidebar-card-padding-mobile: 1rem;
+  --sidebar-card-padding-tablet: 1.25rem;
+  --sidebar-card-gap: 1.5rem;
+
+  /* ✨ 侧边栏卡片悬停光晕变量 ☀️ */
+  --sidebar-card-hover-glow-outer: rgba(59, 130, 246, 0.15);
+  --sidebar-card-hover-glow-mid: rgba(59, 130, 246, 0.22);
+  --sidebar-card-hover-glow-inner: rgba(59, 130, 246, 0.35);
+  --sidebar-card-hover-glow-core: rgba(59, 130, 246, 0.5);
+  --sidebar-card-hover-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --sidebar-card-hover-transform: translateY(-4px);
+  --sidebar-card-hover-transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 📝 侧边栏卡片标题变量 */
+  --sidebar-card-title-font-size: 1.2rem;
+  --sidebar-card-title-margin-bottom: 1rem;
+  --sidebar-card-title-padding-bottom: 0.5rem;
+  --sidebar-card-title-border-width: 2px;
+  --sidebar-card-title-font-weight: 600;
+  --sidebar-card-title-icon-size: 1.1rem;
+  --sidebar-card-title-gap: 0.5rem;
+
+  /* 📋 侧边栏卡片列表变量 */
+  --sidebar-card-list-item-margin-bottom: 0.75rem;
+  --sidebar-card-list-item-padding-bottom: 0.75rem;
+  --sidebar-card-list-item-font-size: 0.95rem;
+
+  /* 🏠 侧边栏容器变量 */
+  --sidebar-container-padding-x: 12px;
+  --sidebar-container-padding-y: 12px;
+  --sidebar-container-padding-right: 0.5rem;
+  --sidebar-container-margin-left: -12px;
+  --sidebar-container-margin-top: -12px;
+  --sidebar-container-width-offset: 24px;
+  --sidebar-container-mobile-padding-y: 8px;
+  --sidebar-container-mobile-margin-top: -8px;
+
+  /* 📱 侧边栏移动端变量 */
+  --sidebar-mobile-width: 97%;
+  --sidebar-mobile-scroll-snap-margin: 0.5rem;
+
+  /* 💬 滚动提示气泡变量 */
+  --sidebar-hint-bg: rgba(128, 128, 128, 0.7);
+  --sidebar-hint-backdrop-blur: 10px;
+  --sidebar-hint-border-radius: 20px;
+  --sidebar-hint-padding-x: 18px;
+  --sidebar-hint-padding-y: 10px;
+  --sidebar-hint-font-size: 14px;
+  --sidebar-hint-font-weight: 500;
+  --sidebar-hint-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --sidebar-hint-z-index: 99999;
+
+  /* 🎬 侧边栏卡片动画变量 */
+  --sidebar-card-fade-offset: 30px;
+  --sidebar-card-fade-duration: 0.6s;
+  --sidebar-card-fade-easing: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* 🖼️ 图片加载失败占位图变量 ☀️ */
+  --img-error-bg: var(--vp-c-bg-alt);
+  --img-error-border-radius: 12px;
+  --img-error-aspect-ratio: 16 / 9;
+  --img-error-animation-duration: 1.5s;
+  --img-error-girl-color: hotpink;
+  --img-error-boy-color: #1e90ff;
+}
+
+// Dark mode colors - Balanced Cyberpunk
+.dark-mode {
+  --primary-color: #22d3ee;      // 亮青色主色调
+  --secondary-color: #0891b2;    // 深青色次要色
+  --accent-color: #f472b6;       // 粉色强调色
+  --text-color: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --bg-color: #0f172a;           // 深蓝黑色背景
+  --card-bg: #1e293b;            // 卡片背景
+  --header-bg: #1e293b;
+  --footer-bg: #0f172a;
+  --border-color: #334155;
+  --tag-bg: #164e63;             // 深青色标签背景
+  --code-bg: #1a2332;            /* ◀️ 暗色模式代码块背景 - 深蓝灰色调 */
+
+  // 深色模式赛博朋克渐变
+  --gradient-primary: linear-gradient(135deg, rgba(34, 211, 238, 0.75) 0%, rgba(6, 182, 212, 0.75) 100%);
+  --gradient-secondary: linear-gradient(135deg, rgba(6, 182, 212, 0.8) 0%, rgba(8, 145, 178, 0.8) 100%);
+  --gradient-cyber: linear-gradient(120deg, rgba(34, 211, 238, 0.7) 0%, rgba(6, 182, 212, 0.7) 50%, rgba(8, 145, 178, 0.7) 100%);
+
+  // VitePress compatible variables (dark mode)
+  --vp-c-divider: rgba(148, 163, 184, 0.25);
+  --vp-c-gutter: rgba(255, 255, 255, 0.05);
+  --vp-nav-bg-color: rgba(10, 15, 25, 0.85);
+  --vp-c-bg: #0f182a;
+  --vp-c-bg-alt: #101c31;
+  --vp-c-bg-elv: #15233c;
+  --vp-c-text-1: #e5f0ff;
+  --vp-c-text-2: #9fb4d0;
+  --vp-sidebar-width: 280px;
+
+  // Teek theme variable aliases (dark mode)
+  --tk-bg-color: var(--bg-color);
+  --tk-line-color: var(--border-color);
+  --tk-theme-color: var(--primary-color);
+  --tk-text-color: var(--text-color);
+  --tk-fill-color: var(--tag-bg);
+  --tk-fill-color-light: rgba(34, 211, 238, 0.15);
+  --tk-transition-duration: 0.3s;
+  --tk-layout-full-width-max-width: 1440px; // 默认全宽布局最大宽度
+  --tk-layout-page-max-width: 100%; // 默认页面最大宽度
+  --tk-layout-doc-max-width: 100%; // 默认文档内容最大宽度（保持良好阅读体验）
+  --tk-sidebar-trigger-doc-offset: 0px;
+  --vp-sidebar-bg-color: transparent;
+  --vp-c-brand-1: #22d3ee;
+  --vp-c-brand-2: #38bdf8;
+  --vp-c-border: rgba(56, 189, 248, 0.35);
+  --vp-c-default-soft: rgba(56, 189, 248, 0.12);
+  --vp-c-neutral-inverse: #020617;
+  --vp-input-border-color: rgba(148, 163, 184, 0.25);
+  --vp-input-switch-bg-color: rgba(56, 189, 248, 0.12);
+  --vp-shadow-1: 0 6px 16px rgba(8, 18, 38, 0.4);
+  --vp-shadow-2: 0 12px 28px rgba(8, 18, 38, 0.45);
+  --vp-shadow-3: 0 18px 40px rgba(8, 18, 38, 0.5);
+
+  /* 🔮 高斯模糊拟态半透明背景色 🌆 */
+  --glass-bg-color: rgba(30, 41, 59, 0.35);
+  --glass-border-color: rgba(255, 255, 255, 0.1);
+  --glass-backdrop-blur: 20px;
+
+  /* 📱 移动端 aside 卡片描边色 🌆 */
+  --mobile-aside-border-color: rgba(168, 85, 247, 0.35); /* ◀️ 半透明紫色描边 */
+
+  /* 🎨 主题切换过渡动画时长变量 - 继承自根变量 */
+  --theme-transition-duration: 0.15s;
+  --theme-transition-timing: ease-out;
+
+  /* 📊 表格配色变量 - 暗色模式*/
+  --tk-table-header-bg: #6e6099; /* ◀️ 表头背景色 */
+  --tk-table-header-text: #fafaff; /* ◀️ 表头文字色 */
+  --tk-table-header-border: #ad9dd3; /* ◀️ 表头底部边框色 */
+  --tk-table-row-odd: rgba(167, 139, 250, 0.15); /* ◀️ 奇数行背景色 */
+  --tk-table-row-even: rgba(167, 139, 250, 0.05); /* ◀️ 偶数行背景色 */
+  --tk-table-row-hover: rgba(167, 139, 250, 0.25); /* ◀️ 悬停行背景色 */
+  --tk-table-cell-border: rgba(139, 92, 246, 0.3); /* ◀️ 单元格分割线色 */
+  --tk-table-shadow: rgba(139, 92, 246, 0.25); /* ◀️ 表格阴影色 */
+
+  /* 🎴 侧边栏卡片变量 - 暗色模式 🌆 */
+  --sidebar-card-bg: var(--card-bg);
+  --sidebar-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+
+  /* ✨ 侧边栏卡片悬停光晕变量 - 暗色模式 🌆 */
+  --sidebar-card-hover-glow-outer: rgba(59, 130, 246, 0.2);
+  --sidebar-card-hover-glow-mid: rgba(59, 130, 246, 0.28);
+  --sidebar-card-hover-glow-inner: rgba(59, 130, 246, 0.4);
+  --sidebar-card-hover-glow-core: rgba(59, 130, 246, 0.55);
+  --sidebar-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+
+  /* 💬 滚动提示气泡变量 - 暗色模式 🌆 */
+  --sidebar-hint-bg: rgba(80, 80, 80, 0.8);
+
+  /* 🖼️ 图片加载失败占位图变量 🌆 */
+  --img-error-bg: var(--vp-c-bg-alt);
+}

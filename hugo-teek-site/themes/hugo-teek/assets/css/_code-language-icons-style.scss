@@ -1,0 +1,203 @@
+/* 🎨 代码语言图标样式（配合 code-language-icons.js 使用） */
+/* 为代码块头部显示语言图标和标题的样式
+/* 白木开发 🔗https://gl.baimu.live/ 
+*/
+
+/* ========================================
+   代码语言图标基础样式
+   ======================================== */
+.vp-doc div[class*="language-"],
+.vp-doc .highlight,
+.highlight,
+div[class*="language-"] {
+  /* 确保代码块头部有足够空间显示图标 */
+  position: relative;
+
+  /* 语言图标容器 */
+  .code-lang-icon {
+    position: absolute;
+    top: calc(var(--tk-code-block-fold-height, 40px) / 2);
+    left: 14px;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.9;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    /* SVG 图标样式 */
+    svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+  }
+
+  /* 代码块标题样式 */
+  .code-block-title {
+    position: absolute;
+    top: calc(var(--tk-code-block-fold-height, 40px) / 2);
+    left: 42px; /* ◀️ 在图标右侧，留出间距 */
+    transform: translateY(-50%);
+    z-index: 3;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vp-c-text-2, #666);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--vp-c-text-1, #333);
+    }
+  }
+
+  /* 当有标题时，调整复制按钮位置 */
+  &:has(.code-block-title) {
+    .copy-code-button {
+      right: 12px; /* ◀️ 调整靠右距离「保持按钮靠右边显示」 */
+    }
+  }
+}
+
+/* ========================================
+   🌆 暗色模式适配
+   ======================================== */
+.dark-mode {
+  .vp-doc div[class*="language-"],
+  .vp-doc .highlight,
+  .highlight,
+  div[class*="language-"] {
+    .code-block-title {
+      color: var(--vp-c-text-2, #aaa);
+
+      &:hover {
+        color: var(--vp-c-text-1, #fff);
+      }
+    }
+
+    /* 暗色模式下反转某些图标颜色 */
+    .code-lang-icon {
+      &[data-lang="rust"],
+      &[data-lang="md"],
+      &[data-lang="markdown"],
+      &[data-lang="json"] {
+        svg {
+          filter: invert(1);
+        }
+      }
+    }
+  }
+}
+
+/* ========================================
+   📱 移动端适配
+   ======================================== */
+@media (max-width: 640px) {
+  .vp-doc div[class*="language-"],
+  .vp-doc .highlight,
+  .highlight,
+  div[class*="language-"] {
+    .code-lang-icon {
+      width: 16px;
+      height: 16px;
+      left: 12px;
+    }
+
+    .code-block-title {
+      left: 36px;
+      font-size: 12px;
+      max-width: 150px;
+    }
+  }
+}
+
+/* ========================================
+   🎯 特定语言图标颜色调整
+   ======================================== */
+
+/* JavaScript - 黄色 */
+.code-lang-icon[data-lang="js"] svg {
+  filter: drop-shadow(0 0 1px rgba(247, 223, 30, 0.5));
+}
+
+/* TypeScript - 蓝色 */
+.code-lang-icon[data-lang="ts"] svg {
+  filter: drop-shadow(0 0 1px rgba(49, 120, 198, 0.5));
+}
+
+/* Vue - 绿色 */
+.code-lang-icon[data-lang="vue"] svg {
+  filter: drop-shadow(0 0 1px rgba(66, 184, 131, 0.5));
+}
+
+/* CSS - 蓝色 */
+.code-lang-icon[data-lang="css"] svg {
+  filter: drop-shadow(0 0 1px rgba(38, 77, 228, 0.5));
+}
+
+/* HTML - 橙色 */
+.code-lang-icon[data-lang="html"] svg {
+  filter: drop-shadow(0 0 1px rgba(227, 76, 38, 0.5));
+}
+
+/* Python - 蓝黄双色 */
+.code-lang-icon[data-lang="python"] svg {
+  filter: drop-shadow(0 0 1px rgba(55, 118, 171, 0.5));
+}
+
+/* Go - 青色 */
+.code-lang-icon[data-lang="go"] svg {
+  filter: drop-shadow(0 0 1px rgba(0, 173, 216, 0.5));
+}
+
+/* Rust - 铜色（暗色模式下需要反转） */
+.code-lang-icon[data-lang="rust"] svg {
+  filter: drop-shadow(0 0 1px rgba(222, 165, 132, 0.5));
+}
+
+/* Java - 红色 */
+.code-lang-icon[data-lang="java"] svg {
+  filter: drop-shadow(0 0 1px rgba(0, 115, 150, 0.5));
+}
+
+/* PHP - 紫色 */
+.code-lang-icon[data-lang="php"] svg {
+  filter: drop-shadow(0 0 1px rgba(119, 123, 180, 0.5));
+}
+
+/* C# - 紫色 */
+.code-lang-icon[data-lang="c#"] svg {
+  filter: drop-shadow(0 0 1px rgba(155, 79, 150, 0.5));
+}
+
+/* C/C++ - 蓝色 */
+.code-lang-icon[data-lang="c"] svg {
+  filter: drop-shadow(0 0 1px rgba(0, 89, 156, 0.5));
+}
+
+/* Kotlin - 紫色 */
+.code-lang-icon[data-lang="kotlin"] svg {
+  filter: drop-shadow(0 0 1px rgba(127, 82, 255, 0.5));
+}
+
+/* Markdown - 蓝色（暗色模式下需要反转） */
+.code-lang-icon[data-lang="md"] svg {
+  filter: drop-shadow(0 0 1px rgba(8, 126, 164, 0.5));
+}
+
+/* 默认代码图标 */
+.code-lang-icon[data-lang="code"] svg,
+.code-lang-icon[data-lang="default"] svg,
+.code-lang-icon[data-lang=""] svg {
+  color: var(--vp-c-text-2, #666);
+}

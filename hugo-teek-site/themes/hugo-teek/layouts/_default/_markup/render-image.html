@@ -1,0 +1,21 @@
+{{- /* 🕊️白木 贡献 🔗gl.baimu.live */ -}}
+{{- /* 🖼️ 图片渲染 Hook - 自动添加懒加载和加载中占位图 */ -}}
+{{- $src := .Destination | safeURL -}}
+{{- $alt := .Text -}}
+{{- $title := .Title -}}
+{{- /* ◀️ 检测是否为随机图片API（需要特殊处理） */ -}}
+{{- $isRandomApi := or (strings.Contains $src "imgapi") (strings.Contains $src "random") (strings.Contains $src "/img/") -}}
+
+{{- /* 💕 图片容器 - 用于包裹图片和占位图 */ -}}
+<span class="img-error-wrapper">
+  <img
+    src="{{ $src }}"
+    alt="{{ $alt }}"
+    {{ with $title }}title="{{ . }}"{{ end }}
+    loading="lazy"
+    decoding="async"
+    {{- if $isRandomApi }}data-random-api="true"{{ end }}
+    {{- /* ◀️ 添加防止布局偏移的样式，初始透明由JS控制 */ -}}
+    style="max-width: 100%; height: auto; display: block;"
+  />
+</span>

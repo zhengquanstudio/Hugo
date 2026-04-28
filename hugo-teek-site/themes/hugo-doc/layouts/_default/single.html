@@ -1,0 +1,90 @@
+{{ define "main" }}
+  {{ $cover := .Params.coverImg }}
+  {{ if and $cover (not (or (hasPrefix $cover "http://") (hasPrefix $cover "https://") (hasPrefix $cover "//"))) }}
+    {{ $cover = $cover | relURL }}
+  {{ end }}
+
+  <section class="page-shell article-shell">
+    <div class="container container-narrow">
+      <header class="page-hero article-hero glass-card">
+        <p class="page-kicker">{{ partial "hugo-doc/page-category.html" . }}</p>
+        <h1 class="page-title">{{ .Title }}</h1>
+        {{ with .Description }}
+          <p class="page-description">{{ . }}</p>
+        {{ end }}
+        <div class="page-meta">
+          <span>{{ .Site.Params.author.name | default .Site.Title }}</span>
+          <span>·</span>
+          <span>{{ .Date.Format "2006-01-02" }}</span>
+          <span>·</span>
+          <span>{{ .ReadingTime }} 分钟阅读</span>
+          <span>·</span>
+          <span>{{ .WordCount }} 字</span>
+        </div>
+      </header>
+
+      {{ if $cover }}
+        <div class="article-cover glass-card">
+          <img src="{{ $cover }}" alt="{{ .Title }}">
+        </div>
+      {{ end }}
+
+      {{ with .TableOfContents }}
+        <aside class="article-toc glass-card">
+          <h2 class="article-toc-title">文章目录</h2>
+          <div class="article-toc-content">
+            {{ . }}
+          </div>
+        </aside>
+      {{ end }}
+
+      <article class="article-single glass-card">
+        <div class="article-content">
+          {{ .Content }}
+        </div>
+      </article>
+
+      {{ if or .Params.tags .Params.categories }}
+        <div class="article-taxonomy glass-card">
+          {{ with .Params.categories }}
+            <div class="taxonomy-group">
+              <span class="taxonomy-title">分类</span>
+              <div class="taxonomy-tags">
+                {{ range . }}
+                  <span class="tag">{{ . }}</span>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+          {{ with .Params.tags }}
+            <div class="taxonomy-group">
+              <span class="taxonomy-title">标签</span>
+              <div class="taxonomy-tags">
+                {{ range . }}
+                  <span class="tag">{{ . }}</span>
+                {{ end }}
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      {{ end }}
+
+      {{ if or .PrevInSection .NextInSection }}
+        <nav class="article-nav">
+          {{ with .PrevInSection }}
+            <a class="article-nav-card glass-card" href="{{ .RelPermalink }}">
+              <span class="article-nav-label">上一篇</span>
+              <strong class="article-nav-title">{{ .Title }}</strong>
+            </a>
+          {{ end }}
+          {{ with .NextInSection }}
+            <a class="article-nav-card glass-card" href="{{ .RelPermalink }}">
+              <span class="article-nav-label">下一篇</span>
+              <strong class="article-nav-title">{{ .Title }}</strong>
+            </a>
+          {{ end }}
+        </nav>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

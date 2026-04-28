@@ -1,0 +1,176 @@
+layoutMode = 'bothWidthAdjustable'
+
+[appreciation]
+alipayQR = 'https://img.xxdevops.cn/blog/appreciation_code/zhifubao.avif'
+enabled = true
+wechatQR = 'https://img.xxdevops.cn/blog/appreciation_code/wechat.avif'
+
+[blogger]
+avatar = 'https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=150&h=150&fit=crop&fm=webp&q=80'
+backgroundImage = 'https://img.xxdevops.cn/blog/wallpaper/bg14.avif'
+circleBgImg = 'https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80'
+circleBgMask = false
+name = '全溪小筑'
+shape = 'circle-rotate'
+slogan = '明心静性，爱自己'
+
+[[blogger.social]]
+icon = 'github'
+name = 'GitHub'
+url = 'https://github.com/JSXGQ'
+
+[[blogger.social]]
+icon = 'cnb'
+name = 'CNB'
+url = 'https://cnb.cool/u/yuwenGueen'
+
+[[blogger.social]]
+icon = 'qq'
+name = 'QQ'
+url = 'tencent://message/?uin=你的QQ号'
+
+[[blogger.social]]
+icon = 'weichat'
+name = '微信'
+url = '#'
+
+[blogger.status]
+icon = '😪'
+size = 18.0
+title = '困'
+
+[category]
+autoPage = false
+enabled = true
+limit = 8.0
+pageSpeed = 4000.0
+
+[codeBlock]
+autoCollapse = true
+collapseHeight = 400.0
+copyButton = true
+
+[footer]
+show_services = true
+show_theme_info = true
+
+[friendLink]
+groups = ['Teek道友']
+interval = 5000
+limit = 5
+
+[friendPage]
+bannerButtonGroup = true
+smallTitle = '与各位博主一起成长进步'
+
+[heroBg]
+apiCacheDuration = 3600
+apiEnabled = false
+apiUrl = 'https://imgapi.xxdevops.cn/api/images'
+autoPlay = true
+enabled = true
+interval = 8000
+mode = 'static'
+useStaticFirst = true
+
+[heroBg.performance]
+lazyLoadDelay = 500
+pauseOnHidden = true
+predictivePreload = true
+preloadCount = 3
+
+[heroBg.quality]
+fallbackFormat = 'jpg'
+format = 'webp'
+
+[heroBg.quality.desktop]
+height = 1080
+quality = 85
+width = 1920
+
+[heroBg.quality.mobile]
+height = 720
+quality = 75
+width = 1080
+
+[heroSubtitle]
+deleteSpeed = 45.0
+hold = 1800.0
+nextDelay = 600.0
+shuffle = false
+typeSpeed = 90.0
+
+[homepage]
+mobileInitialShow = 5
+mobileLoadMoreStep = 10
+paginatePCSize = 15
+
+[image]
+lazyLoading = true
+
+[imageThumbnail]
+enabled = true
+
+[imageThumbnail.articleCard]
+format = 'webp'
+height = 690
+quality = 80
+width = 1200
+
+[[imageThumbnail.cdnProviders]]
+domain = 'img.xxdevops.cn'
+paramFormat = '?w={width}&h={height}&fit=crop&fm={format}&q={quality}'
+
+[layoutWidths]
+doc = '960px'
+full = '1440px'
+page = '1280px'
+
+[pageLoading]
+enabled = false
+text = 'hugo-teek is loading...'
+
+[scrollProgress]
+enabled = true
+
+[search]
+enabled = true
+provider = 'flexsearch'
+
+[[socialLinks]]
+icon = 'gitee'
+link = 'https://cnb.cool/yuwen-gueen/hugo-teeker-theme'
+title = 'CNB'
+
+[sponsors]
+enabled = true
+interval = 5000
+limit = 5
+
+[teekTools]
+[teekTools.wechatUnlock]
+enabled = true
+outputFilename = 'content.json'
+removeLockedContent = true
+
+[titleChange]
+enabled = true
+hidden = 'w(ﾟДﾟ)w 不要走！再看看嘛！'
+resetDelay = 2000.0
+return = '♪(^∇^*)欢迎回来！'
+
+[wechatOfficial]
+description = '全溪小筑のBlog'
+enabled = true
+name = '全溪小筑のBlog'
+qrcodeImage = 'https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif'
+qrcodeUrl = 'https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif'
+
+[wechatUnlock]
+defaultKeyword = '解锁'
+defaultQRCode = 'https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif'
+enabled = true
+lockTime = 3600
+maxAttempts = 5
+salt = 'hugo-teek-unlock-2025'
+verifyDelay = 500

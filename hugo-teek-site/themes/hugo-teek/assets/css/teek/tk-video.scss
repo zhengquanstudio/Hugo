@@ -1,0 +1,496 @@
+// 🎬 视频播放器样式 - 圆润圆角风格
+
+// 🎭 视频向上渐显动画
+@keyframes tk-video-fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 🌆 深色主题变量
+:root {
+  --tk-video-bg: #1a1a2e;
+  --tk-video-control-bg: rgba(0, 0, 0, 0.75);
+  --tk-video-progress-bg: rgba(255, 255, 255, 0.2);
+  --tk-video-progress-gradient: linear-gradient(90deg, #ff6b6b 0%, #4ecdc4 50%, #45b7d1 100%);
+  --tk-video-text: #ffffff;
+  --tk-video-text-secondary: rgba(255, 255, 255, 0.7);
+  --tk-video-accent: #4ecdc4;
+  --tk-video-border-radius: 24px;
+  --tk-video-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+// ☀️ 亮色模式变量
+:root[data-theme="light"] {
+  --tk-video-bg: #f5f5f7;
+  --tk-video-control-bg: rgba(255, 255, 255, 0.9);
+  --tk-video-progress-bg: rgba(0, 0, 0, 0.1);
+  --tk-video-text: #1a1a2e;
+  --tk-video-text-secondary: rgba(0, 0, 0, 0.6);
+  --tk-video-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+// 📦 视频容器
+.tk-video-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  margin: 24px 0;
+  animation: tk-video-fade-in-up 0.6s ease-out forwards; // ◀️ 添加向上渐显动画效果
+}
+
+// 🎨 视频包装器 - 圆润圆角效果
+.tk-video-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  border-radius: var(--tk-video-border-radius);
+  overflow: hidden;
+  background: var(--tk-video-bg);
+  box-shadow: var(--tk-video-shadow);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tk-video-wrapper:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+// 📺 视频 iframe
+.tk-video-container__iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  display: block;
+}
+
+// 📝 视频信息层 - 显示标题
+.tk-video-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 28px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.tk-video-wrapper:hover .tk-video-info {
+  opacity: 1;
+}
+
+.tk-video-title {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tk-video-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin: 6px 0 0 0;
+}
+
+// 🎮 自定义控制栏样式（用于 video shortcode 的 iframe 视频）
+.tk-video-controls {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 16px 20px;
+  background: var(--tk-video-control-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  z-index: 20;
+}
+
+.tk-video-wrapper:hover .tk-video-controls {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+// 📊 进度条容器
+.tk-video-progress-bar {
+  position: relative;
+  height: 8px;
+  background: var(--tk-video-progress-bg);
+  border-radius: 4px;
+  margin-bottom: 14px;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.tk-video-progress-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--progress, 30%);
+  background: var(--tk-video-progress-gradient);
+  border-radius: 4px;
+  transition: width 0.1s linear;
+}
+
+.tk-video-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: var(--progress, 30%);
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  background: #ffffff;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.tk-video-progress-bar:hover::after {
+  opacity: 1;
+}
+
+.tk-video-progress-bar:hover {
+  height: 10px;
+}
+
+// 🎛️ 控制按钮区域
+.tk-video-controls-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.tk-video-controls-left,
+.tk-video-controls-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+// 🔘 控制按钮 - 圆润风格
+.tk-video-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--tk-video-text);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tk-video-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+  border-radius: 14px;
+}
+
+.tk-video-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+// ▶️ 播放按钮（大）- 圆润风格
+.tk-video-btn-play {
+  width: 48px;
+  height: 48px;
+  background: var(--tk-video-progress-gradient);
+  border-radius: 16px;
+}
+
+.tk-video-btn-play:hover {
+  background: linear-gradient(90deg, #ff8585 0%, #6ee7df 50%, #6bc5e8 100%);
+  box-shadow: 0 4px 20px rgba(78, 205, 196, 0.5);
+  border-radius: 18px;
+}
+
+.tk-video-btn-play svg {
+  width: 20px;
+  height: 20px;
+}
+
+// ⏱️ 时间显示
+.tk-video-time {
+  font-size: 13px;
+  color: var(--tk-video-text-secondary);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.5px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+}
+
+.tk-video-time-current {
+  color: var(--tk-video-text);
+  font-weight: 500;
+}
+
+// 💬 弹幕输入框 - 圆润风格
+.tk-video-danmaku {
+  flex: 1;
+  max-width: 320px;
+  position: relative;
+}
+
+.tk-video-danmaku input {
+  width: 100%;
+  padding: 10px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--tk-video-text);
+  font-size: 13px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.tk-video-danmaku input::placeholder {
+  color: var(--tk-video-text-secondary);
+}
+
+.tk-video-danmaku input:focus {
+  border-color: var(--tk-video-accent);
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+}
+
+// ⚙️ 设置按钮组 - 圆润风格
+.tk-video-settings {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tk-video-setting-item {
+  font-size: 12px;
+  color: var(--tk-video-text-secondary);
+  padding: 6px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tk-video-setting-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--tk-video-text);
+  border-radius: 12px;
+}
+
+// 🎬 本地视频标签样式
+.tk-video-native {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--tk-video-border-radius);
+  object-fit: cover;
+  background: var(--tk-video-bg);
+}
+
+.tk-video-native::-webkit-media-controls {
+  display: none;
+}
+
+.tk-video-native::-webkit-media-controls-enclosure {
+  display: none;
+}
+
+// 🖼️ 视频封面
+.tk-video-poster {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--tk-video-border-radius);
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.tk-video-poster--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// 🔘 中央播放按钮 - 圆润风格
+.tk-video-center-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 88px;
+  height: 88px;
+  border-radius: 28px;
+  background: var(--tk-video-progress-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s ease;
+  z-index: 15;
+}
+
+.tk-video-center-play:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  border-radius: 32px;
+  box-shadow: 0 12px 40px rgba(78, 205, 196, 0.5);
+}
+
+.tk-video-center-play svg {
+  width: 36px;
+  height: 36px;
+  fill: #ffffff;
+  margin-left: 4px;
+}
+
+.tk-video-center-play--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+// 📱 移动端适配
+@media (max-width: 768px) {
+  :root {
+    --tk-video-border-radius: 20px;
+  }
+
+  .tk-video-wrapper {
+    border-radius: var(--tk-video-border-radius);
+  }
+
+  .tk-video-controls {
+    padding: 12px 16px;
+    border-radius: 16px;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .tk-video-danmaku {
+    display: none;
+  }
+
+  .tk-video-settings .tk-video-setting-item {
+    display: none;
+  }
+
+  .tk-video-settings .tk-video-setting-item:first-child {
+    display: block;
+  }
+
+  .tk-video-center-play {
+    width: 68px;
+    height: 68px;
+    border-radius: 22px;
+  }
+
+  .tk-video-center-play svg {
+    width: 28px;
+    height: 28px;
+  }
+
+  .tk-video-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+  }
+
+  .tk-video-btn-play {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+  }
+}
+
+// ⏳ 视频加载动画
+.tk-video-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  z-index: 5;
+}
+
+.tk-video-loading::after {
+  content: '';
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--tk-video-accent);
+  border-radius: 50%;
+  animation: tk-video-spin 1s linear infinite;
+}
+
+@keyframes tk-video-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// 🎬 原生 HTML video 标签样式（不使用 shortcode 时的回退样式）
+.vp-doc video,
+.post-content video,
+.tk-video-rounded {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: block;
+  margin: 24px 0;
+  animation: tk-video-fade-in-up 0.6s ease-out forwards; // ◀️ 添加向上渐显动画效果
+}
+
+// 🎬 嵌入视频 iframe 样式（Bilibili、YouTube 等）
+.vp-doc iframe,
+.post-content iframe,
+.tk-video-embed {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  display: block;
+  margin: 24px 0;
+  border: none;
+  aspect-ratio: 16 / 9;
+  animation: tk-video-fade-in-up 0.6s ease-out forwards; // ◀️ 添加向上渐显动画效果
+}
+
+// 📱 移动端 iframe 适配
+@media (max-width: 768px) {
+  .vp-doc iframe,
+  .post-content iframe,
+  .tk-video-embed {
+    border-radius: 20px;
+  }
+}
+
+// 🎵 Plyr 播放器样式已在 localvideo.html 中内联定义
+// 如需全局 Plyr 样式，请在此处添加

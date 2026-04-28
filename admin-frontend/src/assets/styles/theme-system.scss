@@ -1,0 +1,175 @@
+// ================================================
+// Hugo Teek Admin - Theme System Styles
+// 主题切换和配置相关的设计系统
+// ================================================
+
+@use './variables.scss' as *;
+@forward './variables.scss';
+
+// ============================================
+// Theme Card Design Tokens
+// ============================================
+
+// Theme Card 预览图比例
+$theme-card-preview-ratio: 16 / 9;
+$theme-card-preview-height: 200px;
+
+// Theme Card 圆角和间距
+$theme-card-radius: $radius-xl;
+$theme-card-padding: $spacing-5;
+$theme-card-gap: $spacing-4;
+
+// Theme Card 边框
+$theme-card-border: 1px solid $border-light;
+$theme-card-border-hover: 1px solid $primary;
+
+// Theme Card 阴影
+$theme-card-shadow: $shadow-sm;
+$theme-card-shadow-hover: $shadow-lg;
+
+// ============================================
+// Theme Badge Colors (特性标签)
+// ============================================
+
+$theme-badge-search: #60A5FA;        // 搜索 - blue-400
+$theme-badge-comment: #34D399;       // 评论 - emerald-400
+$theme-badge-docs: #8B5CF6;          // 文档 - purple-500
+$theme-badge-analytics: #F59E0B;     // 分析 - amber-500
+$theme-badge-lightweight: #10B981;   // 轻量 - emerald-500
+$theme-badge-fast: #06B6D4;          // 快速 - cyan-500
+$theme-badge-responsive: #EC4899;    // 响应式 - pink-500
+$theme-badge-dark: #6366F1;          // 深色模式 - indigo-500
+$theme-badge-simple: #22C55E;        // 简洁 - green-500
+
+// ============================================
+// Theme Grid Layout
+// ============================================
+
+$theme-grid-gap: $spacing-6;         // 24px
+$theme-grid-columns-desktop: 2;
+$theme-grid-columns-tablet: 2;
+$theme-grid-columns-mobile: 1;
+
+// ============================================
+// Preview Layout (配置预览)
+// ============================================
+
+$preview-sidebar-width: 380px;
+$preview-sidebar-gap: $spacing-8;    // 32px
+$preview-sidebar-padding: $spacing-6; // 24px
+
+// ============================================
+// Theme Page Hero Section
+// ============================================
+
+$theme-hero-padding: $spacing-8 0;
+$theme-hero-title-size: $text-3xl;
+$theme-hero-subtitle-size: $text-base;
+
+// ============================================
+// Mixins - Theme Card
+// ============================================
+
+@mixin theme-card-base {
+  background: $bg-card;
+  border: $theme-card-border;
+  border-radius: $theme-card-radius;
+  box-shadow: $theme-card-shadow;
+  padding: $theme-card-padding;
+  transition: $transition-all;
+  overflow: hidden;
+}
+
+@mixin theme-card-hover {
+  border-color: $primary;
+  box-shadow: $theme-card-shadow-hover;
+  transform: translateY(-2px);
+}
+
+@mixin theme-card-active {
+  border-color: $primary;
+  background: linear-gradient(
+    to bottom,
+    rgba($primary, 0.05),
+    $bg-card
+  );
+}
+
+// ============================================
+// Mixins - Theme Badge
+// ============================================
+
+@mixin theme-badge-base($color) {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-1 $spacing-3;
+  font-size: $text-xs;
+  font-weight: $font-medium;
+  color: $color;
+  background: rgba($color, 0.1);
+  border-radius: $radius-full;
+  transition: $transition-colors;
+
+  &:hover {
+    background: rgba($color, 0.15);
+  }
+}
+
+// ============================================
+// Mixins - Preview Layout
+// ============================================
+
+@mixin preview-split-layout {
+  display: grid;
+  grid-template-columns: 1fr $preview-sidebar-width;
+  gap: $preview-sidebar-gap;
+
+  @media (max-width: $breakpoint-lg) {
+    grid-template-columns: 1fr;
+
+    .preview-sidebar {
+      order: -1; // 移动端预览在上方
+      position: sticky;
+      top: $spacing-4;
+      z-index: $z-sticky;
+    }
+  }
+}
+
+// ============================================
+// Utilities - Theme Features
+// ============================================
+
+.theme-feature-badge {
+  &--search { @include theme-badge-base($theme-badge-search); }
+  &--comment { @include theme-badge-base($theme-badge-comment); }
+  &--docs { @include theme-badge-base($theme-badge-docs); }
+  &--analytics { @include theme-badge-base($theme-badge-analytics); }
+  &--lightweight { @include theme-badge-base($theme-badge-lightweight); }
+  &--fast { @include theme-badge-base($theme-badge-fast); }
+  &--responsive { @include theme-badge-base($theme-badge-responsive); }
+  &--dark { @include theme-badge-base($theme-badge-dark); }
+  &--simple { @include theme-badge-base($theme-badge-simple); }
+}
+
+// ============================================
+// Utilities - Theme Grid
+// ============================================
+
+@mixin theme-grid {
+  display: grid;
+  grid-template-columns: repeat($theme-grid-columns-desktop, 1fr);
+  gap: $theme-grid-gap;
+
+  @media (max-width: $breakpoint-md) {
+    grid-template-columns: repeat($theme-grid-columns-tablet, 1fr);
+  }
+
+  @media (max-width: $breakpoint-sm) {
+    grid-template-columns: repeat($theme-grid-columns-mobile, 1fr);
+  }
+}
+
+.theme-grid {
+  @include theme-grid;
+}

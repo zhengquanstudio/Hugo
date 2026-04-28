@@ -1,0 +1,229 @@
+// =============================================================================
+// 预览区域样式
+// =============================================================================
+
+.md-editor-v3-wrapper {
+  // ---------------------------------------------------------------------------
+  // 预览容器
+  // ---------------------------------------------------------------------------
+  .md-editor-preview-wrapper {
+    background-color: var(--md-preview-bg);
+    padding: var(--md-preview-padding);
+  }
+
+  // ---------------------------------------------------------------------------
+  // 预览内容
+  // ---------------------------------------------------------------------------
+  .md-editor-preview {
+    font-family: var(--md-preview-font);
+    font-size: var(--md-preview-font-size);
+    line-height: var(--md-preview-line-height);
+    color: var(--md-text);
+
+    // -------------------------------------------------------------------------
+    // 标题
+    // -------------------------------------------------------------------------
+    h1, h2, h3, h4, h5, h6 {
+      color: var(--md-preview-heading-color);
+      font-weight: 600;
+      margin-top: 1.5em;
+      margin-bottom: 0.5em;
+      line-height: 1.4;
+
+      &:first-child {
+        margin-top: 0;
+      }
+    }
+
+    h1 {
+      font-size: 1.75em;
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid var(--md-border-light);
+    }
+
+    h2 {
+      font-size: 1.5em;
+      padding-bottom: 0.3em;
+      border-bottom: 1px solid var(--md-border-light);
+    }
+
+    h3 { font-size: 1.25em; }
+    h4 { font-size: 1.1em; }
+    h5 { font-size: 1em; }
+    h6 {
+      font-size: 0.9em;
+      color: var(--md-text-secondary);
+    }
+
+    // -------------------------------------------------------------------------
+    // 段落
+    // -------------------------------------------------------------------------
+    p {
+      margin: 0 0 1em;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 链接
+    // -------------------------------------------------------------------------
+    a {
+      color: var(--md-preview-link-color);
+      text-decoration: none;
+      transition: opacity var(--md-transition-fast);
+
+      &:hover {
+        opacity: 0.8;
+        text-decoration: underline;
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 强调
+    // -------------------------------------------------------------------------
+    strong {
+      font-weight: 600;
+    }
+
+    em {
+      font-style: italic;
+    }
+
+    del {
+      text-decoration: line-through;
+      color: var(--md-text-secondary);
+    }
+
+    // -------------------------------------------------------------------------
+    // 列表
+    // -------------------------------------------------------------------------
+    ul, ol {
+      margin: 0 0 1em;
+      padding-left: 2em;
+
+      li {
+        margin-bottom: 0.25em;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    ul {
+      list-style-type: disc;
+
+      ul {
+        list-style-type: circle;
+
+        ul {
+          list-style-type: square;
+        }
+      }
+    }
+
+    ol {
+      list-style-type: decimal;
+    }
+
+    // -------------------------------------------------------------------------
+    // 任务列表
+    // -------------------------------------------------------------------------
+    .contains-task-list {
+      list-style: none;
+      padding-left: 0;
+
+      li {
+        position: relative;
+        padding-left: 1.75em;
+
+        input[type="checkbox"] {
+          position: absolute;
+          left: 0;
+          top: 0.35em;
+          margin: 0;
+        }
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 引用
+    // -------------------------------------------------------------------------
+    blockquote {
+      margin: 0 0 1em;
+      padding: var(--md-spacing-sm) var(--md-spacing-md);
+      background-color: var(--md-preview-blockquote-bg);
+      border-left: 4px solid var(--md-preview-blockquote-border);
+      color: var(--md-text-secondary);
+      border-radius: 0 var(--md-radius-sm) var(--md-radius-sm) 0;
+
+      p {
+        margin: 0;
+      }
+
+      blockquote {
+        margin-top: var(--md-spacing-sm);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 水平线
+    // -------------------------------------------------------------------------
+    hr {
+      border: none;
+      height: 1px;
+      background-color: var(--md-preview-hr-color);
+      margin: 1.5em 0;
+    }
+
+    // -------------------------------------------------------------------------
+    // 图片
+    // -------------------------------------------------------------------------
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: var(--md-radius-sm);
+      display: block;
+      margin: 1em 0;
+    }
+
+    // -------------------------------------------------------------------------
+    // 表格
+    // -------------------------------------------------------------------------
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1em 0;
+      overflow: auto;
+      display: block;
+
+      th, td {
+        padding: var(--md-table-cell-padding);
+        border: 1px solid var(--md-table-border);
+        text-align: left;
+      }
+
+      th {
+        background-color: var(--md-table-header-bg);
+        font-weight: 600;
+      }
+
+      tr:hover td {
+        background-color: var(--md-table-row-hover-bg);
+      }
+    }
+
+    // -------------------------------------------------------------------------
+    // 脚注
+    // -------------------------------------------------------------------------
+    .footnotes {
+      margin-top: 2em;
+      padding-top: 1em;
+      border-top: 1px solid var(--md-border-light);
+      font-size: 0.9em;
+      color: var(--md-text-secondary);
+    }
+  }
+}

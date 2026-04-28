@@ -1,0 +1,30 @@
+[params]
+[params.homeSidebar]
+[params.homeSidebar.announcement]
+enabled = true
+
+[params.homeSidebar.calendar]
+enabled = true
+
+[params.homeSidebar.categories]
+enabled = true
+
+[params.homeSidebar.featuredPosts]
+enabled = true
+
+[params.homeSidebar.friendLinks]
+enabled = true
+
+[params.homeSidebar.hotTags]
+enabled = true
+
+[params.homeSidebar.recentComments]
+enabled = true
+pageSize = 5
+totalSize = 50
+
+[params.homeSidebar.siteInfo]
+enabled = true
+
+[params.homeSidebar.timeProgress]
+enabled = true

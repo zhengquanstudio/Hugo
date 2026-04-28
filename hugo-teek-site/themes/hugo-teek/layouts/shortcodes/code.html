@@ -1,0 +1,24 @@
+{{/* 🔧 代码块短代码 - 支持标题功能 */}}
+{{ $lang := .Get 0 | default "" }}
+{{ $title := .Get "title" | default "" }}
+{{ $code := .Inner }}
+
+{{/* 🔍 如果没有指定标题，尝试从语言参数中提取 */}}
+{{ if and (not $title) (findRE `\[` $lang) }}
+  {{ $parts := split $lang "[" }}
+  {{ if gt (len $parts) 1 }}
+    {{ $lang = trim (index $parts 0) " " }}
+    {{ $titlePart := index $parts 1 }}
+    {{ $title = replaceRE `\].*$` "" $titlePart }}
+  {{ end }}
+{{ end }}
+
+{{/* 🎨 高亮代码 */}}
+{{ $highlighted := highlight $code $lang }}
+
+{{/* 📝 如果有标题，将代码块包裹在带有 data-title 的 div 中 */}}
+{{ if $title }}
+<div class="highlight" data-title="{{ $title }}">{{ $highlighted | safeHTML }}</div>
+{{ else }}
+{{ $highlighted | safeHTML }}
+{{ end }}

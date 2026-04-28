@@ -1,0 +1,59 @@
+// ================================================
+// Hugo Teek Admin - Form Design System
+// Enhanced form components styling tokens
+// ================================================
+
+@use './variables.scss' as *;
+
+// ============================================
+// Form Grouping
+// ============================================
+
+$form-section-spacing: 2rem;
+$form-section-bg: #FFFFFF;
+$form-section-border: #E5E7EB;
+$form-section-radius: 12px;
+$form-section-padding: 1.5rem;
+
+// ============================================
+// Enhanced Hints
+// ============================================
+
+$hint-icon-size: 16px;
+$hint-text-size: 14px;
+$hint-line-height: 1.5;
+$hint-gap: 0.5rem;
+
+// Hint color variants
+$hint-color-info: #60A5FA;
+$hint-color-info-bg: #EFF6FF;
+$hint-color-warning: #FBBF24;
+$hint-color-warning-bg: #FFFBEB;
+$hint-color-success: #34D399;
+$hint-color-success-bg: #ECFDF5;
+$hint-color-tip: #8B5CF6;
+$hint-color-tip-bg: #F5F3FF;
+
+// ============================================
+// Two-column Layout
+// ============================================
+
+$form-grid-columns: 2;
+$form-grid-gap: 1.5rem;
+$form-grid-breakpoint: 768px;
+
+// ============================================
+// Form Field Enhancements
+// ============================================
+
+$form-label-font-weight: 500;
+$form-label-color: #374151;
+$form-field-min-height: 44px; // Touch-friendly
+
+// Character counter
+$char-counter-color: #9CA3AF;
+$char-counter-size: 12px;
+
+// Image preview
+$image-preview-size: 80px;
+$image-preview-radius: 8px;

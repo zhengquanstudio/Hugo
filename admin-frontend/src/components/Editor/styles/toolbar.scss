@@ -1,0 +1,160 @@
+// =============================================================================
+// 工具栏样式
+// =============================================================================
+
+.md-editor-v3-wrapper {
+  // ---------------------------------------------------------------------------
+  // 工具栏容器
+  // ---------------------------------------------------------------------------
+  .md-editor-toolbar-wrapper {
+    background-color: var(--md-toolbar-bg);
+    border-bottom: 1px solid var(--md-toolbar-border);
+    min-height: var(--md-toolbar-height);
+    padding: var(--md-spacing-xs) var(--md-spacing-sm);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 工具栏按钮
+  // ---------------------------------------------------------------------------
+  .md-editor-toolbar-item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--md-toolbar-btn-size);
+    height: var(--md-toolbar-btn-size);
+    padding: 0;
+    border: none;
+    border-radius: var(--md-radius-sm);
+    background: transparent;
+    color: var(--md-toolbar-btn-color);
+    cursor: pointer;
+    transition: background-color var(--md-transition-fast),
+                color var(--md-transition-fast);
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover {
+      background-color: var(--md-toolbar-btn-hover-bg);
+      color: var(--md-toolbar-btn-hover-color);
+    }
+
+    &.md-editor-toolbar-item-active {
+      color: var(--md-toolbar-btn-active-color);
+      background-color: var(--md-primary-light);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 工具栏分隔线
+  // ---------------------------------------------------------------------------
+  .md-editor-toolbar-divider {
+    width: 1px;
+    height: 16px;
+    margin: 0 var(--md-spacing-xs);
+    background-color: var(--md-toolbar-divider-color);
+  }
+
+  // ---------------------------------------------------------------------------
+  // 工具栏下拉菜单
+  // ---------------------------------------------------------------------------
+  .md-editor-dropdown {
+    &-overlay {
+      background-color: var(--md-popup-bg);
+      border: 1px solid var(--md-popup-border);
+      border-radius: var(--md-popup-radius);
+      box-shadow: var(--md-popup-shadow);
+      overflow: hidden;
+    }
+
+    &-item {
+      padding: var(--md-spacing-sm) var(--md-spacing-md);
+      color: var(--md-text);
+      cursor: pointer;
+      transition: background-color var(--md-transition-fast);
+
+      &:hover {
+        background-color: var(--md-bg-hover);
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 标题选择下拉
+  // ---------------------------------------------------------------------------
+  .md-editor-dropdown-title {
+    min-width: 120px;
+
+    .md-editor-dropdown-item {
+      h1, h2, h3, h4, h5, h6 {
+        margin: 0;
+        font-weight: 600;
+      }
+
+      h1 { font-size: 20px; }
+      h2 { font-size: 18px; }
+      h3 { font-size: 16px; }
+      h4 { font-size: 15px; }
+      h5 { font-size: 14px; }
+      h6 { font-size: 13px; }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 图片/链接弹出框
+  // ---------------------------------------------------------------------------
+  .md-editor-modal {
+    background-color: var(--md-popup-bg);
+    border: 1px solid var(--md-popup-border);
+    border-radius: var(--md-popup-radius);
+    box-shadow: var(--md-popup-shadow);
+    padding: var(--md-spacing-md);
+
+    &-input {
+      width: 100%;
+      padding: var(--md-spacing-sm) var(--md-spacing-md);
+      border: 1px solid var(--md-border);
+      border-radius: var(--md-radius-sm);
+      font-size: 14px;
+      outline: none;
+      transition: border-color var(--md-transition-fast);
+
+      &:focus {
+        border-color: var(--md-primary);
+      }
+    }
+
+    &-btn {
+      padding: var(--md-spacing-sm) var(--md-spacing-md);
+      border: none;
+      border-radius: var(--md-radius-sm);
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color var(--md-transition-fast);
+
+      &-primary {
+        background-color: var(--md-primary);
+        color: #ffffff;
+
+        &:hover {
+          opacity: 0.9;
+        }
+      }
+
+      &-default {
+        background-color: var(--md-bg-secondary);
+        color: var(--md-text);
+
+        &:hover {
+          background-color: var(--md-bg-hover);
+        }
+      }
+    }
+  }
+}

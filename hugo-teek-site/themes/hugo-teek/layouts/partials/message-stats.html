@@ -1,0 +1,172 @@
+{{/* 留言统计卡片组件 */}}
+<div class="message-stats-container">
+  <div class="stats-grid">
+    <div class="stat-card stat-total">
+      <div class="stat-icon">📊</div>
+      <div class="stat-content">
+        <div class="stat-value" id="totalComments">
+          <span class="loading-spinner">⏳</span>
+        </div>
+        <div class="stat-label">总留言数</div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-recent">
+      <div class="stat-icon">🔥</div>
+      <div class="stat-content">
+        <div class="stat-value" id="recentComments">
+          <span class="loading-spinner">⏳</span>
+        </div>
+        <div class="stat-label">本周新增</div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-visitors">
+      <div class="stat-icon">👥</div>
+      <div class="stat-content">
+        <div class="stat-value" id="uniqueVisitors">
+          <span class="loading-spinner">⏳</span>
+        </div>
+        <div class="stat-label">参与访客</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-activity">
+    <div class="activity-label">活跃度指标</div>
+    <div class="activity-bar">
+      <div class="activity-progress" id="activityProgress" style="width: 0%"></div>
+    </div>
+    <div class="activity-text" id="activityText">加载中...</div>
+  </div>
+</div>
+
+<script>
+(function() {
+  const twikooEnvId = '{{ .Site.Params.comment.envId }}';
+  const currentPath = window.location.pathname;
+
+  // 获取留言统计数据
+  async function fetchMessageStats() {
+    // 使用 AbortController 实现超时控制
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // 10秒超时
+    
+    try {
+      // 使用 Twikoo 云函数 API 获取评论数据
+      const response = await fetch(twikooEnvId + '/.netlify/functions/twikoo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          event: 'GET_COMMENTS',
+          url: currentPath,
+          includeReply: true
+        }),
+        signal: controller.signal
+      });
+
+      if (!response.ok) {
+        throw new Error('API request failed');
+      }
+
+      const data = await response.json();
+      const comments = data.data || [];
+
+      // 计算统计数据
+      const totalCount = comments.length;
+
+      // 计算最近7天的留言数
+      const sevenDaysAgo = new Date();
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+      const recentCount = comments.filter(comment => {
+        const commentDate = new Date(comment.created);
+        return commentDate >= sevenDaysAgo;
+      }).length;
+
+      // 计算独立访客数（去重邮箱）
+      const uniqueEmails = new Set(comments.map(c => c.mail).filter(Boolean));
+      const visitorsCount = uniqueEmails.size;
+
+      // 计算活跃度（基于最近7天的留言占比）
+      const activityPercentage = totalCount > 0
+        ? Math.round((recentCount / totalCount) * 100)
+        : 0;
+
+      // 更新UI
+      updateStats(totalCount, recentCount, visitorsCount, activityPercentage);
+
+    } catch (error) {
+      if (error.name === 'AbortError') {
+        console.warn('[MessageStats] 请求超时');
+      } else {
+        console.error('获取留言统计失败:', error);
+      }
+      // 显示降级内容
+      showFallback();
+    } finally {
+      clearTimeout(timeoutId);
+    }
+  }
+
+  // 更新统计数据显示
+  function updateStats(total, recent, visitors, activity) {
+    // 数字计数动画
+    animateNumber('totalComments', 0, total, 1500);
+    animateNumber('recentComments', 0, recent, 1200);
+    animateNumber('uniqueVisitors', 0, visitors, 1000);
+
+    // 活跃度进度条动画
+    const progressBar = document.getElementById('activityProgress');
+    const activityText = document.getElementById('activityText');
+
+    setTimeout(() => {
+      progressBar.style.width = activity + '%';
+
+      let level = '低';
+      if (activity > 20) level = '中';
+      if (activity > 50) level = '高';
+      if (activity > 80) level = '非常高';
+
+      activityText.textContent = `${level}（最近7天占比 ${activity}%）`;
+    }, 500);
+  }
+
+  // 数字计数动画
+  function animateNumber(elementId, start, end, duration) {
+    const element = document.getElementById(elementId);
+    const range = end - start;
+    const increment = end > start ? 1 : -1;
+    const stepTime = Math.abs(Math.floor(duration / range));
+    let current = start;
+
+    const timer = setInterval(() => {
+      current += increment;
+      element.textContent = current + ' 条';
+
+      if (current === end) {
+        clearInterval(timer);
+        element.classList.add('loaded');
+      }
+    }, stepTime);
+  }
+
+  // 显示降级内容
+  function showFallback() {
+    document.getElementById('totalComments').innerHTML = '<span class="fallback">-- 条</span>';
+    document.getElementById('recentComments').innerHTML = '<span class="fallback">-- 条</span>';
+    document.getElementById('uniqueVisitors').innerHTML = '<span class="fallback">-- 人</span>';
+    document.getElementById('activityProgress').style.width = '0%';
+    document.getElementById('activityText').textContent = '数据加载失败，请刷新重试';
+  }
+
+  // 页面加载后执行
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fetchMessageStats);
+  } else {
+    fetchMessageStats();
+  }
+})();
+</script>

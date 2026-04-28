@@ -1,0 +1,50 @@
+[[main]]
+identifier = 'categories'
+name = '分类'
+url = '#'
+weight = 2
+
+[[main]]
+name = '🖥️ 运维'
+parent = 'categories'
+url = '/linux/'
+weight = 1
+
+[[main]]
+name = '🎨 前端'
+parent = 'categories'
+url = '/frontend/'
+weight = 2
+
+[[main]]
+name = '💻 编程'
+parent = 'categories'
+url = '/code/'
+weight = 3
+
+[[main]]
+name = '🔐 黑客'
+parent = 'categories'
+url = '/hacker/'
+weight = 4
+
+[[main]]
+name = '🛠️ 专题'
+parent = 'categories'
+url = '/topic/'
+weight = 5
+
+[[main]]
+name = '好友'
+url = '/friends/'
+weight = 3
+
+[[main]]
+name = '关于'
+url = '/about/'
+weight = 4
+
+[[main]]
+name = '归档'
+url = '/archives/'
+weight = 5

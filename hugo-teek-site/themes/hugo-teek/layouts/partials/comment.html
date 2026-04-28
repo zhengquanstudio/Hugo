@@ -1,0 +1,150 @@
+{{ if .Site.Params.comment.enabled }}
+<div class="tk-doc-comment">
+  <div id="tcomment"></div>
+</div>
+{{/* Twikoo library loaded via scripts.html, init triggered by 'twikoo-loaded' event */}}
+<script>
+  (function() {
+    let twikooInstance = null; // 保存 Twikoo 实例，防止重复初始化
+
+    function initTwikoo() {
+      // 检查容器是否存在
+      const container = document.getElementById('tcomment');
+      if (!container) {
+        console.warn('[Twikoo] 容器 #tcomment 不存在');
+        return;
+      }
+
+      // 检查 Twikoo 库是否加载
+      if (typeof twikoo === 'undefined') {
+        console.warn('[Twikoo] 库未加载，等待 twikoo-loaded 事件');
+        return;
+      }
+
+      // 如果已经有实例，先销毁
+      if (twikooInstance) {
+        console.log('[Twikoo] 销毁旧实例');
+        try {
+          // 清空容器
+          container.innerHTML = '';
+        } catch (e) {
+          console.warn('[Twikoo] 销毁旧实例失败:', e);
+        }
+      }
+
+      // 初始化新实例
+      console.log('[Twikoo] 初始化评论系统:', window.location.pathname);
+      twikoo.init({
+        envId: '{{ .Site.Params.comment.envId }}',
+        el: '#tcomment',
+        lang: 'zh-CN',
+        path: window.location.pathname,
+        onCommentLoaded: function() {
+          console.log('[Twikoo] 评论加载完成');
+        }
+      }).then(() => {
+        twikooInstance = true;
+        console.log('[Twikoo] 初始化成功');
+      }).catch((err) => {
+        console.error('[Twikoo] 初始化失败:', err);
+        twikooInstance = null;
+      });
+    }
+
+    // 导出到全局，供 Swup 调用
+    window.initTwikoo = initTwikoo;
+
+    // 监听 twikoo-loaded 事件（由 scripts.html 触发）
+    window.addEventListener('twikoo-loaded', function() {
+      console.log('[Twikoo] 收到库加载完成事件，开始初始化');
+      initTwikoo();
+    });
+
+    // 如果 Twikoo 库已经加载（缓存命中或页面切换），直接初始化
+    if (typeof twikoo !== 'undefined') {
+      console.log('[Twikoo] 库已存在，直接初始化');
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTwikoo);
+      } else {
+        setTimeout(initTwikoo, 50);
+      }
+    }
+  })();
+</script>
+
+{{ if .Site.Params.comment.hideAdmin }}
+<style>
+  /* 隐藏 Twikoo 管理设置按钮（齿轮图标） */
+  .tk-admin {
+    display: none !important;
+  }
+</style>
+{{ end }}
+
+<!-- 🎖️ 评论区输入框勋章浮动标签交互脚本 -->
+<script>
+  (function() {
+    /* 🔗 初始化输入框勋章交互 */
+    function initInputBadgeInteraction() {
+      const metaInputs = document.querySelectorAll('.tk-meta-input .el-input__inner');
+
+      metaInputs.forEach(function(input) {
+        const parent = input.closest('.el-input');
+
+        /* 🎯 检查输入框是否有内容 */
+        function checkInputValue() {
+          if (input.value && input.value.trim() !== '') {
+            parent.classList.add('has-value');
+            input.classList.add('tk-has-value');
+          } else {
+            parent.classList.remove('has-value');
+            input.classList.remove('tk-has-value');
+          }
+        }
+
+        /* 🎯 聚焦时添加 is-focus 类 */
+        function onFocus() {
+          parent.classList.add('is-focus');
+          checkInputValue();
+        }
+
+        /* 🎯 失焦时移除 is-focus 类 */
+        function onBlur() {
+          parent.classList.remove('is-focus');
+          checkInputValue();
+        }
+
+        /* 🎯 监听输入事件 */
+        input.addEventListener('input', checkInputValue);
+        input.addEventListener('focus', onFocus);
+        input.addEventListener('blur', onBlur);
+
+        /* 🎯 初始化时检查一次 */
+        checkInputValue();
+      });
+    }
+
+    /* 🔗 使用 MutationObserver 监听 Twikoo 动态加载 */
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.addedNodes.length > 0) {
+          setTimeout(initInputBadgeInteraction, 100);
+        }
+      });
+    });
+
+    /* 🎯 开始监听文档变化 */
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    /* 🎯 DOM 加载完成后初始化 */
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initInputBadgeInteraction);
+    } else {
+      setTimeout(initInputBadgeInteraction, 500);
+    }
+  })();
+</script>
+{{ end }}

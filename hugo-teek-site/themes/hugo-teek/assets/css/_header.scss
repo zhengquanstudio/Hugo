@@ -1,0 +1,1569 @@
+// ========================================
+// Header Styles
+// ========================================
+// Header - 复刻 yuwen-blog 毛玻璃效果
+.VPNavBar {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  position: fixed;  // 始终固定在顶部
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+  // yuwen-blog 样式: 10px 模糊 + 完全透明背景
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  background-color: hsla(0, 0%, 100%, 0);  // 完全透明
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  .dark-mode & {
+    background-color: hsla(0, 0%, 0%, 0);  // 深色模式也完全透明
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  // ========================================
+  // 首页导航栏动态颜色切换
+  // ========================================
+
+  // 🌕 首页浅色壁纸：黑色文字（无论是否滚动）
+  .home-page &.light-bg {
+    /* 🎨 网站名称样式 - 独立控制，避免影响导航栏其他文本 */
+    .blogger-name,
+    .VPNavBarTitle .title {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      /* 🚫 悬停不换色，保持原色 */
+      &.active,
+      &:hover {
+        color: #ffffff;
+      }
+    }
+
+    .VPNavBarMenu .text,
+    .VPNavBarMenuGroup .text,
+    .VPNavBarMenuLink {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      &.active,
+      &:hover {
+        color: rgb(61, 139, 255);
+      }
+    }
+
+    .search-icon,
+    .tk-icon,
+    .VPSwitchAppearance,
+    .social-link,
+    .VPSocialLink {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 🎨 CNB「云原生构建」图标颜色 - 首页 */
+    .social-link[aria-label="cnb"],
+    .social-link[href*="cnb.cool"] {
+      color: #ff6200;
+
+      &:hover {
+        color: #e55a00;
+      }
+    }
+
+    .DocSearch-Button {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      .DocSearch-Button-Placeholder {
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    // ⏰ 时钟外层容器样式
+    #header-clock {
+      background-color: rgba(207, 49, 199, 0.2); // ◀️ 半透明背景色
+      backdrop-filter: blur(8px); // ◀️ 毛玻璃模糊效果
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 8px; // ◀️ 圆角
+      border: 1px solid rgba(167, 10, 146, 0.1); // ◀️ 细边框增强层次感
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); // ◀️ 柔和阴影
+      padding: 4px 8px; // ◀️ 内边距让背景更明显
+    }
+
+    .header-clock .clock-time {
+      background-color: transparent; // ◀️ 内部透明，不重复背景
+      color: #ffffff;
+      text-shadow: none; // ◀️ 移除文本阴影，使用背景衬托
+
+      .hour,
+      .minute,
+      .second,
+      .separator {
+        color: #ffffff;
+        text-shadow: none; // ◀️ 移除文本阴影
+      }
+    }
+
+    // 分割竖线：深色
+    .content-body {
+      .menu + .appearance::before,
+      .menu + .social-links::before,
+      .appearance + .social-links::before,
+      .social-links + .extra::before {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  // 🌑 首页深色壁纸：白色文字（无论是否滚动）
+  .home-page &:not(.light-bg):not(.left-hero) {
+    /* 🎨 网站名称样式 - 独立控制，避免影响导航栏其他文本 */
+    .blogger-name,
+    .VPNavBarTitle .title {
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(138, 43, 226, 0.8); // 导航栏文本的阴影色
+      transition: color 0.3s ease;
+
+      /* 🚫 悬停不换色，保持原色 */
+      &.active,
+      &:hover {
+        color: #ffffff;
+      }
+    }
+
+    .VPNavBarMenu .text,
+    .VPNavBarMenuGroup .text,
+    .VPNavBarMenuLink {
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(138, 43, 226, 0.8); // 导航栏文本的阴影色
+      transition: color 0.3s ease;
+
+      &.active,
+      &:hover {
+        color: rgba(59, 130, 246, 1);
+      }
+    }
+
+    .search-icon,
+    .tk-icon,
+    .VPSwitchAppearance,
+    .social-link,
+    .VPSocialLink {
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(138, 43, 226, 0.8); // 导航栏文本的阴影色
+      transition: color 0.3s ease;
+    }
+
+    /* 🎨 CNB「云原生构建」图标颜色 - 首页 */
+    .social-link[aria-label="cnb"],
+    .social-link[href*="cnb.cool"] {
+      color: #ff6200;
+
+      &:hover {
+        color: #e55a00;
+      }
+    }
+
+    .DocSearch-Button {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #ffffff;
+      text-shadow: 0 2px 8px rgba(138, 43, 226, 0.8); // 导航栏文本的阴影色
+
+      .DocSearch-Button-Placeholder {
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 1px 4px rgba(138, 43, 226, 0.6); // 导航栏文本的阴影色
+      }
+    }
+
+    // ⏰ 时钟外层容器样式
+    #header-clock {
+      background-color: rgba(220, 43, 226, 0.2); // ◀️ 半透明背景色
+      backdrop-filter: blur(8px); // ◀️ 毛玻璃模糊效果
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 8px; // ◀️ 圆角
+      border: 1px solid rgba(255, 255, 255, 0.1); // ◀️ 细边框增强层次感
+      box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3); // ◀️ 柔和色阴影
+      padding: 4px 8px; // ◀️ 内边距让背景更明显
+    }
+
+    .header-clock .clock-time {
+      background-color: transparent ; // ◀️ 内部透明，不重复背景
+      color: #ffffff ;
+      text-shadow: none ; // ◀️ 移除文本阴影，使用背景衬托
+
+      .hour,
+      .minute,
+      .second,
+      .separator {
+        color: #ffffff ;
+        text-shadow: none ; // ◀️ 移除文本阴影
+      }
+    }
+
+    // 分割竖线：浅色
+    .content-body {
+      .menu + .appearance::before,
+      .menu + .social-links::before,
+      .appearance + .social-links::before,
+      .social-links + .extra::before {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  // 🚀 首页离开壁纸区：白色文字（固定）
+  .home-page &.left-hero {
+    /* 🎨 网站名称样式 - 独立控制，避免影响导航栏其他文本 */
+    .blogger-name,
+    .VPNavBarTitle .title {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      /* 🚫 悬停不换色，保持原色 */
+      &.active,
+      &:hover {
+        color: #ffffff;
+      }
+    }
+
+    .VPNavBarMenu .text,
+    .VPNavBarMenuGroup .text,
+    .VPNavBarMenuLink {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      &.active,
+      &:hover {
+        color: rgba(59, 130, 246, 1);
+      }
+    }
+
+    .search-icon,
+    .tk-icon,
+    .VPSwitchAppearance,
+    .social-link,
+    .VPSocialLink {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 🎨 CNB「云原生构建」图标颜色 - 首页离开壁纸区 */
+    .social-link[aria-label="cnb"],
+    .social-link[href*="cnb.cool"] {
+      color: #ff6200;
+
+      &:hover {
+        color: #e55a00;
+      }
+    }
+
+    .DocSearch-Button {
+      background-color: var(--bg-color);
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+
+      .DocSearch-Button-Placeholder {
+        color: rgba(255, 255, 255, 0.8);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+      }
+    }
+
+    // ⏰ 时钟外层容器样式
+    #header-clock {
+      background-color: rgba(0, 0, 0, 0.2); // ◀️ 半透明背景色
+      backdrop-filter: blur(8px); // ◀️ 毛玻璃模糊效果
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 8px; // ◀️ 圆角
+      border: 1px solid rgba(255, 255, 255, 0.1); // ◀️ 细边框增强层次感
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); // ◀️ 柔和阴影
+      padding: 4px 8px; // ◀️ 内边距让背景更明显
+    }
+
+    .header-clock .clock-time {
+      background-color: transparent ; // ◀️ 内部透明，不重复背景
+      color: #ffffff ;
+      text-shadow: none ; // ◀️ 移除文本阴影，使用背景衬托
+
+      .hour,
+      .minute,
+      .second,
+      .separator {
+        color: #ffffff ;
+        text-shadow: none ; // ◀️ 移除文本阴影
+      }
+    }
+
+    // 分割竖线：使用系统颜色
+    .content-body {
+      .menu + .appearance::before,
+      .menu + .social-links::before,
+      .appearance + .social-links::before,
+      .social-links + .extra::before {
+        background-color: var(--vp-c-divider, rgba(60, 60, 67, 0.12));
+      }
+    }
+
+    .dark-mode & .content-body {
+      .menu + .appearance::before,
+      .menu + .social-links::before,
+      .appearance + .social-links::before,
+      .social-links + .extra::before {
+        background-color: var(--vp-c-divider, rgba(84, 84, 88, 0.48));
+      }
+    }
+  }
+
+  // 🎯 首页未滚动时的样式（背景、边框等，不包含文字颜色）
+  .home-page &:not(.scrolled) {
+    position: fixed;
+    background: hsla(0, 0%, 0%, 0);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+
+    .dark-mode & {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .container {
+      background: transparent;
+
+      @media (max-width: 1146px) {
+        gap: clamp(0.75rem, 4vw, 1.5rem);
+      }
+    }
+
+    .header-wrapper {
+      background: transparent;
+    }
+  }
+
+  // 滚动后样式（背景、边框等）
+  &.scrolled {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: hsla(0, 0%, 100%, 0);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    .dark-mode & {
+      background-color: hsla(0, 0%, 0%, 0);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-wrapper {
+      height: 60px;
+    }
+
+    .brand-avatar {
+      box-shadow: none;
+    }
+
+    .search-input {
+      background: var(--bg-color);
+      border-color: var(--border-color);
+      color: var(--text-color);
+      backdrop-filter: none;
+
+      &::placeholder {
+        color: var(--text-secondary);
+      }
+    }
+
+    // 滚动后时钟样式 - 🎨 圆角半透明模糊背景
+    #header-clock {
+      background-color: rgba(138, 43, 226, 0.15); // ◀️ 半透明背景色
+      backdrop-filter: blur(8px); // ◀️ 毛玻璃模糊效果
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 8px; // ◀️ 圆角
+      border: 1px solid rgba(138, 43, 226, 0.2); // ◀️ 细边框增强层次感
+      box-shadow: 0 4px 12px rgba(138, 43, 226, 0.2); // ◀️ 柔和的阴影色
+      padding: 4px 8px; // ◀️ 内边距让背景更明显
+    }
+
+    .header-clock,
+    .header-clock .clock-time {
+      background-color: transparent ; // ◀️ 内部透明，不重复背景
+    }
+
+    // 滚动后时钟文本移除阴影，使用清晰文字
+    .header-clock .clock-time,
+    .header-clock .clock-time .hour,
+    .header-clock .clock-time .minute,
+    .header-clock .clock-time .second,
+    .header-clock .clock-time .separator {
+      text-shadow: none ; // ◀️ 移除文本阴影，使用背景衬托
+    }
+  }
+
+  // 非首页的Header样式（固定白色文本）
+  body:not(.home-page) & {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background-color: hsla(0, 0%, 100%, 0);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    .dark-mode & {
+      background-color: hsla(0, 0%, 0%, 0);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-name,
+    .nav-link,
+    .header-icon-btn {
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .search-icon {
+      color: #ffffff; /* ◀️ 与电脑端保持一致，使用白色 */
+      text-shadow: 0 2px 8px rgba(138, 43, 226, 0.8); /* ◀️ 与电脑端保持一致，使用紫色阴影 */
+    }
+
+    /* 🎨 CNB「云原生构建」图标颜色 - 非首页 */
+    .social-link[aria-label="cnb"],
+    .social-link[href*="cnb.cool"] {
+      color: #ff6200;
+
+      &:hover {
+        color: #e55a00;
+      }
+    }
+
+    // ⏰ 时钟外层容器样式 - 在文档内容落地页
+    .header-clock {
+      background-color: rgba(23, 19, 240, 0.486) ; // ◀️ 半透明背景色
+      backdrop-filter: blur(8px); // ◀️ 毛玻璃模糊效果
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 8px; // ◀️ 圆角
+      border: 1px solid rgba(255, 255, 255, 0.1); // ◀️ 细边框增强层次感
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); // ◀️ 柔和阴影
+      padding: 4px 8px; // ◀️ 内边距让背景更明显
+    }
+
+    .header-clock .clock-time {
+      background-color: transparent ; // ◀️ 内部透明，不重复背景
+      color: #ffffff ;
+      text-shadow: none ; // ◀️ 移除文本阴影，使用背景衬托
+
+      .hour,
+      .minute,
+      .second,
+      .separator {
+        color: #ffffff ;
+        text-shadow: none ; // ◀️ 移除文本阴影
+      }
+    }
+
+    // 🌆 深色模式下使用背景色
+    .dark-mode & {
+      .brand-name,
+      .nav-link,
+      .header-icon-btn {
+        text-shadow: 0 2px 8px rgba(138, 43, 226, 0.8); // 导航栏文本的阴影色
+      }
+
+      // 深色模式下的时钟样式 - 包含背景色
+      .header-clock {
+        background-color: rgba(138, 43, 226, 0.2) ; // ◀️ 半透明背景色
+        border: 1px solid rgba(138, 43, 226, 0.3); // ◀️ 边框色
+        box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3); // ◀️ 柔和阴影色
+      }
+
+      .header-clock .clock-time,
+      .header-clock .clock-time .hour,
+      .header-clock .clock-time .minute,
+      .header-clock .clock-time .second,
+      .header-clock .clock-time .separator {
+        text-shadow: none ; // ◀️ 移除文本阴影
+      }
+
+      /* 🎨 CNB「云原生构建」图标颜色 - 深色模式 */
+      .social-link[aria-label="cnb"],
+      .social-link[href*="cnb.cool"] {
+        color: #ff6200;
+
+        &:hover {
+          color: #e55a00;
+        }
+      }
+    }
+  }
+
+  // ⏰ 定义时钟样式
+  .VPNavBarExtra .header-clock {
+    font-size: 18px;
+    font-weight: 200;
+  }
+
+  .header-clock .clock-time {
+    font-size: 18px;
+    font-weight: 900;
+
+    .hour,
+    .minute,
+    .second,
+    .separator {
+      font-size: 18px;
+      font-weight: 900;
+    }
+  }
+
+  // VitePress wrapper
+  .wrapper {
+    padding: 0 24px;
+
+    @media (max-width: 1146px) {
+      padding: 0 clamp(0.75rem, 3vw, 1rem); // 移动端使用比例padding，增加空间
+    }
+
+    @media (min-width: 1147px) {
+      padding: 0 32px; // 桌面端使用32px padding
+    }
+  }
+
+  // VitePress container
+  .container {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: calc(var(--vp-layout-max-width, 1440px) - 64px);
+    height: var(--vp-nav-height, 64px);
+    pointer-events: none;
+
+    > .title,
+    > .content {
+      pointer-events: none;
+    }
+
+    * {
+      pointer-events: auto;
+    }
+
+    // 移动端隐藏 .title 容器（使用子选择器避免选择器冲突）
+    @media (max-width: 1146px) {
+      > .title {
+        display: none; // 确保优先级，隐藏桌面端标题区域
+      }
+
+      // 移动端增加左右间距
+      gap: clamp(0.5rem, 3vw, 1rem);
+      padding: 0 clamp(0.25rem, 1vw, 0.5rem);
+    }
+  }
+
+  // Title Section (Left) - 包含Logo、博客名和搜索框
+  .title {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: calc(var(--vp-nav-height, 64px) - 1px);
+    transition: background-color 0.5s;
+
+    .VPNavBarTitle {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid transparent;
+      height: var(--vp-nav-height, 64px);
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--vp-c-text-1, var(--text-color));
+      text-decoration: none;
+      transition: opacity 0.25s;
+      flex-shrink: 0;
+
+      a.title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      /* 🍮 LOGO悬停果冻动画效果 */
+      a.title {
+        .logo-img,
+        .blogger-avatar,
+        .logo-text,
+        .blogger-name {
+          transition: transform 0.3s ease;
+          display: inline-block;
+        }
+
+        &:hover {
+          .logo-img,
+          .blogger-avatar,
+          .logo-text,
+          .blogger-name {
+            animation: logoJellyEffect 1.2s ease-in-out forwards;
+          }
+        }
+      }
+
+      /* 🍮 LOGO果冻动画关键帧 */
+      @keyframes logoJellyEffect {
+        0% {
+          transform: scale(1);
+        }
+        10% {
+          /* 📏 轻微放大 */
+          transform: scale(1.1);
+        }
+        20% {
+          /* 🔄 向左摇摆 */
+          transform: scale(1.1) rotate(-8deg);
+        }
+        30% {
+          /* 🔄 向右摇摆 */
+          transform: scale(1.1) rotate(8deg);
+        }
+        40% {
+          /* 🔄 向左摇摆 */
+          transform: scale(1.05) rotate(-5deg);
+        }
+        50% {
+          /* 🔄 向右摇摆 */
+          transform: scale(1.05) rotate(5deg);
+        }
+        60% {
+          /* 📉 缩小至消失 */
+          transform: scale(0) rotate(0deg);
+          opacity: 0;
+        }
+        70% {
+          /* 💥 突然放大弹出来 */
+          transform: scale(1.3) rotate(0deg);
+          opacity: 1;
+        }
+        75% {
+          /* 🍮 果冻效果 - 回弹 */
+          transform: scale(0.9) rotate(0deg);
+        }
+        80% {
+          /* 🍮 果冻效果 - 再次弹出 */
+          transform: scale(1.05) rotate(0deg);
+        }
+        85% {
+          /* 🍮 果冻效果 - 微调 */
+          transform: scale(0.98) rotate(0deg);
+        }
+        90% {
+          /* 🍮 果冻效果 - 接近正常 */
+          transform: scale(1.02) rotate(0deg);
+        }
+        95% {
+          /* 🍮 果冻效果 - 最后微调 */
+          transform: scale(0.99) rotate(0deg);
+        }
+        100% {
+          /* ✅ 恢复正常尺寸 */
+          transform: scale(1) rotate(0deg);
+        }
+      }
+
+      // 桌面端头像样式（覆盖VitePress全局img样式）
+      a.title img.blogger-avatar,
+      .VPNavBarTitle a.title img.blogger-avatar {
+        width: 24px;
+        height: 24px;
+        min-width: 24px;
+        min-height: 24px;
+        max-width: 24px;
+        max-height: 24px;
+        border-radius: 50%;
+        object-fit: cover;
+        flex-shrink: 0;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      // 博客名样式
+      .blogger-name {
+        font-size: 16px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .logo-img {
+        margin-right: 8px;
+        height: var(--vp-nav-logo-height, 24px);
+      }
+
+      .logo-text {
+        font-size: inherit;
+        font-weight: inherit;
+        color: inherit;
+        white-space: nowrap;
+      }
+    }
+
+    // 搜索框在title区域内
+    .search {
+      flex-shrink: 1;
+      min-width: 0;
+    }
+  }
+
+  // Content Section (Right)
+  .content {
+    flex-grow: 1;
+
+    .content-body {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      height: var(--vp-nav-height, 64px);
+      transition: background-color 0.5s;
+
+      @media (max-width: 1146px) {
+        column-gap: clamp(0.375rem, 2vw, 0.75rem);
+      }
+    }
+  }
+
+  // VitePress dividers using adjacent sibling selectors
+  .content-body {
+    .menu + .appearance::before,
+    .menu + .social-links::before,
+    .appearance + .social-links::before,
+    .social-links + .extra::before {
+      margin-right: 8px;
+      margin-left: 8px;
+      width: 1px;
+      height: 24px;
+      background-color: var(--vp-c-divider, rgba(60, 60, 67, 0.12));
+      content: "";
+    }
+
+    .menu + .appearance::before {
+      margin-right: 16px;
+    }
+
+    .appearance + .social-links::before {
+      margin-left: 16px;
+    }
+  }
+
+  .dark-mode & .content-body {
+    .menu + .appearance::before,
+    .menu + .social-links::before,
+    .appearance + .social-links::before,
+    .social-links + .extra::before {
+      background-color: var(--vp-c-divider, rgba(84, 84, 88, 0.48));
+    }
+
+    // 确保暗色模式下的间距与亮色模式一致
+    .menu + .appearance::before {
+      margin-right: 16px;
+    }
+
+    .appearance + .social-links::before {
+      margin-left: 16px;
+    }
+  }
+
+  // Divider line
+  .divider {
+    width: 100%;
+    height: 1px;
+
+    .divider-line {
+      width: 100%;
+      height: 1px;
+      transition: background-color 0.5s;
+    }
+  }
+
+  &:not(.home) .divider-line {
+    background-color: var(--vp-c-gutter, var(--border-color));
+  }
+
+  // Search (现在在.title内部,间距由title的gap控制)
+  // DocSearch按钮样式已在_docsearch.scss中定义
+  .search {
+    flex-shrink: 0;
+  }
+
+  // Menu
+  .menu {
+    flex-shrink: 0;
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+
+      .nav-item {
+        position: relative;
+
+        .nav-link {
+          display: flex;
+          align-items: center;
+          padding: 0 12px;
+          line-height: var(--vp-nav-height, 64px);
+          font-size: 14px;
+          font-weight: 500;
+          color: var(--vp-c-text-1, var(--text-color));
+          text-decoration: none;
+          white-space: nowrap;
+          transition: color 0.25s;
+
+          &:hover {
+            color: var(--vp-c-brand-1, var(--primary-color));
+          }
+
+          .text {
+            display: block;
+          }
+
+          .dropdown-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+            transition: transform 0.25s;
+          }
+        }
+
+        &.has-dropdown:hover .dropdown-icon {
+          transform: rotate(180deg);
+        }
+
+        &.has-dropdown:hover .dropdown-menu {
+          opacity: 1;
+          visibility: visible;
+          transform: translateY(0);
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          top: calc(100% + 12px);
+          left: 0;
+          min-width: 200px;
+          background: var(--vp-c-bg-elv, var(--card-bg));
+          border: 1px solid var(--vp-c-divider, var(--border-color));
+          border-radius: 12px;
+          padding: 12px;
+          box-shadow: var(--vp-shadow-3, 0 12px 32px rgba(0, 0, 0, 0.1));
+          opacity: 0;
+          visibility: hidden;
+          transform: translateY(-8px);
+          transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+          z-index: 1001;
+        }
+      }
+    }
+  }
+
+  // 🎈 导航文本悬停右移动画（处理导航上相关所有span样式）
+  .VPNavBarMenuGroup .button .text span,
+  .VPNavBarMenuLink .link span,
+  .VPMenuLink .link span,
+  .nav-link span {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+
+  .VPNavBarMenuGroup .button:hover .text span,
+  .VPNavBarMenuLink .link:hover span,
+  .VPMenuLink .link:hover span,
+  .nav-link:hover span {
+    transform: translateX(4px);
+  }
+
+  // Appearance (Theme Toggle) - VitePress Teek Style (Simple Icon Button)
+  .appearance {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    .VPSwitchAppearance {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      transition: color 0.25s;
+      color: var(--vp-c-text-2, var(--text-secondary));
+
+      &:hover {
+        color: var(--vp-c-text-1, var(--text-color));
+      }
+
+      .check {
+        transform: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+      }
+
+      .icon {
+        position: relative;
+        display: block;
+        width: 18px;
+        height: 18px;
+      }
+
+      .vpi-sun,
+      .vpi-moon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 18px;
+        height: 18px;
+        transition: opacity 0.25s;
+      }
+
+      .vpi-sun {
+        opacity: 1;
+      }
+
+      .vpi-moon {
+        opacity: 0;
+      }
+    }
+
+    // Dark mode state - just swap icon visibility
+    .dark-mode & .VPSwitchAppearance {
+      .vpi-sun {
+        opacity: 0;
+      }
+
+      .vpi-moon {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Social Links
+  .social-links {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+    margin-right: -8px;
+
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      color: var(--vp-c-text-2, var(--text-secondary));
+      transition: color 0.25s;
+      border-radius: 8px;
+
+      &:hover {
+        color: var(--vp-c-text-1, var(--text-color));
+        background-color: var(--vp-c-default-soft, rgba(0, 0, 0, 0.04));
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      /* 🎨 CNB「云原生构建」图标颜色 */
+      &[aria-label="cnb"],
+      &[href*="cnb.cool"] {
+        color: #ff6200;
+
+        &:hover {
+          color: #e55a00;
+        }
+      }
+    }
+  }
+
+  // Extra (Clock)
+  .extra {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+
+    .header-clock {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+
+      .clock-icon {
+        display: none; // VitePress风格：不显示图标
+      }
+
+      .clock-time {
+        font-size: 14px;
+        letter-spacing: 0;
+        color: var(--vp-c-text-1, var(--text-primary)); // ◀️ 使用主文本色提高对比度
+        contain: content; // ◀️ 隔离渲染
+        transition: color 0.25s;
+
+        span {
+          display: inline-block; // ◀️ 独立绘制单元
+        }
+      }
+    }
+  }
+
+  // Hamburger (Mobile)
+  .hamburger {
+    display: none;
+    margin-left: 12px;
+
+    @media (max-width: 1146px) {
+      display: flex;
+    }
+
+    .mobile-menu-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: transparent;
+      border: none;
+      border-radius: 8px;
+      color: var(--vp-c-text-2, var(--text-secondary));
+      cursor: pointer;
+      transition: background-color 0.25s, color 0.25s;
+
+      &:hover {
+        color: var(--vp-c-text-1, var(--text-color));
+        background-color: var(--vp-c-default-soft, rgba(0, 0, 0, 0.04));
+      }
+
+      .container {
+        position: relative;
+        width: 18px;
+        height: 14px;
+
+        span {
+          display: block;
+          position: absolute;
+          left: 0;
+          width: 100%;
+          height: 2px;
+          background-color: currentColor;
+          transition: all 0.25s;
+
+          &.top {
+            top: 0;
+          }
+
+          &.middle {
+            top: 50%;
+            transform: translateY(-50%);
+          }
+
+          &.bottom {
+            bottom: 0;
+          }
+        }
+      }
+
+      &[aria-expanded="true"] .container {
+        .top {
+          top: 50%;
+          transform: translateY(-50%) rotate(45deg);
+        }
+
+        .middle {
+          opacity: 0;
+        }
+
+        .bottom {
+          bottom: 50%;
+          transform: translateY(50%) rotate(-45deg);
+        }
+      }
+    }
+  }
+
+  // Mobile responsive
+  @media (max-width: 1146px) {
+    .wrapper {
+      padding: 0 clamp(0.75rem, 3vw, 1rem);
+    }
+
+    // 博客名样式
+    .title {
+      margin-right: auto; // 推离右侧元素
+
+      .logo-text {
+        font-size: 15px;
+      }
+
+      .VPNavBarTitle {
+        margin-right: clamp(0.5rem, 3vw, 1rem);
+      }
+    }
+
+    .search,
+    .menu {
+      display: none;
+    }
+
+    .extra .header-clock {
+      order: -1;
+      margin-right: clamp(0.375rem, 2vw, 0.75rem);
+
+      .clock-time {
+        font-size: 16px;
+        font-weight: 900;
+      }
+    }
+
+    .appearance,
+    .social-links,
+    .extra,
+    .hamburger {
+      .vpi-sun sun,
+      .header-social-links::before,
+      .header-clock::before {
+        background-color: rgba(84, 84, 88, 0.48);
+      }
+    }
+
+    // 调整间距以配合分隔符 - 使用比例单位增加空间
+    .appearance {
+      padding-left: clamp(0.75rem, 3vw, 1.25rem);
+    }
+
+    .header-social-links {
+      padding-left: clamp(0.75rem, 3vw, 1.25rem);
+    }
+
+    .header-clock {
+      padding-left: clamp(0.75rem, 3vw, 1.25rem);
+    }
+
+    // 汉堡菜单左侧间距
+    .hamburger {
+      margin-left: clamp(0.5rem, 2.5vw, 1rem);
+    }
+
+    // 社交链接样式 (VitePress风格)
+    .header-social-links {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+
+      .social-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        color: rgba(60, 60, 67, 0.78);
+        transition: color 0.25s;
+
+        &:hover {
+          color: rgba(60, 60, 67, 1);
+        }
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+
+    .dark-mode & .header-social-links .social-link {
+      color: rgba(235, 235, 245, 0.6);
+
+      &:hover {
+        color: rgba(255, 255, 255, 0.87);
+      }
+    }
+
+    .header-clock {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+
+      .clock-icon {
+        display: none; // VitePress风格：不显示时钟图标
+      }
+
+      .clock-time {
+        letter-spacing: 0.05em;
+        font-size: 16px;
+        white-space: nowrap; // ◀️ 防止换行
+
+        /* ⏰ 时分秒分离显示，形成独立绘制单元 */
+        span {
+          display: inline-block;
+        }
+      }
+    }
+
+    .header-icon-btn {
+      background: transparent;
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      padding: 0.55rem;
+      color: var(--text-color);
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+
+      &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(135deg, rgba(8, 145, 178, 0.1), rgba(6, 182, 212, 0.08));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover {
+        background: rgba(8, 145, 178, 0.1);
+        border-color: rgba(8, 145, 178, 0.3);
+        color: var(--primary-color);
+        transform: translateY(-2px) scale(1.05);
+        box-shadow: 0 4px 12px rgba(8, 145, 178, 0.15);
+
+        &::before {
+          opacity: 1;
+        }
+
+        svg {
+          transform: rotate(15deg);
+        }
+      }
+
+      &:active {
+        transform: translateY(0) scale(0.98);
+      }
+
+      svg {
+        display: block;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        z-index: 1;
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+
+    .mobile-menu-toggle {
+      display: none;
+    }
+  }
+
+  // Search Results Dropdown
+  .search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    max-height: 400px;
+    overflow-y: auto;
+    border-top: 1px solid var(--border-color);
+
+    .search-results-content {
+      padding: 1rem 0;
+    }
+
+    .search-result-item {
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: var(--bg-color);
+      }
+
+      .result-title {
+        font-weight: 500;
+        color: var(--text-color);
+        margin-bottom: 0.25rem;
+      }
+
+      .result-excerpt {
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  /* 📱 平板断点（960px-1279px）更多菜单样式 */
+  .more-menu {
+    display: none;
+    position: relative;
+    align-items: center;
+    flex-shrink: 0;
+
+    /* 📱 在 960px-1279px 断点显示更多菜单按钮，隐藏原来的三个模块 */
+    @media (min-width: 960px) and (max-width: 1279px) {
+      display: flex;
+
+      /* 🎯 隐藏桌面端的主题切换、社交链接 */
+      & ~ .appearance,
+      & ~ .social-links {
+        display: none;
+      }
+    }
+
+    /* 🔘 更多按钮样式 */
+    .more-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: var(--vp-c-text-2, var(--text-secondary));
+      cursor: pointer;
+      border-radius: 8px;
+      transition: all 0.25s ease;
+
+      &:hover {
+        color: var(--vp-c-text-1, var(--text-color));
+        background-color: var(--vp-c-default-soft, rgba(0, 0, 0, 0.04));
+      }
+
+      .more-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    /* 📋 下拉菜单 */
+    .more-dropdown {
+      position: absolute;
+      top: calc(100% + 8px);
+      right: 0;
+      min-width: 160px;
+      background: var(--vp-c-bg-elv, var(--card-bg));
+      border: 1px solid var(--vp-c-divider, var(--border-color));
+      border-radius: 12px;
+      padding: 8px;
+      box-shadow: var(--vp-shadow-3, 0 12px 32px rgba(0, 0, 0, 0.1));
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: opacity 0.25s, visibility 0.25s, transform 0.25s;
+      z-index: 1001;
+
+      /* 🌆 深色模式适配 */
+      .dark-mode & {
+        background: var(--vp-c-bg-elv, #1e1e20);
+        border-color: var(--vp-c-divider, rgba(84, 84, 88, 0.48));
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+      }
+    }
+
+    /* 🔽 展开状态 */
+    &.is-open .more-dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    /* 📦 下拉菜单内容 */
+    .more-dropdown-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* 🎨 菜单项通用样式 */
+    .more-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-radius: 8px;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: var(--vp-c-default-soft, rgba(0, 0, 0, 0.04));
+      }
+
+      .item-label {
+        font-size: 14px;
+        color: var(--vp-c-text-2, var(--text-secondary));
+        margin-right: 12px;
+      }
+    }
+
+    /* 🌗 主题切换项 */
+    .theme-item {
+      .VPSwitchAppearance {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 22px;
+        height: 22px;
+        border: none;
+        background: transparent;
+        cursor: pointer;
+        color: var(--vp-c-text-2, var(--text-secondary));
+
+        .check {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 22px;
+          height: 22px;
+        }
+
+        .icon {
+          position: relative;
+          display: block;
+          width: 18px;
+          height: 18px;
+        }
+
+        .vpi-sun,
+        .vpi-moon {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 18px;
+          height: 18px;
+          transition: opacity 0.25s;
+        }
+
+        .vpi-sun {
+          opacity: 1;
+        }
+
+        .vpi-moon {
+          opacity: 0;
+        }
+      }
+
+      /* 🌆 深色模式下图标切换 */
+      .dark-mode & .VPSwitchAppearance {
+        .vpi-sun {
+          opacity: 0;
+        }
+
+        .vpi-moon {
+          opacity: 1;
+        }
+      }
+    }
+
+    /* 🔗 社交链接项 */
+    .social-item {
+      .social-links-compact {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .social-link {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 32px;
+          height: 32px;
+          color: var(--vp-c-text-2, var(--text-secondary));
+          border-radius: 6px;
+          transition: all 0.2s;
+
+          &:hover {
+            color: var(--vp-c-text-1, var(--text-color));
+            background-color: var(--vp-c-default-soft, rgba(0, 0, 0, 0.06));
+          }
+
+          svg {
+            width: 18px;
+            height: 18px;
+          }
+
+          /* 🎨 CNB「云原生构建」图标颜色 */
+          &[aria-label="cnb"],
+          &[href*="cnb.cool"] {
+            color: #ff6200;
+
+            &:hover {
+              color: #e55a00;
+            }
+          }
+        }
+      }
+    }
+
+    /* ⚙️ 设置项 */
+    .settings-item {
+      .settings-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        color: var(--vp-c-text-2, var(--text-secondary));
+        border-radius: 6px;
+        transition: all 0.2s;
+
+        &:hover {
+          color: var(--vp-c-text-1, var(--text-color));
+          background-color: var(--vp-c-default-soft, rgba(0, 0, 0, 0.06));
+        }
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+  }
+}
+
+// Main content
+.main-content {
+  padding: 2rem 0;
+  padding-top: calc(60px + 2rem);  // header高度 + 额外间距
+  min-height: calc(100vh - 120px);
+}
+
+// 首页特殊处理:移除main-content的padding让Hero全屏
+body.home-page {
+  .main-content {
+    padding: 0;
+    padding-top: 0;  // 首页Hero会自己处理顶部间距
+  }
+}
+
+.content-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 2rem;
+
+  @media (max-width: 1146px) {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,476 @@
+/* 🕊️白木 开发 🔗gl.baimu.live */
+
+/**
+ * 💬 Twikoo 管理员后台模态窗口样式
+ */
+
+/* 🎨 模态窗口基础样式变量 */
+:root {
+  /* ☀️ 亮色模式变量 */
+  --tk-admin-modal-bg: rgba(255, 255, 255, 0.95);
+  --tk-admin-modal-border: rgba(255, 255, 255, 0.8);
+  --tk-admin-modal-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  --tk-admin-text-primary: #1f2937;
+  --tk-admin-text-secondary: #4b5563;
+  --tk-admin-text-muted: #6b7280;
+  --tk-admin-input-bg: rgba(255, 255, 255, 0.9);
+  --tk-admin-input-border: rgba(14, 116, 144, 0.3);
+  --tk-admin-input-focus-border: rgba(14, 116, 144, 0.6);
+  --tk-admin-btn-primary-bg: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%);
+  --tk-admin-btn-primary-text: #ffffff;
+  --tk-admin-header-bg: rgba(255, 255, 255, 0.7);
+  --tk-admin-overlay-bg: rgba(0, 0, 0, 0.5);
+}
+
+/* 🌆 暗色模式变量 */
+.dark-mode {
+  --tk-admin-modal-bg: rgba(30, 41, 59, 0.95);
+  --tk-admin-modal-border: rgba(255, 255, 255, 0.1);
+  --tk-admin-modal-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --tk-admin-text-primary: #f9fafb;
+  --tk-admin-text-secondary: #d1d5db;
+  --tk-admin-text-muted: #9ca3af;
+  --tk-admin-input-bg: rgba(30, 41, 59, 0.9);
+  --tk-admin-input-border: rgba(34, 211, 238, 0.3);
+  --tk-admin-input-focus-border: rgba(34, 211, 238, 0.6);
+  --tk-admin-btn-primary-bg: linear-gradient(135deg, #0891b2 0%, #22d3ee 100%);
+  --tk-admin-btn-primary-text: #ffffff;
+  --tk-admin-header-bg: rgba(30, 41, 59, 0.7);
+  --tk-admin-overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* 🎯 模态窗口遮罩层 */
+.tk-admin-modal-overlay {
+  background: var(--tk-admin-overlay-bg) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* 🎯 模态窗口包装器 */
+.tk-admin-modal-wrapper {
+  /* 基础样式已在JS中设置，这里补充响应式调整 */
+
+  @media (max-width: 768px) {
+    width: 95vw !important;
+    max-height: 85vh !important;
+  }
+}
+
+/* 🎨 模态窗口内容区 */
+.tk-admin-modal-content {
+  background: var(--tk-admin-modal-bg) !important;
+  border: 1px solid var(--tk-admin-modal-border) !important;
+  box-shadow: var(--tk-admin-modal-shadow) !important;
+}
+
+/* 🎨 模态窗口头部 */
+.tk-admin-modal-header {
+  background: var(--tk-admin-header-bg) !important;
+  border-bottom: 1px solid var(--tk-comment-glass-border, rgba(0, 0, 0, 0.1)) !important;
+
+  .dark-mode & {
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* 📝 模态窗口标题 */
+.tk-admin-modal-title {
+  color: var(--tk-admin-text-primary) !important;
+}
+
+/* ❌ 关闭按钮 */
+.tk-admin-modal-close {
+  background: var(--tk-admin-input-bg) !important;
+  border-color: var(--tk-admin-input-border) !important;
+  color: var(--tk-admin-text-secondary) !important;
+
+  &:hover {
+    background: var(--tk-comment-item-hover-bg, rgba(14, 116, 144, 0.1)) !important;
+    border-color: var(--tk-admin-input-focus-border) !important;
+    color: var(--primary-color, #0e7490) !important;
+  }
+}
+
+/* 📦 模态窗口内容体 */
+.tk-admin-modal-body {
+  /* 自定义滚动条 */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--tk-admin-input-border);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--tk-admin-input-focus-border);
+    }
+  }
+}
+
+/* 🔐 管理面板内部样式优化 */
+#tk-admin-container-placeholder {
+  .tk-admin-container {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+
+    /* 📝 管理面板标题 */
+    .tk-login-title,
+    .tk-admin-title {
+      color: var(--tk-admin-text-primary) !important;
+      font-weight: 600 !important;
+    }
+
+    /* 📝 普通文本 */
+    p, span, div {
+      color: var(--tk-admin-text-secondary) !important;
+    }
+
+    /* 📝 标签文本 */
+    label {
+      color: var(--tk-admin-text-primary) !important;
+      font-weight: 500 !important;
+    }
+
+    /* 📝 输入框样式 */
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    textarea,
+    .el-input__inner {
+      background: var(--tk-admin-input-bg) !important;
+      border: 1px solid var(--tk-admin-input-border) !important;
+      color: var(--tk-admin-text-primary) !important;
+      border-radius: 10px !important;
+      padding: 0.75rem 1rem !important;
+
+      &::placeholder {
+        color: var(--tk-admin-text-muted) !important;
+      }
+
+      &:focus {
+        border-color: var(--tk-admin-input-focus-border) !important;
+        box-shadow: 0 0 0 3px rgba(14, 116, 144, 0.15) !important;
+        outline: none !important;
+      }
+    }
+
+    /* 📝 密码输入框特殊样式 */
+    .tk-password {
+      .el-input__inner {
+        background: var(--tk-admin-input-bg) !important;
+        border-color: var(--tk-admin-input-border) !important;
+        color: var(--tk-admin-text-primary) !important;
+
+        &:focus {
+          border-color: var(--tk-admin-input-focus-border) !important;
+        }
+      }
+
+      .el-input-group__prepend,
+      .el-input-group__append {
+        background: var(--tk-admin-input-bg) !important;
+        border-color: var(--tk-admin-input-border) !important;
+        color: var(--tk-admin-text-secondary) !important;
+      }
+    }
+
+    /* 🔘 按钮样式 */
+    .el-button,
+    button {
+      border-radius: 10px !important;
+      font-weight: 500 !important;
+      transition: all 0.3s ease !important;
+
+      &.el-button--primary,
+      &.tk-login-btn {
+        background: var(--tk-admin-btn-primary-bg) !important;
+        color: var(--tk-admin-btn-primary-text) !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(14, 116, 144, 0.3) !important;
+
+        &:hover {
+          transform: translateY(-2px) !important;
+          box-shadow: 0 6px 20px rgba(14, 116, 144, 0.4) !important;
+        }
+
+        &:active {
+          transform: translateY(0) !important;
+        }
+      }
+
+      &.el-button--default {
+        background: var(--tk-admin-input-bg) !important;
+        border: 1px solid var(--tk-admin-input-border) !important;
+        color: var(--tk-admin-text-primary) !important;
+
+        &:hover {
+          background: var(--tk-comment-item-hover-bg, rgba(14, 116, 144, 0.1)) !important;
+          border-color: var(--tk-admin-input-focus-border) !important;
+        }
+      }
+    }
+
+    /* 📋 表格样式 */
+    .el-table {
+      background: transparent !important;
+
+      th {
+        background: var(--tk-admin-header-bg) !important;
+        color: var(--tk-admin-text-primary) !important;
+        font-weight: 600 !important;
+        border-bottom: 1px solid var(--tk-admin-input-border) !important;
+      }
+
+      td {
+        background: transparent !important;
+        color: var(--tk-admin-text-secondary) !important;
+        border-bottom: 1px solid var(--tk-admin-input-border) !important;
+      }
+
+      tr:hover td {
+        background: var(--tk-comment-item-hover-bg, rgba(14, 116, 144, 0.05)) !important;
+      }
+    }
+
+    /* 📋 卡片样式 */
+    .el-card {
+      background: var(--tk-admin-input-bg) !important;
+      border: 1px solid var(--tk-admin-input-border) !important;
+      border-radius: 12px !important;
+
+      .el-card__header {
+        border-bottom: 1px solid var(--tk-admin-input-border) !important;
+        color: var(--tk-admin-text-primary) !important;
+        font-weight: 600 !important;
+      }
+    }
+
+    /* 📋 标签样式 */
+    .el-tag {
+      border-radius: 6px !important;
+      font-weight: 500 !important;
+    }
+
+    /* 📋 分页样式 */
+    .el-pagination {
+      button {
+        background: var(--tk-admin-input-bg) !important;
+        border: 1px solid var(--tk-admin-input-border) !important;
+        color: var(--tk-admin-text-secondary) !important;
+
+        &:hover {
+          color: var(--primary-color, #0e7490) !important;
+        }
+
+        &:disabled {
+          color: var(--tk-admin-text-muted) !important;
+        }
+      }
+
+      .el-pager li {
+        background: var(--tk-admin-input-bg) !important;
+        border: 1px solid var(--tk-admin-input-border) !important;
+        color: var(--tk-admin-text-secondary) !important;
+
+        &.active {
+          background: var(--tk-admin-btn-primary-bg) !important;
+          color: var(--tk-admin-btn-primary-text) !important;
+          border-color: transparent !important;
+        }
+
+        &:hover {
+          color: var(--primary-color, #0e7490) !important;
+        }
+      }
+    }
+
+    /* 📋 下拉菜单样式 */
+    .el-dropdown-menu {
+      background: var(--tk-admin-modal-bg) !important;
+      border: 1px solid var(--tk-admin-input-border) !important;
+      box-shadow: var(--tk-admin-modal-shadow) !important;
+      border-radius: 10px !important;
+
+      .el-dropdown-menu__item {
+        color: var(--tk-admin-text-secondary) !important;
+
+        &:hover {
+          background: var(--tk-comment-item-hover-bg, rgba(14, 116, 144, 0.1)) !important;
+          color: var(--primary-color, #0e7490) !important;
+        }
+      }
+    }
+
+    /* 📋 对话框样式 */
+    .el-dialog {
+      background: var(--tk-admin-modal-bg) !important;
+      border: 1px solid var(--tk-admin-modal-border) !important;
+      border-radius: 16px !important;
+      box-shadow: var(--tk-admin-modal-shadow) !important;
+
+      .el-dialog__header {
+        border-bottom: 1px solid var(--tk-admin-input-border) !important;
+
+        .el-dialog__title {
+          color: var(--tk-admin-text-primary) !important;
+          font-weight: 600 !important;
+        }
+      }
+
+      .el-dialog__body {
+        color: var(--tk-admin-text-secondary) !important;
+      }
+    }
+
+    /* 📋 消息提示样式 */
+    .el-message {
+      background: var(--tk-admin-modal-bg) !important;
+      border: 1px solid var(--tk-admin-input-border) !important;
+      border-radius: 10px !important;
+      box-shadow: var(--tk-admin-modal-shadow) !important;
+
+      .el-message__content {
+        color: var(--tk-admin-text-primary) !important;
+      }
+    }
+
+    /* 📋 确认框样式 */
+    .el-message-box {
+      background: var(--tk-admin-modal-bg) !important;
+      border: 1px solid var(--tk-admin-modal-border) !important;
+      border-radius: 16px !important;
+      box-shadow: var(--tk-admin-modal-shadow) !important;
+
+      .el-message-box__title {
+        color: var(--tk-admin-text-primary) !important;
+        font-weight: 600 !important;
+      }
+
+      .el-message-box__message {
+        color: var(--tk-admin-text-secondary) !important;
+      }
+    }
+
+    /* 📋 选项卡样式 */
+    .el-tabs {
+      .el-tabs__header {
+        border-bottom: 1px solid var(--tk-admin-input-border) !important;
+      }
+
+      .el-tabs__item {
+        color: var(--tk-admin-text-secondary) !important;
+
+        &.is-active {
+          color: var(--primary-color, #0e7490) !important;
+        }
+
+        &:hover {
+          color: var(--primary-color, #0e7490) !important;
+        }
+      }
+
+      .el-tabs__active-bar {
+        background-color: var(--primary-color, #0e7490) !important;
+      }
+    }
+
+    /* 📋 开关样式 */
+    .el-switch {
+      .el-switch__label {
+        color: var(--tk-admin-text-secondary) !important;
+
+        &.is-active {
+          color: var(--primary-color, #0e7490) !important;
+        }
+      }
+    }
+
+    /* 📋 单选框和复选框样式 */
+    .el-radio,
+    .el-checkbox {
+      color: var(--tk-admin-text-secondary) !important;
+
+      &.is-checked {
+        .el-radio__label,
+        .el-checkbox__label {
+          color: var(--primary-color, #0e7490) !important;
+        }
+      }
+    }
+
+    /* 📋 链接样式 */
+    a {
+      color: var(--primary-color, #0e7490) !important;
+      text-decoration: none !important;
+      transition: all 0.3s ease !important;
+
+      &:hover {
+        text-decoration: underline !important;
+      }
+    }
+  }
+}
+
+/* 📱 移动端适配 */
+@media (max-width: 768px) {
+  .tk-admin-modal-wrapper {
+    .tk-admin-modal-content {
+      border-radius: 16px !important;
+    }
+
+    .tk-admin-modal-header {
+      padding: 0.875rem 1rem !important;
+    }
+
+    .tk-admin-modal-title {
+      font-size: 1rem !important;
+    }
+
+    .tk-admin-modal-body {
+      padding: 1rem !important;
+    }
+
+    #tk-admin-container-placeholder {
+      .tk-admin-container {
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        textarea,
+        .el-input__inner {
+          font-size: 16px !important; /* ◀️ 防止 iOS 缩放 */
+        }
+      }
+    }
+  }
+}
+
+/* 📱 小屏手机适配 */
+@media (max-width: 480px) {
+  .tk-admin-modal-wrapper {
+    width: 98vw !important;
+
+    .tk-admin-modal-content {
+      border-radius: 12px !important;
+    }
+
+    .tk-admin-modal-header {
+      padding: 0.75rem !important;
+    }
+
+    .tk-admin-modal-body {
+      padding: 0.75rem !important;
+    }
+  }
+}

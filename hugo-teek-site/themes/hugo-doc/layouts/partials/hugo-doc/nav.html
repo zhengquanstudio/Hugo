@@ -1,0 +1,75 @@
+{{ $brandName := .Site.Params.hugoDoc.brandName | default .Site.Title }}
+{{ $brandIcon := .Site.Params.hugoDoc.brandIcon | default "🪁" }}
+{{ $homeURL := .Site.Home.RelPermalink }}
+{{ if .IsHome }}
+  {{ $homeURL = "" }}
+{{ end }}
+{{ $links := slice
+  (dict "id" "home" "label" "首页")
+  (dict "id" "skills" "label" "技能")
+  (dict "id" "docs" "label" "文档")
+  (dict "id" "projects" "label" "项目")
+  (dict "id" "about" "label" "关于")
+}}
+{{ $defaultProfileURL := .Site.Params.author.link | default "/" }}
+{{ $profileURL := $defaultProfileURL }}
+{{ $profileIcon := "link" }}
+{{ with .Site.Params.blogger.social }}
+  {{ range . }}
+    {{ if and (eq $profileURL $defaultProfileURL) (or (eq .icon "github") (eq .icon "cnb") (eq .icon "gitee")) }}
+      {{ $profileURL = .url }}
+      {{ $profileIcon = .icon }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ $profileBlank := or (hasPrefix $profileURL "http://") (hasPrefix $profileURL "https://") (hasPrefix $profileURL "//") }}
+<nav class="nav-section" id="navbar">
+  <div class="nav-container">
+    <a href="{{ printf "%s#home" $homeURL }}" class="nav-logo">
+      <span class="logo-icon">{{ $brandIcon }}</span>
+      <span class="logo-text">{{ $brandName }}</span>
+    </a>
+
+    <ul class="nav-menu">
+      {{ range $links }}
+        {{ $active := false }}
+        {{ if and $.IsHome (eq .id "home") }}
+          {{ $active = true }}
+        {{ else if and (not $.IsHome) (eq .id "docs") }}
+          {{ $active = true }}
+        {{ end }}
+        <li class="nav-item">
+          <a href="{{ printf "%s#%s" $homeURL .id }}" class="nav-link{{ if $active }} active{{ end }}">{{ .label }}</a>
+        </li>
+      {{ end }}
+    </ul>
+
+    <div class="nav-actions">
+      <a href="{{ printf "%s#docs" $homeURL }}" class="nav-btn search-btn" aria-label="跳转到文档">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+      </a>
+      <a href="{{ $profileURL }}"{{ if $profileBlank }} target="_blank" rel="noopener"{{ end }} class="nav-btn github-btn" aria-label="个人主页">
+        {{ partial "hugo-doc/social-icon.html" (dict "icon" $profileIcon) }}
+      </a>
+    </div>
+
+    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="打开菜单">
+      <span class="menu-line"></span>
+      <span class="menu-line"></span>
+      <span class="menu-line"></span>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <ul class="mobile-nav-menu">
+      {{ range $links }}
+        <li class="mobile-nav-item">
+          <a href="{{ printf "%s#%s" $homeURL .id }}" class="mobile-nav-link">{{ .label }}</a>
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+</nav>

@@ -1,0 +1,280 @@
+// =============================================================================
+// 代码高亮样式
+// =============================================================================
+
+.md-editor-v3-wrapper {
+  // ---------------------------------------------------------------------------
+  // 内联代码
+  // ---------------------------------------------------------------------------
+  .md-editor-preview code:not([class*="language-"]) {
+    padding: var(--md-inline-code-padding);
+    background-color: var(--md-inline-code-bg);
+    color: var(--md-inline-code-color);
+    border-radius: var(--md-inline-code-border-radius);
+    font-family: var(--md-editor-font);
+    font-size: var(--md-inline-code-font-size);
+    word-break: break-word;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 代码块容器
+  // ---------------------------------------------------------------------------
+  .md-editor-preview pre {
+    margin: 1em 0;
+    padding: 0;
+    background-color: var(--md-code-bg);
+    border-radius: var(--md-code-border-radius);
+    overflow: hidden;
+
+    code {
+      display: block;
+      padding: var(--md-code-padding);
+      font-family: var(--md-editor-font);
+      font-size: var(--md-code-font-size);
+      line-height: var(--md-code-line-height);
+      color: var(--md-code-text);
+      overflow-x: auto;
+      background: transparent;
+
+      &::-webkit-scrollbar {
+        height: var(--md-scrollbar-width);
+      }
+
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: var(--md-scrollbar-width);
+      }
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 代码块头部 (语言标签 + 复制按钮)
+  // ---------------------------------------------------------------------------
+  .md-editor-code-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--md-code-header-height);
+    padding: 0 var(--md-spacing-md);
+    background-color: var(--md-code-header-bg);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .md-editor-code-lang {
+    font-size: 12px;
+    color: var(--md-code-copy-btn-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  // ---------------------------------------------------------------------------
+  // 复制按钮
+  // ---------------------------------------------------------------------------
+  .md-editor-copy-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: none;
+    border-radius: var(--md-radius-sm);
+    background: transparent;
+    color: var(--md-code-copy-btn-color);
+    font-size: 12px;
+    cursor: pointer;
+    transition: color var(--md-transition-fast),
+                background-color var(--md-transition-fast);
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    &:hover {
+      color: var(--md-code-copy-btn-hover-color);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    &.copied {
+      color: var(--md-success);
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // 行号
+  // ---------------------------------------------------------------------------
+  .md-editor-code-line-numbers {
+    padding: var(--md-code-padding) 0;
+    padding-right: var(--md-spacing-md);
+    text-align: right;
+    color: rgba(255, 255, 255, 0.3);
+    font-family: var(--md-editor-font);
+    font-size: var(--md-code-font-size);
+    line-height: var(--md-code-line-height);
+    user-select: none;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  // ---------------------------------------------------------------------------
+  // 高亮行
+  // ---------------------------------------------------------------------------
+  .md-editor-code-line-highlight {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Mermaid 图表
+  // ---------------------------------------------------------------------------
+  .md-editor-mermaid {
+    margin: 1em 0;
+    padding: var(--md-spacing-md);
+    background-color: var(--md-bg);
+    border: 1px solid var(--md-border-light);
+    border-radius: var(--md-radius-md);
+    text-align: center;
+    overflow-x: auto;
+  }
+
+  // ---------------------------------------------------------------------------
+  // KaTeX 数学公式
+  // ---------------------------------------------------------------------------
+  .md-editor-katex {
+    margin: 1em 0;
+    padding: var(--md-spacing-md);
+    overflow-x: auto;
+
+    &-inline {
+      display: inline;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
+
+// =============================================================================
+// 语法高亮主题扩展 (基于 highlight.js / prism.js)
+// =============================================================================
+// 这些样式补充 md-editor-v3 内置的代码主题
+
+.md-editor-v3-wrapper .md-editor-preview pre code {
+  // 关键字
+  .hljs-keyword,
+  .token.keyword {
+    color: #c678dd;
+  }
+
+  // 字符串
+  .hljs-string,
+  .token.string {
+    color: #98c379;
+  }
+
+  // 数字
+  .hljs-number,
+  .token.number {
+    color: #d19a66;
+  }
+
+  // 函数
+  .hljs-function,
+  .token.function {
+    color: #61afef;
+  }
+
+  // 注释
+  .hljs-comment,
+  .token.comment {
+    color: #5c6370;
+    font-style: italic;
+  }
+
+  // 变量
+  .hljs-variable,
+  .token.variable {
+    color: #e06c75;
+  }
+
+  // 类名
+  .hljs-class,
+  .token.class-name {
+    color: #e5c07b;
+  }
+
+  // 操作符
+  .hljs-operator,
+  .token.operator {
+    color: #56b6c2;
+  }
+
+  // 属性
+  .hljs-property,
+  .token.property {
+    color: #abb2bf;
+  }
+
+  // 标签
+  .hljs-tag,
+  .token.tag {
+    color: #e06c75;
+  }
+
+  // 属性名
+  .hljs-attr,
+  .token.attr-name {
+    color: #d19a66;
+  }
+
+  // 属性值
+  .hljs-string,
+  .token.attr-value {
+    color: #98c379;
+  }
+
+  // 内置
+  .hljs-built_in,
+  .token.builtin {
+    color: #e5c07b;
+  }
+
+  // 类型
+  .hljs-type,
+  .token.type {
+    color: #e5c07b;
+  }
+
+  // 选择器
+  .hljs-selector-class,
+  .token.selector {
+    color: #61afef;
+  }
+
+  // 正则
+  .hljs-regexp,
+  .token.regex {
+    color: #98c379;
+  }
+
+  // 重要
+  .hljs-important,
+  .token.important {
+    color: #c678dd;
+    font-weight: bold;
+  }
+
+  // 删除
+  .hljs-deletion,
+  .token.deleted {
+    color: #e06c75;
+    background-color: rgba(224, 108, 117, 0.1);
+  }
+
+  // 添加
+  .hljs-addition,
+  .token.inserted {
+    color: #98c379;
+    background-color: rgba(152, 195, 121, 0.1);
+  }
+}

@@ -1,0 +1,58 @@
+title = "项目作品"
+subtitle = "精选个人开发项目，涵盖 Web 应用、工具库、开源贡献等，每个项目都是技术与创意的结晶"
+cta_title = "更多项目"
+cta_text = "在 GitHub 上探索更多开源项目和代码贡献"
+
+[[items]]
+title = "Glass UI Kit"
+description = "一套基于玻璃拟态设计风格的 UI 组件库，提供丰富的 Vue 3 组件，支持主题定制和暗黑模式。"
+icon = "🎨"
+url = "https://gl.baimu.live/"
+likes = "328"
+views = "1.2k"
+tech = ["Vue3", "TypeScript", "SCSS"]
+
+[[items]]
+title = "Paper Blog"
+description = "一款简洁优雅的静态博客生成器，支持 Markdown 写作、主题定制和自动部署，让写作回归纯粹。"
+icon = "📝"
+url = "https://gl.baimu.live/"
+likes = "256"
+views = "890"
+tech = ["Node.js", "React", "Next.js"]
+
+[[items]]
+title = "Task Master"
+description = "智能任务管理工具，支持看板视图、时间追踪、团队协作，帮助提升工作效率。"
+icon = "🎯"
+url = "https://gl.baimu.live/"
+likes = "189"
+views = "567"
+tech = ["Vue3", "Pinia", "Firebase"]
+
+[[items]]
+title = "Color Palette"
+description = "智能配色工具，支持从图片提取配色、生成渐变色、导出多种格式，设计师的配色助手。"
+icon = "🌈"
+url = "https://gl.baimu.live/"
+likes = "412"
+views = "2.1k"
+tech = ["React", "Canvas API", "PWA"]
+
+[[items]]
+title = "Data Viz"
+description = "轻量级数据可视化库，提供丰富的图表类型，支持响应式设计和动画效果。"
+icon = "📊"
+url = "https://gl.baimu.live/"
+likes = "156"
+views = "445"
+tech = ["D3.js", "SVG", "TypeScript"]
+
+[[items]]
+title = "AI Chat"
+description = "基于大语言模型的智能对话应用，支持多轮对话、上下文记忆、知识库集成。"
+icon = "🤖"
+url = "https://gl.baimu.live/"
+likes = "523"
+views = "3.2k"
+tech = ["Python", "FastAPI", "WebSocket"]

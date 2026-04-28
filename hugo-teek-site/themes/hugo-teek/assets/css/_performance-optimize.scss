@@ -1,0 +1,181 @@
+// ========================================
+// 性能优化样式
+// 根据设备性能等级自动应用的优化样式
+// ========================================
+
+// ========================================
+// 减少动画模式（低性能设备）
+// ========================================
+html.reduce-motion,
+html[data-performance-level="low"] {
+  // 禁用所有过渡动画
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  // 禁用复杂的 CSS 动画
+  .hero-section-fullscreen::before,
+  .hero-section-fullscreen::after {
+    animation: none !important;
+  }
+  
+  // 禁用滚动进度条动画
+  .scroll-progress-bar__inner {
+    transition: none !important;
+  }
+  
+  // 禁用卡片悬停效果
+  .article-card-compact,
+  .sidebar-widget,
+  .blogger-card {
+    transition: none !important;
+    
+    &:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  }
+  
+  // 禁用图片放大效果
+  .card-cover img {
+    transition: none !important;
+    
+    &:hover {
+      transform: none !important;
+    }
+  }
+  
+  // 禁用导航栏动画
+  .VPNavBar {
+    transition: none !important;
+  }
+  
+  // 禁用按钮动画
+  .btn,
+  button {
+    transition: none !important;
+    
+    &:hover {
+      transform: none !important;
+    }
+  }
+}
+
+// ========================================
+// 简化模式（低性能设备）
+// ========================================
+html.simple-mode,
+html[data-performance-level="low"] {
+  // 禁用光标粒子容器
+  #guangbiao-container {
+    display: none !important;
+  }
+  
+  // 简化 Hero 背景
+  .hero-section-fullscreen {
+    // 移除复杂的渐变叠加
+    &::before,
+    &::after {
+      display: none !important;
+    }
+    
+    // 简化背景切换
+    .hero-bg-layer {
+      transition: none !important;
+    }
+  }
+  
+  // 禁用阴影效果（减少合成层）
+  .card-bg,
+  .article-card,
+  .sidebar-widget,
+  .blogger-card,
+  .tk-widget-card {
+    box-shadow: none !important;
+  }
+  
+  // 禁用模糊效果（性能消耗大）
+  .VPNavBar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+  
+  // 简化代码块样式
+  .vp-doc pre,
+  .vp-doc pre code {
+    background: var(--vp-code-block-bg) !important;
+  }
+  
+  // 禁用图片懒加载动画
+  .lazy-image {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  // 简化评论区域
+  .tk-comments {
+    .tk-avatar {
+      img {
+        filter: none !important;
+      }
+    }
+  }
+}
+
+// ========================================
+// 省电模式优化
+// ========================================
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  #guangbiao-container {
+    display: none !important;
+  }
+}
+
+// ========================================
+// 低内存设备优化
+// ========================================
+@media (max-device-memory: 2) {
+  // 减少图片质量
+  img {
+    image-rendering: auto;
+  }
+  
+  // 禁用复杂的视觉效果
+  .hero-section-fullscreen::before,
+  .hero-section-fullscreen::after {
+    display: none !important;
+  }
+}
+
+// ========================================
+// 触摸设备优化（通常性能较低）
+// ========================================
+@media (pointer: coarse) {
+  // 禁用光标效果
+  #guangbiao-container {
+    display: none !important;
+  }
+  
+  // 增大点击区域
+  .btn,
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}

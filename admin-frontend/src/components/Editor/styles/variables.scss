@@ -1,0 +1,169 @@
+// =============================================================================
+// MD Editor CSS Variables
+// =============================================================================
+// 所有可定制的变量都在这里定义，方便主题定制和二次开发
+
+:root {
+  // ---------------------------------------------------------------------------
+  // 颜色系统
+  // ---------------------------------------------------------------------------
+  --md-bg: #ffffff;
+  --md-bg-secondary: #f7f8fa;
+  --md-bg-hover: #f0f2f5;
+  --md-text: #1f2329;
+  --md-text-secondary: #646a73;
+  --md-text-placeholder: #a8abb2;
+  --md-border: #e0e0e0;
+  --md-border-light: #ebeef5;
+  --md-primary: #409eff;
+  --md-primary-light: #ecf5ff;
+  --md-success: #67c23a;
+  --md-warning: #e6a23c;
+  --md-danger: #f56c6c;
+  --md-info: #909399;
+
+  // ---------------------------------------------------------------------------
+  // 工具栏
+  // ---------------------------------------------------------------------------
+  --md-toolbar-bg: #ffffff;
+  --md-toolbar-border: var(--md-border-light);
+  --md-toolbar-height: 40px;
+  --md-toolbar-btn-size: 28px;
+  --md-toolbar-btn-color: var(--md-text-secondary);
+  --md-toolbar-btn-hover-bg: var(--md-bg-hover);
+  --md-toolbar-btn-hover-color: var(--md-primary);
+  --md-toolbar-btn-active-color: var(--md-primary);
+  --md-toolbar-divider-color: var(--md-border-light);
+
+  // ---------------------------------------------------------------------------
+  // 编辑区域
+  // ---------------------------------------------------------------------------
+  --md-editor-bg: var(--md-bg);
+  --md-editor-font: 'JetBrains Mono', 'Fira Code', 'Monaco', 'Menlo', 'Consolas', monospace;
+  --md-editor-font-size: 14px;
+  --md-editor-line-height: 1.75;
+  --md-editor-padding: 16px;
+  --md-editor-caret-color: var(--md-primary);
+  --md-editor-selection-bg: rgba(64, 158, 255, 0.2);
+
+  // ---------------------------------------------------------------------------
+  // 预览区域
+  // ---------------------------------------------------------------------------
+  --md-preview-bg: var(--md-bg);
+  --md-preview-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
+  --md-preview-font-size: 15px;
+  --md-preview-line-height: 1.8;
+  --md-preview-padding: 20px;
+  --md-preview-heading-color: var(--md-text);
+  --md-preview-link-color: var(--md-primary);
+  --md-preview-blockquote-bg: var(--md-bg-secondary);
+  --md-preview-blockquote-border: var(--md-primary);
+  --md-preview-code-bg: var(--md-bg-secondary);
+  --md-preview-hr-color: var(--md-border);
+
+  // ---------------------------------------------------------------------------
+  // 代码块
+  // ---------------------------------------------------------------------------
+  --md-code-bg: #282c34;
+  --md-code-text: #abb2bf;
+  --md-code-border-radius: 6px;
+  --md-code-font-size: 13px;
+  --md-code-line-height: 1.6;
+  --md-code-padding: 16px;
+  --md-code-header-bg: #21252b;
+  --md-code-header-height: 32px;
+  --md-code-copy-btn-color: #6b7280;
+  --md-code-copy-btn-hover-color: #ffffff;
+
+  // ---------------------------------------------------------------------------
+  // 内联代码
+  // ---------------------------------------------------------------------------
+  --md-inline-code-bg: rgba(175, 184, 193, 0.2);
+  --md-inline-code-color: #e83e8c;
+  --md-inline-code-padding: 0.2em 0.4em;
+  --md-inline-code-border-radius: 3px;
+  --md-inline-code-font-size: 0.9em;
+
+  // ---------------------------------------------------------------------------
+  // 表格
+  // ---------------------------------------------------------------------------
+  --md-table-border: var(--md-border);
+  --md-table-header-bg: var(--md-bg-secondary);
+  --md-table-row-hover-bg: var(--md-bg-hover);
+  --md-table-cell-padding: 10px 16px;
+
+  // ---------------------------------------------------------------------------
+  // 间距
+  // ---------------------------------------------------------------------------
+  --md-spacing-xs: 4px;
+  --md-spacing-sm: 8px;
+  --md-spacing-md: 16px;
+  --md-spacing-lg: 24px;
+  --md-spacing-xl: 32px;
+
+  // ---------------------------------------------------------------------------
+  // 圆角
+  // ---------------------------------------------------------------------------
+  --md-radius-sm: 4px;
+  --md-radius-md: 8px;
+  --md-radius-lg: 12px;
+
+  // ---------------------------------------------------------------------------
+  // 阴影
+  // ---------------------------------------------------------------------------
+  --md-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --md-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+  --md-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+
+  // ---------------------------------------------------------------------------
+  // 过渡
+  // ---------------------------------------------------------------------------
+  --md-transition-fast: 0.15s ease;
+  --md-transition-normal: 0.25s ease;
+  --md-transition-slow: 0.35s ease;
+
+  // ---------------------------------------------------------------------------
+  // 滚动条
+  // ---------------------------------------------------------------------------
+  --md-scrollbar-width: 6px;
+  --md-scrollbar-track-bg: transparent;
+  --md-scrollbar-thumb-bg: rgba(144, 147, 153, 0.3);
+  --md-scrollbar-thumb-hover-bg: rgba(144, 147, 153, 0.5);
+
+  // ---------------------------------------------------------------------------
+  // 弹出层 (下拉菜单、模态框等)
+  // ---------------------------------------------------------------------------
+  --md-popup-bg: var(--md-bg);
+  --md-popup-border: var(--md-border);
+  --md-popup-shadow: var(--md-shadow-lg);
+  --md-popup-radius: var(--md-radius-md);
+}
+
+// =============================================================================
+// 暗色主题变量
+// =============================================================================
+.md-editor-dark,
+[data-theme="dark"] .md-editor-v3-wrapper {
+  --md-bg: #1e1e1e;
+  --md-bg-secondary: #252526;
+  --md-bg-hover: #2d2d30;
+  --md-text: #d4d4d4;
+  --md-text-secondary: #858585;
+  --md-text-placeholder: #6b6b6b;
+  --md-border: #3c3c3c;
+  --md-border-light: #2d2d30;
+  --md-primary: #569cd6;
+  --md-primary-light: rgba(86, 156, 214, 0.15);
+
+  --md-toolbar-bg: #252526;
+  --md-editor-bg: #1e1e1e;
+  --md-preview-bg: #1e1e1e;
+  --md-code-bg: #1e1e1e;
+  --md-code-header-bg: #252526;
+  --md-inline-code-bg: rgba(110, 118, 129, 0.4);
+  --md-inline-code-color: #e06c75;
+  --md-table-header-bg: #252526;
+
+  --md-scrollbar-thumb-bg: rgba(255, 255, 255, 0.2);
+  --md-scrollbar-thumb-hover-bg: rgba(255, 255, 255, 0.3);
+}

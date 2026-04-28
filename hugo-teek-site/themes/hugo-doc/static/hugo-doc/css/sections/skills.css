@@ -1,0 +1,271 @@
+/**
+ * =====================================================
+ * 文件说明：个人技能区域样式
+ * 文件用途：定义技能展示区域的样式，包含进度条动画
+ * =====================================================
+ * 【 白木 原创开发🕊️ https://gl.baimu.live/ 】
+ * =====================================================
+ */
+
+/* ========================================
+   技能区域整体布局
+   ======================================== */
+.skills-section {
+  position: relative;
+  background: var(--color-white);
+  will-change: opacity, transform;
+  margin-top: -100px; /* 向上偏移，减少间距 */
+  padding-top: calc(var(--section-padding-y) + 100px); /* 补偿padding */
+}
+
+/* 技能卡片网格 */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-xl);
+  margin-bottom: var(--space-3xl);
+}
+
+/* ========================================
+   技能卡片样式
+   ======================================== */
+.skill-card {
+  padding: var(--space-xl);
+  border-radius: var(--radius-xl);
+}
+
+/* 卡片头部 */
+.skill-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--glass-white);
+}
+
+.skill-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-glass);
+}
+
+.skill-icon svg {
+  width: 28px;
+  height: 28px;
+  color: var(--color-white);
+}
+
+.skill-title {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-gray-800);
+}
+
+/* ========================================
+   技能列表与进度条
+   ======================================== */
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.skill-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.skill-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skill-name {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+}
+
+.skill-percent {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary);
+  background: var(--glass-white);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-pill);
+}
+
+/* 进度条容器 */
+.skill-bar {
+  height: 8px;
+  background: var(--glass-white-light);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  position: relative;
+}
+
+/* 进度条填充 */
+.skill-progress {
+  height: 100%;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-pill);
+  width: 0;
+  transition: width 1.5s var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 进度条光泽效果 */
+.skill-progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* 动画完成后的状态 */
+.skill-progress.animated {
+  width: var(--progress);
+}
+
+/* ========================================
+   技能标签云
+   ======================================== */
+.skill-tags {
+  text-align: center;
+}
+
+.tags-title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-gray-800);
+  margin-bottom: var(--space-lg);
+}
+
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.tag {
+  display: inline-block;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-pill);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-700);
+  transition: all var(--duration-fast) var(--ease-out);
+  cursor: default;
+}
+
+.tag:hover {
+  background: var(--glass-white-heavy);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glass);
+  color: var(--color-primary);
+}
+
+/* 标签不同大小 */
+.tag:nth-child(3n) {
+  font-size: var(--font-size-base);
+}
+
+.tag:nth-child(5n) {
+  font-size: var(--font-size-xs);
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+@media (max-width: 1024px) {
+  .skills-grid {
+    gap: var(--space-lg);
+  }
+  
+  .skill-card {
+    padding: var(--space-lg);
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .skill-header {
+    margin-bottom: var(--space-lg);
+  }
+  
+  .skill-icon {
+    width: 48px;
+    height: 48px;
+  }
+  
+  .skill-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .skill-title {
+    font-size: var(--font-size-lg);
+  }
+  
+  .tags-cloud {
+    gap: var(--space-sm);
+  }
+  
+  .tag {
+    padding: var(--space-xs) var(--space-md);
+    font-size: var(--font-size-sm);
+  }
+}
+
+@media (max-width: 480px) {
+  .skill-card {
+    padding: var(--space-md);
+  }
+  
+  .skill-list {
+    gap: var(--space-md);
+  }
+  
+  .skill-name {
+    font-size: var(--font-size-sm);
+  }
+  
+  .skill-percent {
+    font-size: var(--font-size-xs);
+  }
+}

@@ -1,0 +1,30 @@
+/**
+ * PostContentEditor 桌面端样式
+ */
+
+@use '../common/variables.scss' as *;
+
+/* ========== 编辑器容器 ========== */
+.editor-wrapper {
+  width: 100%;
+  min-width: 0;
+}
+
+/* ========== 桌面端折叠面板 ========== */
+.desktop-content-collapse {
+  border: 1px solid $border-color-light;
+  border-radius: $border-radius-base;
+  background: #ffffff;
+
+  :deep(.el-collapse-item__header) {
+    @include collapse-header(#fafafa, 48px, 0 20px);
+  }
+
+  :deep(.el-collapse-item__content) {
+    @include collapse-content(20px, white);
+  }
+
+  :deep(.el-collapse-item__wrap) {
+    border: none;
+  }
+}

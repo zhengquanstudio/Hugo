@@ -1,0 +1,4 @@
+[cloudStorage]
+allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm']
+enabled = true
+maxUploadSize = 10

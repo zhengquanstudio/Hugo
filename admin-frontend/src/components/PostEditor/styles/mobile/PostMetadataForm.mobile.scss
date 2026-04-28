@@ -1,0 +1,48 @@
+/**
+ * PostMetadataForm 移动端样式
+ */
+
+@use '../common/variables.scss' as *;
+
+/* ========== 通用样式（移动端优化）========== */
+.field-hint {
+  margin-top: 4px;
+  font-size: 12px;
+  color: $text-color-secondary;
+  line-height: 1.5;
+}
+
+.cover-preview {
+  margin-top: 12px;
+  border: 1px solid $border-color-light;
+  border-radius: $border-radius-base;
+  overflow: hidden;
+  max-width: 100%; // 移动端全宽
+
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    max-height: 300px;
+    object-fit: cover;
+  }
+}
+
+/* ========== 移动端折叠面板 ========== */
+.mobile-meta-collapse {
+  margin-bottom: $spacing-base;
+  border: none;
+  background: $background-color-base;
+
+  :deep(.el-collapse-item__header) {
+    background: white;
+    padding: 0 $spacing-base;
+    font-weight: 500;
+    border-bottom: 1px solid $border-color-light;
+  }
+
+  :deep(.el-collapse-item__content) {
+    padding: $spacing-base;
+    background: white;
+  }
+}

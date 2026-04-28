@@ -1,0 +1,95 @@
+baseURL = 'https://www.zhengquan.org.cn'
+contentDir = 'content'
+enableEmoji = true
+enableGitInfo = true
+enableRobotsTXT = true
+languageCode = 'zh-CN'
+publishDir = 'public'
+theme = 'hugo-teek'
+title = '全溪小筑のBlog'
+
+[frontmatter]
+lastmod = [':fileModTime', ':default']
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.extensions]
+attributes = true
+definitionList = true
+footnote = true
+linkify = true
+strikethrough = true
+table = true
+taskList = true
+typographer = true
+
+[markup.goldmark.parser]
+autoHeadingID = true
+
+[markup.goldmark.parser.attribute]
+block = true
+title = true
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[markup.highlight]
+codeFences = true
+guessSyntax = true
+lineNos = true
+lineNumbersInTable = false
+noClasses = false
+style = 'monokai'
+tabWidth = 2.0
+
+[markup.tableOfContents]
+endLevel = 4.0
+ordered = false
+startLevel = 1.0
+
+[minify]
+disableCSS = false
+disableHTML = false
+disableJS = false
+disableJSON = false
+disableSVG = false
+disableXML = false
+minifyOutput = true
+
+[minify.tdewolff]
+[minify.tdewolff.css]
+version = 2
+
+[minify.tdewolff.html]
+keepWhitespace = false
+
+[minify.tdewolff.js]
+ignoreFiles = ['^_[^i]', '^_i[^n]', '^_in[^d]', '^_ind[^e]', '^_inde[^x]', '^_index[^\.]', '^_index\.[^m]', '^_index\.m[^d]', '^_index\.md\.', '(^|/)_[^i]', '(^|/)_i[^n]', '(^|/)_in[^d]', '(^|/)_ind[^e]', '(^|/)_inde[^x]', '(^|/)_index[^\.]', '(^|/)_index\.[^m]', '(^|/)_index\.m[^d]', '(^|/)_index\.md\.']
+keepVarNames = false
+
+[outputFormats]
+[outputFormats.RSS]
+baseName = 'feed'
+mediatype = 'application/rss+xml'
+
+[outputFormats.UNLOCKJSON]
+baseName = 'content'
+isPlainText = true
+mediaType = 'application/json'
+name = 'unlockjson'
+notAlternative = true
+
+[outputs]
+home = ['HTML']
+page = ['HTML']
+section = ['HTML']
+
+[pagination]
+defaultContentLanguage = 'zh-cn'
+pagerSize = 15.0
+path = 'page'
+
+[permalinks]
+posts = '/posts/:slug/'
+
+[taxonomies]

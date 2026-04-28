@@ -1,0 +1,23 @@
+[search]
+enabled = false
+
+[hugoDoc]
+brandIcon = "🪁"
+brandName = "纸鸢博客"
+heroGreeting = "你好，我是"
+heroRole = "全栈开发者 / 设计爱好者"
+heroDescription = "热爱技术与设计的创作者，专注于构建优雅且实用的数字产品。在这里记录学习历程，分享技术心得，探索无限可能。"
+heroBackgroundURL = "https://mu.baimu.live/img/acg/"
+heroPrimaryText = "查看作品"
+heroPrimaryURL = "/#projects"
+heroSecondaryText = "了解更多"
+heroSecondaryURL = "/about/"
+docsTitle = "最新文章"
+docsSubtitle = "分享技术心得、学习笔记与开发经验，记录成长路上的点滴收获"
+docsLimit = 6
+skillsEnabled = true
+projectsEnabled = true
+footerLocation = "中国 · 互联网"
+footerEmail = "contact@baimu.live"
+policyURL = "#"
+termsURL = "#"

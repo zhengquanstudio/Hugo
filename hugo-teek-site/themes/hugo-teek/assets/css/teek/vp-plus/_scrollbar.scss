@@ -1,0 +1,32 @@
+:root {
+  --tk-scrollbar-color: rgba(142, 150, 170, 0.6);
+  --tk-scrollbar-bg: transparent;
+}
+
+:root.dark {
+  --tk-scrollbar-color: rgba(142, 150, 170, 0.4);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+/* 隐藏滚动条上下箭头按钮 - 尝试 */
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-button:vertical:start,
+::-webkit-scrollbar-button:vertical:end {
+  display: none;
+  height: 0;
+  width: 0;
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--tk-scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--tk-scrollbar-color);
+  border-radius: 10px;
+}

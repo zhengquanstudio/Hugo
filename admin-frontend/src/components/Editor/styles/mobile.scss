@@ -1,0 +1,255 @@
+// =============================================================================
+// 移动端适配样式
+// =============================================================================
+
+// 平板端 (小于 1024px)
+@media screen and (max-width: 1024px) {
+  .md-editor-v3-wrapper {
+    // 工具栏调整
+    .md-editor-toolbar-wrapper {
+      padding: var(--md-spacing-xs);
+      gap: 1px;
+    }
+
+    // 按钮稍小
+    .md-editor-toolbar-item {
+      width: 26px;
+      height: 26px;
+
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    // 编辑区域
+    .md-editor-input-wrapper .inputArea {
+      font-size: 14px;
+      padding: var(--md-spacing-sm);
+    }
+
+    // 预览区域
+    .md-editor-preview-wrapper {
+      padding: var(--md-spacing-md);
+    }
+  }
+}
+
+// 手机端 (小于 768px)
+@media screen and (max-width: 768px) {
+  .md-editor-v3-wrapper {
+    // 工具栏更紧凑
+    .md-editor-toolbar-wrapper {
+      --md-toolbar-height: 36px;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    // 隐藏部分工具栏按钮（可选）
+    // .md-editor-toolbar-item[title="Mermaid"],
+    // .md-editor-toolbar-item[title="KaTeX"] {
+    //   display: none;
+    // }
+
+    // 分隔线更小
+    .md-editor-toolbar-divider {
+      height: 12px;
+      margin: 0 2px;
+    }
+
+    // 编辑区域
+    .md-editor-input-wrapper .inputArea {
+      font-size: 13px;
+      line-height: 1.6;
+      padding: var(--md-spacing-sm);
+    }
+
+    // 预览区域
+    .md-editor-preview-wrapper {
+      padding: var(--md-spacing-sm);
+    }
+
+    .md-editor-preview {
+      font-size: 14px;
+      line-height: 1.7;
+
+      h1 { font-size: 1.5em; }
+      h2 { font-size: 1.3em; }
+      h3 { font-size: 1.15em; }
+
+      // 代码块
+      pre {
+        border-radius: var(--md-radius-sm);
+
+        code {
+          font-size: 12px;
+          padding: var(--md-spacing-sm);
+        }
+      }
+
+      // 表格滚动
+      table {
+        font-size: 13px;
+
+        th, td {
+          padding: 8px 10px;
+        }
+      }
+    }
+
+    // 代码块头部
+    .md-editor-code-head {
+      height: 28px;
+      padding: 0 var(--md-spacing-sm);
+    }
+
+    // 默认只显示编辑或预览
+    .md-editor-content {
+      &.md-editor-content-preview-only .md-editor-input-wrapper,
+      &.md-editor-content-edit-only .md-editor-preview-wrapper {
+        display: block;
+      }
+    }
+  }
+}
+
+// 小手机 (小于 480px)
+@media screen and (max-width: 480px) {
+  .md-editor-v3-wrapper {
+    // 更紧凑的工具栏
+    .md-editor-toolbar-item {
+      width: 24px;
+      height: 24px;
+
+      svg {
+        width: 14px;
+        height: 14px;
+      }
+    }
+
+    // 编辑区域
+    .md-editor-input-wrapper .inputArea {
+      font-size: 13px;
+      padding: 8px;
+    }
+
+    // 预览区域
+    .md-editor-preview {
+      font-size: 13px;
+
+      h1 { font-size: 1.4em; }
+      h2 { font-size: 1.2em; }
+      h3 { font-size: 1.1em; }
+
+      ul, ol {
+        padding-left: 1.5em;
+      }
+
+      blockquote {
+        padding: 8px 12px;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// 触摸设备优化
+// =============================================================================
+@media (hover: none) and (pointer: coarse) {
+  .md-editor-v3-wrapper {
+    // 更大的触摸目标
+    .md-editor-toolbar-item {
+      min-width: 32px;
+      min-height: 32px;
+    }
+
+    // 更明显的点击反馈
+    .md-editor-toolbar-item:active {
+      background-color: var(--md-primary-light);
+      transform: scale(0.95);
+    }
+
+    // 禁用悬停效果
+    .md-editor-toolbar-item:hover:not(:active) {
+      background-color: transparent;
+      color: var(--md-toolbar-btn-color);
+    }
+  }
+}
+
+// =============================================================================
+// 横屏模式
+// =============================================================================
+@media screen and (max-height: 500px) and (orientation: landscape) {
+  .md-editor-v3-wrapper {
+    // 更紧凑的工具栏
+    .md-editor-toolbar-wrapper {
+      --md-toolbar-height: 32px;
+      padding: 2px var(--md-spacing-xs);
+    }
+
+    // 最大化编辑空间
+    .md-editor-input-wrapper .inputArea,
+    .md-editor-preview-wrapper {
+      padding: var(--md-spacing-sm);
+    }
+  }
+}
+
+// =============================================================================
+// 打印样式
+// =============================================================================
+@media print {
+  .md-editor-v3-wrapper {
+    // 隐藏工具栏
+    .md-editor-toolbar-wrapper {
+      display: none !important;
+    }
+
+    // 隐藏编辑区域
+    .md-editor-input-wrapper {
+      display: none !important;
+    }
+
+    // 只显示预览
+    .md-editor-preview-wrapper {
+      display: block !important;
+      padding: 0 !important;
+    }
+
+    // 移除边框和阴影
+    .md-editor {
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    // 代码块打印优化
+    .md-editor-preview pre {
+      background-color: #f5f5f5 !important;
+      border: 1px solid #ddd !important;
+
+      code {
+        color: #333 !important;
+      }
+    }
+
+    // 确保内容不被截断
+    .md-editor-preview {
+      max-height: none !important;
+      overflow: visible !important;
+
+      img {
+        max-width: 100% !important;
+        page-break-inside: avoid;
+      }
+
+      table {
+        page-break-inside: auto;
+      }
+
+      pre, blockquote {
+        page-break-inside: avoid;
+      }
+    }
+  }
+}

@@ -1,0 +1,788 @@
+// ========================================
+// VitePress Theme Teek Code Block Style
+// 完全复刻 vitepress-theme-teek-1.5.1 的代码块样式
+// 当颜色修改不成功，可以检查下tk-code-block-toggle.scss
+// ========================================
+
+:root {
+  --tk-code-block-fold-height: 40px;
+  --tk-code-block-lang-transform: uppercase;
+  --tk-code-block-collapse-height: 700px;
+  --tk-code-block-overlay-height: 400px;
+  --tk-code-block-bg: #F4F1FF; /* ◀️ ☀️ 亮色模式代码块背景色 */
+  --tk-code-block-fg: #383a42; /* ◀️ ☀️ 亮色模式代码块文本色 */
+  --tk-code-block-line-number: rgba(0, 0, 0, 0.4); /* ◀️ ☀️ 亮色模式行号颜色 */
+  --tk-code-block-line-number-dark: rgba(255, 255, 255, 0.35); /* ◀️ 🌆 暗色模式行号颜色 */
+
+  /* ◀️ ☀️ 亮色模式按钮样式变量 */
+  --tk-code-btn-bg: rgba(255, 255, 255, 0.8); /* 按钮背景 */
+  --tk-code-btn-border: rgba(128, 128, 128, 0.3); /* 按钮边框 */
+  --tk-code-btn-fg: rgba(0, 0, 0, 0.6); /* 按钮文字 */
+  --tk-code-btn-hover-bg: rgba(66, 184, 131, 0.1); /* 悬停背景 */
+  --tk-code-btn-hover-border: var(--vp-c-brand-1, #42b883); /* 悬停边框 */
+  --tk-code-btn-hover-fg: var(--vp-c-brand-1, #42b883); /* 悬停文字 */
+  --tk-code-btn-copied-bg: rgba(66, 184, 131, 0.1); /* 已复制背景 */
+  --tk-code-btn-copied-border: var(--vp-c-brand-1, #42b883); /* 已复制边框 */
+  --tk-code-btn-copied-fg: var(--vp-c-brand-1, #42b883); /* 已复制文字 */
+
+  /* ◀️ ☀️ 亮色模式按钮图标颜色变量 */
+  --tk-code-btn-icon-color: rgba(0, 0, 0, 0.6); /* 图标颜色 */
+
+  /* ◀️ ☀️ 亮色模式遮罩和查看更多按钮 */
+  --tk-code-overlay-bg: rgba(244, 241, 255, 0.15); /* 遮罩背景 */
+  --tk-code-overlay-fg: #1f2937; /* 遮罩文字 */
+  --tk-code-overlay-hover-fg: #0e7490; /* 遮罩悬停文字 */
+  --tk-code-view-more-bg: rgba(255, 255, 255, 0.8); /* 查看更多按钮背景 */
+  --tk-code-view-more-border: rgba(128, 128, 128, 0.3); /* 查看更多按钮边框 */
+  --tk-code-view-more-hover-bg: rgba(66, 184, 131, 0.1); /* 查看更多悬停背景 */
+  --tk-code-view-more-hover-border: var(--vp-c-brand-1, #42b883); /* 查看更多悬停边框 */
+  --tk-code-view-more-hover-fg: var(--vp-c-brand-1, #42b883); /* 查看更多悬停文字 */
+}
+
+.dark-mode {
+  --tk-code-block-bg: #1a2332; /* ◀️ 🌆 暗色模式代码块背景色 */
+  --tk-code-block-fg: #e2e8f0; /* ◀️ 🌆 暗色模式代码块文本色 */
+
+  /* ◀️ 🌆 暗色模式按钮样式变量 */
+  --tk-code-btn-bg: rgba(45, 55, 72, 0.9); /* 按钮背景 */
+  --tk-code-btn-border: rgba(255, 255, 255, 0.3); /* 按钮边框 */
+  --tk-code-btn-fg: rgba(255, 255, 255, 0.95); /* 按钮文字 */
+  --tk-code-btn-hover-bg: rgba(45, 55, 72, 1); /* 悬停背景 */
+  --tk-code-btn-hover-border: #22d3ee; /* 悬停边框 */
+  --tk-code-btn-hover-fg: #22d3ee; /* 悬停文字 */
+  --tk-code-btn-copied-bg: rgba(34, 211, 238, 0.15); /* 已复制背景 */
+  --tk-code-btn-copied-border: #22d3ee; /* 已复制边框 */
+  --tk-code-btn-copied-fg: #22d3ee; /* 已复制文字 */
+
+  /* ◀️ 🌆 暗色模式按钮图标颜色变量 */
+  --tk-code-btn-icon-color: rgba(255, 255, 255, 0.9); /* 图标颜色 */
+
+  /* ◀️ 🌆 暗色模式遮罩和查看更多按钮 */
+  --tk-code-overlay-bg: rgba(26, 35, 50, 0.15); /* 遮罩背景 */
+  --tk-code-overlay-fg: rgba(255, 255, 255, 0.9); /* 遮罩文字 */
+  --tk-code-overlay-hover-fg: #22d3ee; /* 遮罩悬停文字 */
+  --tk-code-view-more-bg: rgba(45, 55, 72, 0.9); /* 查看更多按钮背景 */
+  --tk-code-view-more-border: rgba(255, 255, 255, 0.3); /* 查看更多按钮边框 */
+  --tk-code-view-more-hover-bg: rgba(45, 55, 72, 1); /* 查看更多悬停背景 */
+  --tk-code-view-more-hover-border: #22d3ee; /* 查看更多悬停边框 */
+  --tk-code-view-more-hover-fg: #22d3ee; /* 查看更多悬停文字 */
+
+  /* ◀️ 🌆 暗色模式图标 - 使用 currentColor */
+  --vp-icon-copy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Crect width='8' height='4' x='8' y='2' rx='1' ry='1'/%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3C/svg%3E");
+  --vp-icon-copied: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Crect width='8' height='4' x='8' y='2' rx='1' ry='1'/%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3Cpath d='m9 14 2 2 4-4'/%3E%3C/svg%3E");
+}
+
+// ========================================
+// VitePress 图标（SVG Data URI）
+// ========================================
+:root {
+  /* clipboard - 亮色模式 - 使用 currentColor */
+  --vp-icon-copy: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Crect width='8' height='4' x='8' y='2' rx='1' ry='1'/%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3C/svg%3E");
+  /* clipboard-copy - 已复制 */
+  --vp-icon-copied: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24'%3E%3Crect width='8' height='4' x='8' y='2' rx='1' ry='1'/%3E%3Cpath d='M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2'/%3E%3Cpath d='m9 14 2 2 4-4'/%3E%3C/svg%3E");
+}
+
+
+
+// ========================================
+// 代码块主容器
+// ========================================
+.vp-doc div[class*="language-"],
+.highlight,
+div[class*="language-"] {
+  position: relative;
+  margin: 16px 0;
+  background: var(--tk-code-block-bg);  /* ◀️ 使用变量，亮色模式 */
+  border-radius: 8px;
+  overflow-y: hidden;  // 禁止垂直滚动（折叠时隐藏超出内容）
+  overflow-x: hidden;  // 🎨 auto 改为 hidden，由 pre 元素负责水平滚动
+  touch-action: pan-x;  // 只允许横向滑动手势，覆盖全局 pan-y
+  // 性能优化：使用 max-height 代替 height，减少重排
+  // 使用更快的缓动曲线 easeInOutCubic 提升流畅度
+  transition: max-height 0.5s cubic-bezier(0.65, 0, 0.35, 1), background-color 0.3s;
+  will-change: max-height;  // 提示浏览器优化
+  // 隔离重排范围，避免影响页面其他元素
+  contain: layout style paint;
+  // 启用GPU硬件加速
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);  // 浅色阴影，适配亮色背景
+
+  // 🆕 初始化时禁用动画，避免刷新时看到折叠动画
+  &.initializing {
+    transition: none;
+
+    .code-block-overlay {
+      transition: none;
+    }
+  }
+
+  // 🆕 移动端增加底部间距，确保"查看更多"按钮完全可见
+  @media (max-width: 1146px) {
+    margin-bottom: 24px;
+    padding-bottom: 8px;
+  }
+
+  @media (max-width: 640px) {
+    margin-bottom: 28px;
+    padding-bottom: 10px;
+  }
+
+  // 代码内容区域需要上边距，为三个圆点和语言标签留出空间
+  pre,
+  .vp-code {
+    padding: var(--tk-code-block-fold-height) 0 24px 0; // ◀️ 增加底部内边距，确保代码块最后一行距离底部边缘有12px空白
+    margin: 0;
+    background: transparent;
+    overflow-x: auto;  // 🎨 添加水平滚动，使 pre 元素成为滚动容器
+    overflow-y: hidden;  // 🎨 禁止垂直滚动
+  }
+
+  // 行号容器
+  .line-numbers-wrapper {
+    margin-top: var(--tk-code-block-fold-height);
+    padding-top: 0;
+  }
+
+  // ========================================
+  // macOS 风格三个圆点（红黄绿）- 已禁用
+  // ========================================
+  // 用户选择只显示语言图标，不显示三个圆点
+  // &::before {
+  //   content: "";
+  //   display: block;
+  //   position: absolute;
+  //   top: calc(var(--tk-code-block-fold-height) / 2);
+  //   left: 14px;
+  //   transform: translateY(-50%);
+  //   width: 12px;
+  //   height: 12px;
+  //   border-radius: 50%;
+  //   background: #fc625d;
+  //   box-shadow:
+  //     20px 0 #fdbc40,
+  //     40px 0 #35cd4b;
+  //   z-index: 3;
+  // }
+
+  // ========================================
+  // 语言标签 - 已禁用（改为显示图标）
+  // ========================================
+  &::after {
+    // content: attr(data-lang);
+    content: none;
+    display: none;
+    // position: absolute;
+    // z-index: 3;
+    // top: calc(var(--tk-code-block-fold-height) / 2);
+    // left: 75px;
+    // transform: translateY(-50%);
+    // font-size: 18px;
+    color: var(--vp-c-text-1);
+    text-transform: var(--tk-code-block-lang-transform);
+    font-weight: 700;
+    width: fit-content;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* ========================================
+     📋 复制按钮（带边框文字样式）
+     ======================================== */
+  .copy-code-button {
+    position: absolute;
+    z-index: 3;
+    top: calc(var(--tk-code-block-fold-height) / 2);
+    right: 12px;  /* 💕 复制按钮靠右显示 */
+    transform: translateY(-50%);
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid var(--tk-code-btn-border);
+    border-radius: 6px;
+    background-color: var(--tk-code-btn-bg);
+    cursor: pointer;
+    opacity: 1;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--tk-code-btn-icon-color); /* ◀️ 设置 currentColor 供 SVG 图标继承 */
+
+    /* 💕 复制图标 */
+    &::before {
+      content: "";
+      width: 14px;
+      height: 14px;
+      background-image: var(--vp-icon-copy);
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    span {
+      display: inline; /* ◀️ 显示文字 */
+    }
+
+    &.copied {
+      background-color: var(--tk-code-btn-copied-bg);
+      border-color: var(--tk-code-btn-copied-border);
+      color: var(--tk-code-btn-copied-fg);
+
+      &::before {
+        background-image: var(--vp-icon-copied);
+      }
+
+      span::after {
+        margin-left: 2px;
+      }
+    }
+
+    &:hover {
+      background-color: var(--tk-code-btn-hover-bg);
+      border-color: var(--tk-code-btn-hover-border);
+      color: var(--tk-code-btn-hover-fg);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+  }
+
+  // ========================================
+  // 复制提示（Toast）
+  // ========================================
+  .copy-toast {
+    // 样式已在 JS 中内联定义，这里添加一些增强
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    // 为了让动画更流畅，添加 will-change
+    will-change: opacity, transform;
+  }
+
+  // ========================================
+  // 折叠/展开按钮（带边框文字样式）
+  // ========================================
+  .code-arrow {
+    position: absolute;
+    z-index: 3;
+    top: calc(var(--tk-code-block-fold-height) / 2);
+    right: 85px;  /* 💕 展开按钮在复制按钮左侧，增加间距 */
+    transform: translateY(-50%);
+    cursor: pointer;
+    user-select: none;
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid var(--tk-code-btn-border);
+    border-radius: 6px;
+    background-color: var(--tk-code-btn-bg);
+    transition: all var(--tk-transition-duration, 0.3s);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--tk-code-btn-icon-color); /* ◀️ 设置 currentColor 供 SVG 图标继承 */
+
+    /* 💕 展开/收起图标 */
+    &::before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M7 10l5 5 5-5'/%3E%3C/svg%3E");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    /* 💕 默认显示【收起】 */
+    &::after {
+      content: "收起";
+    }
+
+    &:hover {
+      background-color: var(--tk-code-btn-hover-bg);
+      border-color: var(--tk-code-btn-hover-border);
+      color: var(--tk-code-btn-hover-fg);
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.95);
+    }
+
+    // 折叠状态下旋转图标并显示【展开】
+    &.fold {
+      &::before {
+        transform: rotate(-90deg);
+      }
+
+      &::after {
+        content: "展开";
+      }
+    }
+
+    svg {
+      display: none; /* ◀️ 隐藏原有 SVG，使用伪元素代替 */
+    }
+  }
+
+  // ========================================
+  // 展开遮罩层（底部渐变 + "查看更多"文字）
+  // ========================================
+  .code-block-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+
+    // 🆕 移动端增加高度，更易看到和点击
+    @media (max-width: 1146px) {
+      height: 80px;
+    }
+
+    @media (max-width: 640px) {
+      height: 90px;
+    }
+
+    /* 🔮 高斯模糊遮罩效果 - 更透明 */
+    background: var(--tk-code-overlay-bg); /* ◀️ 使用变量控制遮罩背景 */
+    backdrop-filter: blur(2px); /* 🔮 高斯模糊效果，降低模糊度使文字更清晰 */
+    -webkit-backdrop-filter: blur(2px); /* 🔮 Safari 兼容 */
+    z-index: 10;
+    display: flex; /* ◀️ 始终保持flex布局 */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--tk-code-overlay-fg); /* ◀️ 使用变量控制遮罩文字颜色 */
+    font-size: 20px; // VitePress 原版字体大小
+    font-weight: 500;
+    padding: 0 24px;
+
+    // 默认隐藏状态（使用 opacity 和 visibility 实现平滑过渡）
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    // 统一过渡时间和缓动函数，与容器高度变化同步
+    transition:
+      opacity 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+      visibility 0.5s cubic-bezier(0.65, 0, 0.35, 1),
+      color 0.2s ease;
+
+    // 可见状态
+    &.visible {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    &:hover {
+      color: var(--tk-code-overlay-hover-fg); /* ◀️ 使用变量控制遮罩悬停文字颜色 */
+    }
+
+    .overlay-icon {
+      margin-left: 6px;
+      font-size: 18px;
+    }
+
+    /* 💕 【查看更多】圆角按钮样式 */
+    span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: 1px solid var(--tk-code-view-more-border);
+      border-radius: 6px;
+      background-color: var(--tk-code-view-more-bg);
+      font-size: 14px;
+      font-weight: 500;
+      color: inherit;
+      transition: all 0.25s ease;
+
+      &:hover {
+        border-color: var(--tk-code-view-more-hover-border);
+        color: var(--tk-code-view-more-hover-fg);
+        background-color: var(--tk-code-view-more-hover-bg);
+      }
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+      margin-left: 0; /* ◀️ 移除左边距，因为现在在 span 内部使用 gap */
+    }
+  }
+}
+
+// ========================================
+// 代码内容样式
+// ========================================
+.vp-doc div[class*="language-"] pre code,
+.highlight pre code,
+div[class*="language-"] pre code {
+  display: block;
+  background: transparent;
+  font-family: 'Fira Code', 'JetBrains Mono', 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--tk-code-block-fg, var(--vp-c-text-1)); /* ◀️ 使用代码块专用文本色变量 */
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  tab-size: 2;
+}
+
+// ========================================
+// Chroma 内联行号样式 (lineNumbersInTable = false)
+// 使用VitePress风格的内联行号，行号和代码天然对齐
+// ========================================
+
+/* 📝 内联行号基础样式 */
+.highlight .ln,
+.highlight .lnt,
+.chroma .ln,
+.chroma .lnt {
+  display: inline-block;
+  width: 32px;           /* ◀️ 固定宽度 */
+  margin-right: 20px;    /* ◀️ 与代码的间距「增加间距，避免行号与文本挨得太近」 */
+  padding-right: 12px;   /* ◀️ 右边距「增加内边距，使行号区域更宽松」 */
+  text-align: right;     /* ◀️ 右对齐 */
+  color: var(--tk-code-block-line-number, rgba(0, 0, 0, 0.4)); /* ◀️ 使用变量，亮色模式行号颜色 */
+  user-select: none;     /* ◀️ 禁止选中行号 */
+  /* 💕 添加细长的分割线，使用更淡的颜色 */
+  border-right: 0.5px solid var(--vp-code-block-divider-color, rgba(128, 128, 128, 0.15));
+  font-family: var(--vp-font-family-mono, 'Fira Code', 'Monaco', 'Menlo', monospace);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+// 暗色模式行号颜色
+.dark-mode .highlight .ln,
+.dark-mode .highlight .lnt,
+.dark-mode .chroma .ln,
+.dark-mode .chroma .lnt {
+  color: var(--tk-code-block-line-number-dark, rgba(255, 255, 255, 0.35));
+  border-right-color: rgba(255, 255, 255, 0.15);
+}
+
+// 亮色模式行号颜色
+html:not(.dark-mode) .highlight .ln,
+html:not(.dark-mode) .highlight .lnt,
+html:not(.dark-mode) .chroma .ln,
+html:not(.dark-mode) .chroma .lnt {
+  color: rgba(0, 0, 0, 0.35);
+  border-right-color: rgba(0, 0, 0, 0.1);
+}
+
+// ========================================
+// 代码行高亮（类似 VitePress）
+// ========================================
+.vp-doc div[class*="language-"],
+.highlight,
+div[class*="language-"] {
+  // Chroma 自动生成的高亮行样式
+  .hl {
+    background-color: var(--code-line-highlight);
+    display: block;
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 48px);
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--vp-c-brand-1, rgba(59, 130, 246, 0.8));
+    }
+  }
+
+  // 行号表格中的高亮行
+  .lntable .hl {
+    display: table-row;
+    margin: 0;
+    padding: 0;
+    width: auto;
+
+    td {
+      background-color: var(--code-line-highlight);
+    }
+
+    td:first-child::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--vp-c-brand-1, rgba(59, 130, 246, 0.8));
+    }
+  }
+
+  // 支持多行高亮
+  .highlighted-lines {
+    .line {
+      &.highlighted {
+        background-color: var(--code-line-highlight);
+        display: block;
+        margin: 0 -24px;
+        padding: 0 24px;
+        width: calc(100% + 48px);
+        position: relative;
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: var(--vp-c-brand-1, rgba(59, 130, 246, 0.8));
+        }
+      }
+    }
+  }
+
+  // 代码diff样式（类似 GitHub）
+  .gd {
+    // 删除的行
+    background-color: rgba(248, 81, 73, 0.15);
+    display: block;
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 48px);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: rgba(248, 81, 73, 0.8);
+    }
+  }
+
+  .gi {
+    // 添加的行
+    background-color: rgba(52, 211, 153, 0.15);
+    display: block;
+    margin: 0 -24px;
+    padding: 0 24px;
+    width: calc(100% + 48px);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      background: rgba(52, 211, 153, 0.8);
+    }
+  }
+}
+
+// ========================================
+// 移动端优化
+// ========================================
+@media (max-width: 640px) {
+  .vp-doc div[class*="language-"],
+  .highlight,
+  div[class*="language-"] {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+
+    // 缩小macOS圆点
+    &::before {
+      width: 10px;
+      height: 10px;
+      left: 12px;
+      box-shadow:
+        16px 0 #fdbc40,
+        32px 0 #35cd4b;
+    }
+
+    // 缩小语言标签并调整位置
+    &::after {
+      font-size: 14px;
+      left: 58px;
+    }
+
+    .copy-code-button {
+      right: 10px;  /* 💕 移动端复制按钮靠右 */
+      padding: 0 8px;
+      font-size: 11px;
+      height: 26px;
+    }
+
+    .code-arrow {
+      right: 75px;  /* 💕 移动端展开按钮在复制按钮左侧，增加间距 */
+      padding: 0 8px;
+      font-size: 11px;
+      height: 26px;
+    }
+
+    pre code {
+      padding: 0 16px 16px;
+    }
+
+    // 移动端高亮行样式调整
+    .hl,
+    .highlighted-lines .line.highlighted,
+    .gd,
+    .gi {
+      margin: 0 -16px;
+      padding: 0 16px;
+      width: calc(100% + 32px);
+    }
+  }
+}
+
+/* ========================================
+   🌆 暗色模式特殊处理
+   ======================================== */
+.dark-mode {
+  .vp-doc div[class*="language-"],
+  .highlight,
+  div[class*="language-"] {
+    background: var(--tk-code-block-bg);  /* ◀️ 使用变量，暗色模式 */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);  /* ◀️ 更深的阴影增加层次感 */
+
+    /* 🌆 暗色模式复制按钮图标反转 */
+    .copy-code-button::before {
+      filter: invert(1); /* 🌆 反转图标颜色为白色 */
+    }
+  }
+}
+
+// ========================================
+// Chroma 语法高亮颜色
+// 注意: 颜色现在由 _code-highlight-dual-theme.scss 通过 CSS 变量控制
+// 这里保留结构，实际颜色会被 CSS 变量覆盖
+// ========================================
+
+// ========================================
+// 额外的强制覆盖 - 确保背景色生效
+// ========================================
+.chroma,
+pre.chroma,
+.highlight > pre,
+.highlight > .chroma {
+  background: var(--tk-code-block-bg); /* ◀️ 使用变量，与代码块容器保持一致 */
+}
+
+/* 🌆 暗色模式 Chroma 背景色 */
+.dark-mode .chroma,
+.dark-mode pre.chroma,
+.dark-mode .highlight > pre,
+.dark-mode .highlight > .chroma {
+  background: var(--tk-code-block-bg); /* ◀️ 使用变量，与代码块容器保持一致 */
+}
+
+// ========================================
+// 移动端响应式优化（内联行号模式）
+// ========================================
+@media (max-width: 1146px) {
+  // 代码块容器不超出屏幕
+  .vp-doc div[class*="language-"],
+  .highlight,
+  div[class*="language-"] {
+    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+    // 容器不滚动，完全隐藏溢出（修复移动端下拉空白问题）
+    overflow-y: hidden;  // 禁止垂直滚动
+    overflow-x: hidden;  // 🎨 改为 hidden，由 pre 元素负责水平滚动
+    touch-action: pan-x;  // 移动端强制横向滑动，覆盖全局 pan-y
+    box-sizing: border-box;
+    position: relative;
+
+    // 工具栏元素确保在容器内绝对定位
+    &::before,
+    &::after {
+      position: absolute;
+      z-index: 10;
+      pointer-events: none;  // 不阻挡代码选择
+    }
+
+    .copy-code-button,
+    .code-arrow {
+      position: absolute;
+      z-index: 10;
+    }
+
+    // pre 元素是唯一的滚动容器
+    pre,
+    .vp-code {
+      max-width: 100%;
+      width: 100%;
+      // 内容区域可以横向滚动
+      overflow-x: auto;
+      overflow-y: hidden;
+      // -webkit-overflow-scrolling: touch;  // 移除：导致移动端折叠代码块仍可垂直滚动
+      box-sizing: border-box;
+
+      code {
+        display: block;
+        min-width: 100%;
+        width: max-content;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+    }
+
+    // diff行和高亮行不超出
+    .gd,
+    .gi,
+    .hl {
+      width: auto;
+      max-width: none;
+    }
+  }
+
+  /* 📱 移动端内联行号样式（与代码同步） */
+  .highlight .ln,
+  .highlight .lnt,
+  .chroma .ln,
+  .chroma .lnt {
+    width: 28px;
+    margin-right: 16px;  /* ◀️ 增加间距「移动端也增加行号与代码间距」 */
+    padding-right: 8px;  /* ◀️ 增加内边距 */
+    font-size: 13px;
+    line-height: 1.6;
+  }
+}
+
+// 小屏幕进一步优化
+@media (max-width: 640px) {
+  .vp-doc div[class*="language-"],
+  .highlight,
+  div[class*="language-"] {
+    pre code {
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  }
+
+  /* 📱 小屏幕内联行号样式（与代码同步） */
+  .highlight .ln,
+  .highlight .lnt,
+  .chroma .ln,
+  .chroma .lnt {
+    width: 24px;
+    margin-right: 12px;  /* ◀️ 增加间距「小屏幕也保持适当间距」 */
+    padding-right: 6px;  /* ◀️ 增加内边距 */
+    font-size: 12px;
+    line-height: 1.5;
+  }
+}

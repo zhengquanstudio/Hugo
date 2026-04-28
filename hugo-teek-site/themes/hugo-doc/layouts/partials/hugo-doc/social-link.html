@@ -1,0 +1,9 @@
+{{- $url := .url | default "#" -}}
+{{- if and (eq (.icon | default "") "qq") (hasPrefix $url "tencent://message/?uin=") -}}
+  {{- $qqUin := replace $url "tencent://message/?uin=" "" -}}
+  {{- $url = printf "https://wpa.qq.com/msgrd?v=3&uin=%s&site=qq&menu=yes" ($qqUin | urlquery) -}}
+{{- end -}}
+{{- $openInNewTab := or (hasPrefix $url "http://") (hasPrefix $url "https://") (hasPrefix $url "//") -}}
+<a href="{{ $url }}"{{ if $openInNewTab }} target="_blank" rel="noopener"{{ end }} class="{{ .class | default "social-link" }}" aria-label="{{ .label }}">
+  {{ partial "hugo-doc/social-icon.html" (dict "icon" .icon) }}
+</a>

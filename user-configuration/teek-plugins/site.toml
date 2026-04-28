@@ -1,0 +1,6 @@
+[params]
+defaultCoverImage = 'https://img.xxdevops.cn/blog/wallpaper/bg01.avif'
+description = '全溪小筑のBlog，专注于Linux运维、容器编排、前端开发、编程语言等技术分享，记录技术成长之路'
+keywords = ['技术博客', 'DevOps', 'Linux', 'Docker', 'Kubernetes', '前端开发', '编程']
+mainSections = ['docs']
+siteStartDate = '2024-11-11'

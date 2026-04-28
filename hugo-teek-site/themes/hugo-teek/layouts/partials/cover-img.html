@@ -1,0 +1,44 @@
+{{/* 🎲 封面图片URL处理器 - 自动为图片API添加唯一参数确保每篇文章显示不同图片 */}}
+{{/* 使用方式: {{ partial "cover-img.html" . }} */}}
+{{/* 💡 支持两种API类型：1) 直接返回图片的随机API 2) 返回JSON列表的列表API */}}
+
+{{ $coverImg := .Params.coverImg }}
+{{ $uniqueId := "" }}
+
+{{/* 🔗 生成文章唯一标识 - 使用完整 MD5 哈希值避免碰撞 */}}
+{{ if .Permalink }}
+  {{ $uniqueId = md5 .Permalink }}
+{{ else if .File }}
+  {{ $uniqueId = md5 .File.Path }}
+{{ else }}
+  {{ $uniqueId = md5 .Title }}
+{{ end }}
+
+{{/* 🖼️ 处理封面图片URL */}}
+{{ if $coverImg }}
+  {{/* 🔍 检测是否为随机图片API（非完整图片URL） */}}
+  {{ $isRandomApi := false }}
+  {{ if or (in $coverImg "imgapi") (in $coverImg "random") (in $coverImg "/api/") }}
+    {{/* 检查是否不是直接的图片文件扩展名 */}}
+    {{ if not (or (in $coverImg ".jpg") (in $coverImg ".jpeg") (in $coverImg ".png") (in $coverImg ".gif") (in $coverImg ".webp") (in $coverImg ".avif")) }}
+      {{ $isRandomApi = true }}
+    {{ end }}
+  {{ end }}
+
+  {{/* 🔍 检查URL是否已包含查询参数 */}}
+  {{ if in $coverImg "?" }}
+    {{/* ✅ URL已有参数，追加唯一标识参数 */}}
+    {{ $coverImg = printf "%s&_t=%s" $coverImg $uniqueId }}
+  {{ else }}
+    {{/* 📝 URL无参数，添加唯一标识参数 */}}
+    {{ $coverImg = printf "%s?_t=%s" $coverImg $uniqueId }}
+  {{ end }}
+
+  {{/* 🏷️ 如果是随机API，添加标记属性供JS处理 */}}
+  {{ if $isRandomApi }}
+    {{ $coverImg = printf "%s" $coverImg }}
+  {{ end }}
+{{ end }}
+
+{{/* 📤 返回处理后的URL */}}
+{{ return $coverImg }}

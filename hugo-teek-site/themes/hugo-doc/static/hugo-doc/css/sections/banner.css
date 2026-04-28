@@ -1,0 +1,745 @@
+/**
+ * =====================================================
+ * 文件说明：Banner区域样式
+ * 文件用途：定义首页首屏展示区域的样式，使用几何抽象背景图
+ * =====================================================
+ * 【 白木 原创开发🕊️ https://gl.baimu.live/ 】
+ * =====================================================
+ */
+
+/* ========================================
+   Banner区域整体布局
+   ======================================== */
+.banner-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-top: calc(var(--nav-height) + var(--space-2xl));
+  padding-bottom: var(--space-lg);
+  will-change: opacity, transform;
+}
+
+/* ========================================
+   背景图片层
+   ======================================== */
+.banner-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  background: linear-gradient(135deg, #e0e7ff 0%, #d1e0fd 25%, #dbeafe 50%, #e0e7ff 75%, #f0f9ff 100%);
+}
+
+.banner-bg-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* 遮罩层 - 纯白色高斯模糊（混合模式确保白色系） */
+.banner-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  mix-blend-mode: screen;
+}
+
+/* ========================================
+   装饰元素 - 孟菲斯几何抽象风格
+   ======================================== */
+.banner-decorations {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ----------------------------------------
+   流体波浪装饰 - 左右两侧
+   ---------------------------------------- */
+.geo-wave {
+  position: absolute;
+  width: 250px;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.geo-wave svg {
+  width: 100%;
+  height: 100%;
+}
+
+.wave-left {
+  left: 0;
+  top: 0;
+  animation: waveFloat 12s ease-in-out infinite;
+}
+
+.wave-right {
+  right: 0;
+  top: 0;
+  animation: waveFloat 15s ease-in-out infinite reverse;
+}
+
+/* ----------------------------------------
+   几何形状装饰 - 顶部底部
+   ---------------------------------------- */
+.geo-shape {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+}
+
+.geo-shape svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 顶部装饰 */
+.shape-top-1 {
+  top: 8%;
+  left: 15%;
+  animation: rotateSlow 20s linear infinite;
+}
+
+.shape-top-2 {
+  top: 12%;
+  right: 12%;
+  width: 50px;
+  height: 50px;
+  animation: rotateSlow 25s linear infinite reverse;
+}
+
+/* 底部装饰 */
+.shape-bottom-1 {
+  bottom: 15%;
+  left: 8%;
+  width: 60px;
+  height: 60px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.shape-bottom-2 {
+  bottom: 10%;
+  right: 15%;
+  animation: float 10s ease-in-out infinite reverse;
+}
+
+/* ----------------------------------------
+   十字标记装饰
+   ---------------------------------------- */
+.geo-cross {
+  position: absolute;
+  font-size: 20px;
+  font-weight: bold;
+  color: #6c757d;
+  opacity: 0.6;
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.cross-1 {
+  top: 20%;
+  left: 25%;
+  color: #ff6b9d;
+  animation-delay: 0s;
+}
+
+.cross-2 {
+  top: 35%;
+  right: 20%;
+  color: #4facfe;
+  animation-delay: 0.5s;
+}
+
+.cross-3 {
+  bottom: 30%;
+  left: 18%;
+  color: #00f2fe;
+  animation-delay: 1s;
+}
+
+.cross-4 {
+  bottom: 25%;
+  right: 25%;
+  color: #ff8fab;
+  animation-delay: 1.5s;
+}
+
+/* ----------------------------------------
+   圆点装饰
+   ---------------------------------------- */
+.geo-dot {
+  position: absolute;
+  border-radius: 50%;
+  animation: pulse 4s ease-in-out infinite;
+}
+
+.dot-1 {
+  width: 12px;
+  height: 12px;
+  background: #ff6b9d;
+  top: 15%;
+  left: 35%;
+  animation-delay: 0.2s;
+}
+
+.dot-2 {
+  width: 8px;
+  height: 8px;
+  background: #4facfe;
+  top: 25%;
+  right: 30%;
+  animation-delay: 0.7s;
+}
+
+.dot-3 {
+  width: 10px;
+  height: 10px;
+  background: #00f2fe;
+  bottom: 35%;
+  left: 30%;
+  animation-delay: 1.2s;
+}
+
+.dot-4 {
+  width: 6px;
+  height: 6px;
+  background: #ff8fab;
+  bottom: 20%;
+  right: 35%;
+  animation-delay: 1.7s;
+}
+
+.dot-5 {
+  width: 14px;
+  height: 14px;
+  background: rgba(79, 172, 254, 0.5);
+  top: 45%;
+  left: 10%;
+  animation-delay: 2.2s;
+}
+
+/* ----------------------------------------
+   虚线网格装饰
+   ---------------------------------------- */
+.geo-grid {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background-image: 
+    linear-gradient(to right, rgba(108, 117, 125, 0.3) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(108, 117, 125, 0.3) 1px, transparent 1px);
+  background-size: 12px 12px;
+  animation: fadeInOut 5s ease-in-out infinite;
+}
+
+.grid-1 {
+  top: 18%;
+  right: 8%;
+  animation-delay: 0s;
+}
+
+.grid-2 {
+  bottom: 22%;
+  left: 5%;
+  width: 48px;
+  height: 48px;
+  animation-delay: 2.5s;
+}
+
+/* ----------------------------------------
+   斜线装饰
+   ---------------------------------------- */
+.geo-lines {
+  position: absolute;
+  width: 80px;
+  height: 40px;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8px,
+    rgba(108, 117, 125, 0.2) 8px,
+    rgba(108, 117, 125, 0.2) 10px
+  );
+  animation: slideLines 8s linear infinite;
+}
+
+.lines-1 {
+  top: 30%;
+  left: 3%;
+}
+
+.lines-2 {
+  bottom: 18%;
+  right: 5%;
+  animation-direction: reverse;
+}
+
+/* ----------------------------------------
+   原有装饰圆形 - 保留作为氛围
+   ---------------------------------------- */
+.decoration-circle {
+  position: absolute;
+  border-radius: var(--radius-full);
+  background: var(--gradient-primary);
+  opacity: 0.1;
+  filter: blur(80px);
+}
+
+.circle-1 {
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  right: -150px;
+  animation: float 10s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 400px;
+  height: 400px;
+  bottom: -100px;
+  left: -100px;
+  background: var(--gradient-secondary);
+  animation: float 12s ease-in-out infinite reverse;
+}
+
+/* 玻璃装饰块 */
+.decoration-glass {
+  position: absolute;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-glass);
+}
+
+.glass-1 {
+  width: 120px;
+  height: 120px;
+  top: 60%;
+  left: 8%;
+  transform: rotate(15deg);
+  animation: float 7s ease-in-out infinite;
+  opacity: 0.6;
+}
+
+/* ========================================
+   内容区域
+   ======================================== */
+.banner-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  text-align: center;
+}
+
+/* 头像区域 */
+.banner-avatar-wrapper {
+  margin-bottom: var(--space-xl);
+}
+
+.banner-avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-glass);
+}
+
+.avatar-emoji {
+  font-size: 56px;
+  line-height: 1;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+/* 头像光环动画 */
+.avatar-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border: 2px solid transparent;
+  border-top-color: var(--color-primary);
+  border-radius: var(--radius-full);
+  animation: spin 3s linear infinite;
+}
+
+.avatar-ring.ring-2 {
+  top: -16px;
+  left: -16px;
+  right: -16px;
+  bottom: -16px;
+  border-top-color: var(--color-secondary);
+  animation-duration: 5s;
+  animation-direction: reverse;
+}
+
+/* 标题区域 */
+.banner-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.title-greeting {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-gray-600);
+  letter-spacing: 2px;
+}
+
+.title-name {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-bold);
+  font-family: var(--font-family-title);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+}
+
+.title-role {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-gray-600);
+  padding: var(--space-xs) var(--space-lg);
+  background: var(--glass-white);
+  backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-pill);
+}
+
+/* 简介文字 */
+.banner-description {
+  font-size: var(--font-size-md);
+  color: var(--color-gray-700);
+  line-height: var(--line-height-relaxed);
+  max-width: 600px;
+  margin: 0 auto var(--space-2xl);
+}
+
+/* CTA按钮组 */
+.banner-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-2xl);
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.glass-btn:hover .btn-icon {
+  transform: translateX(4px);
+}
+
+/* 社交链接 */
+.banner-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-glass);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.social-link svg {
+  width: 22px;
+  height: 22px;
+  color: var(--color-gray-700);
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.social-link:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: var(--shadow-glass-hover);
+  background: var(--glass-white-heavy);
+}
+
+.social-link:hover svg {
+  color: var(--color-primary);
+}
+
+/* ========================================
+   滚动提示
+   ======================================== */
+.scroll-indicator {
+  position: absolute;
+  bottom: var(--space-2xl);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+.scroll-mouse {
+  width: 26px;
+  height: 40px;
+  background: var(--gradient-glass);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: var(--border-glass);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-glass);
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-sm);
+}
+
+.scroll-wheel {
+  width: 4px;
+  height: 8px;
+  background: var(--color-primary);
+  border-radius: var(--radius-pill);
+  animation: scrollWheel 1.5s ease-in-out infinite;
+}
+
+.scroll-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-gray-600);
+  letter-spacing: 1px;
+}
+
+/* ========================================
+   动画定义
+   ======================================== */
+
+/* 原有动画 */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+@keyframes scrollWheel {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+/* 孟菲斯风格装饰动画 */
+@keyframes waveFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.02);
+  }
+}
+
+@keyframes rotateSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slideLines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 20px 20px;
+  }
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+@media (max-width: 768px) {
+  .banner-section {
+    padding-top: calc(var(--nav-height) + var(--space-xl));
+    padding-bottom: var(--space-3xl);
+  }
+  
+  .banner-avatar {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .avatar-emoji {
+    font-size: 44px;
+  }
+  
+  .title-name {
+    font-size: var(--font-size-3xl);
+  }
+  
+  .title-greeting {
+    font-size: var(--font-size-base);
+  }
+  
+  .title-role {
+    font-size: var(--font-size-sm);
+  }
+  
+  .banner-description {
+    font-size: var(--font-size-base);
+    padding: 0 var(--space-md);
+  }
+  
+  .banner-actions {
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+  
+  .glass-btn {
+    width: 200px;
+    justify-content: center;
+  }
+  
+  /* 移动端调整装饰元素 */
+  .geo-wave {
+    width: 120px;
+    opacity: 0.5;
+  }
+  
+  .geo-shape {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .shape-top-2 {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .shape-bottom-1 {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .geo-cross {
+    font-size: 14px;
+  }
+  
+  .geo-grid {
+    width: 40px;
+    height: 40px;
+    background-size: 8px 8px;
+  }
+  
+  .geo-lines {
+    width: 50px;
+    height: 25px;
+  }
+  
+  .decoration-glass {
+    display: none;
+  }
+  
+  .circle-1,
+  .circle-2 {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title-name {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .banner-description br {
+    display: none;
+  }
+  
+  .social-link {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .social-link svg {
+    width: 20px;
+    height: 20px;
+  }
+}

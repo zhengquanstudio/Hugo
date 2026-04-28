@@ -1,0 +1,239 @@
+/* 🎯 侧边栏高度自适应同步控制器样式 */
+/* 让侧边栏 aside 高度自适应 section 文章卡片区域长度
+/* 白木开发 🔗https://gl.baimu.live/ 
+*/
+
+/* ========================================
+   基础侧边栏容器样式
+   ======================================== */
+.home-sidebar {
+  /* 相对定位，用于内部元素定位 */
+  position: relative;
+
+  /* 高度自适应配置 */
+  height: auto;
+  max-height: none;
+
+  /* 滚动配置 - 超出内容可滚动，但显示溢出内容避免阴影被切割 */
+  overflow-y: auto;
+  overflow-x: visible;
+
+  /* 平滑滚动 */
+  scroll-behavior: smooth;
+
+  /* Scroll-Snap 滚动捕捉 - 让滚动停止时自动吸附到卡片边界 */
+  /* proximity 模式：只在接近捕捉点时才吸附，用户可以自由浏览 */
+  scroll-snap-type: y proximity;
+
+  /* 🎨 内边距调整 - 给悬停光晕留出空间，防止被切割 */
+  padding-right: 0.5rem;
+  padding-left: 12px;
+  /* 🔥 顶部内边距 - 为第一个卡片的顶部悬停光晕留出空间 */
+  padding-top: 12px;
+
+  /* 负边距补偿内边距，保持视觉对齐 */
+  margin-left: -12px;
+  /* 🔥 负边距补偿顶部内边距 */
+  margin-top: -12px;
+
+  /* 确保在 grid 布局中正确显示 */
+  align-self: start;
+
+  /* 增加宽度以容纳悬停阴影 */
+  width: calc(100% + 24px);
+
+  /* ========================================
+     🔥 完全隐藏滚动条 - 没想好怎么呈现滚动条，暂时就隐藏吧，代码做个预留
+     ======================================== */
+
+  /* Webkit 浏览器 - 隐藏滚动条 */
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+  }
+
+  /* 隐藏滚动条按钮 */
+  &::-webkit-scrollbar-button {
+    display: none;
+    height: 0;
+    width: 0;
+  }
+
+  /* 隐藏滚动条轨道 */
+  &::-webkit-scrollbar-track,
+  &::-webkit-scrollbar-track-piece {
+    display: none;
+    background: transparent;
+  }
+
+  /* 隐藏滚动条滑块 */
+  &::-webkit-scrollbar-thumb {
+    display: none;
+    background: transparent;
+  }
+
+  /* 隐藏滚动条角落 */
+  &::-webkit-scrollbar-corner {
+    display: none;
+    background: transparent;
+  }
+
+  /* Firefox 浏览器 - 隐藏滚动条 */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  /* IE 浏览器 - 隐藏滚动条 */
+  -ms-overflow-style: none;
+
+  /* ========================================
+     卡片间距优化 + Scroll-Snap 对齐
+     ======================================== */
+  .sidebar-card-base,
+  .sidebar-widget,
+  .blogger-card,
+  .tk-page-card,
+  .featured-posts-card,
+  .wechat-official-card-wrapper,
+  .tk-sponsors-card,
+  .tk-widget-card {
+    /* Scroll-Snap 对齐 - 卡片顶部对齐到滚动容器顶部 */
+    scroll-snap-align: start;
+    /* 顶部留出小间距，避免卡片紧贴容器顶部 */
+    scroll-margin-top: 0.5rem;
+
+    /* 最后一个卡片不需要底部间距 */
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+/* ========================================
+   💬 滚动提示气泡组件，采用独立悬浮层方式
+   ======================================== */
+
+/* 提示气泡容器 - 独立于侧边栏，避免被 overflow 影响 */
+.sidebar-scroll-hint {
+  /* 固定定位，相对于视口 */
+  position: fixed;
+  left: 20px;
+  bottom: 30px;
+
+  /* 圆角半透明灰色背景 */
+  background: rgba(128, 128, 128, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  /* 圆角 */
+  border-radius: 20px;
+
+  /* 内边距 */
+  padding: 10px 18px;
+
+  /* 白色文字 */
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 500;
+
+  /* 阴影效果 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* 默认隐藏 */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+
+  /* 过渡动画 */
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+
+  /* 超高层级，确保在最上层 */
+  z-index: 99999;
+
+  /* 禁止选中 */
+  user-select: none;
+  -webkit-user-select: none;
+
+  /* 指针样式 */
+  pointer-events: none;
+
+  /* 显示状态 */
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  /* 图标 */
+  .hint-icon {
+    display: inline-block;
+    margin-right: 6px;
+    animation: hint-bounce 1.5s ease-in-out infinite;
+  }
+}
+
+/* ========================================
+   提示气泡动画关键帧
+   ======================================== */
+@keyframes hint-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* ========================================
+   响应式适配
+   ======================================== */
+
+/* 📱 移动端 = 禁用高度自适应，恢复默认布局 */
+@media (max-width: 768px) {
+  .home-sidebar {
+    /* 移除最大高度限制 */
+    max-height: none;
+    height: auto;
+
+    /* 移动端不需要内部滚动 */
+    overflow-y: visible;
+    overflow-x: visible;
+
+    /* 禁用 scroll-snap */
+    scroll-snap-type: none;
+
+    /* 移除内边距调整，但保留顶部内边距防止光晕被切割 */
+    padding-right: 0;
+    padding-left: 0;
+    /* 🔥 保留顶部内边距，移动端第一个卡片顶部光晕也需要空间 */
+    padding-top: 8px;
+
+    /* 移除负边距，但保留顶部负边距 */
+    margin-left: 0;
+    /* 🔥 保留顶部负边距补偿 */
+    margin-top: -8px;
+
+    /* 恢复默认宽度 */
+    width: 100%;
+  }
+
+  /* 移动端隐藏提示气泡 */
+  .sidebar-scroll-hint {
+    display: none;
+  }
+}
+
+/* ========================================
+   打印样式
+   ======================================== */
+@media print {
+  .home-sidebar {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .sidebar-scroll-hint {
+    display: none;
+  }
+}

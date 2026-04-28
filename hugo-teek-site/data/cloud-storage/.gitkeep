@@ -1,0 +1,9 @@
+# Cloud Storage Configuration Directory
+#
+# This directory stores cloud storage configurations (configs.json, history.json)
+# These files contain encrypted AccessKey/SecretKey and should NOT be committed.
+#
+# IMPORTANT: Set your own encryption key via environment variable:
+#   export CLOUD_STORAGE_ENCRYPTION_KEY="your-secure-random-key"
+#
+# Do NOT use the default encryption key in production!

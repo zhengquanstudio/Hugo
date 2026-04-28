@@ -1,0 +1,4 @@
+[params]
+[params.content]
+additionalDocs = ['docs', 'hugo-teek-site/content']
+watchDirs = ['content', '../docs']

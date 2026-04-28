@@ -1,0 +1,112 @@
+{{ $sections := .Site.Params.mainSections | default (slice "docs" "posts") }}
+{{ $candidates := where .Site.RegularPages "Section" "in" $sections }}
+{{ if eq (len $candidates) 0 }}
+  {{ $candidates = .Site.RegularPages }}
+{{ end }}
+{{ $limit := int (default 6 .Site.Params.hugoDoc.docsLimit) }}
+{{ $pages := first $limit ($candidates.ByDate.Reverse) }}
+{{ $filters := slice }}
+{{ $seen := newScratch }}
+{{ $primarySection := "docs" }}
+{{ if gt (len $sections) 0 }}
+  {{ $primarySection = index $sections 0 }}
+{{ end }}
+{{ $allDocsURL := printf "/%s/" $primarySection | relURL }}
+
+{{ range $pages }}
+  {{ $category := partial "hugo-doc/page-category.html" . }}
+  {{ $slug := $category | urlize }}
+  {{ if and $slug (not ($seen.Get $slug)) }}
+    {{ $seen.Set $slug true }}
+    {{ $filters = $filters | append (dict "label" $category "slug" $slug) }}
+  {{ end }}
+{{ end }}
+
+<section class="docs-section section" id="docs">
+  <div class="container">
+    <div class="section-header">
+      <h2 class="section-title">{{ .Site.Params.hugoDoc.docsTitle | default "最新文章" }}</h2>
+      <p class="section-subtitle">{{ .Site.Params.hugoDoc.docsSubtitle | default "分享技术心得、学习笔记与开发经验，记录成长路上的点滴收获" }}</p>
+    </div>
+
+    {{ if gt (len $filters) 1 }}
+      <div class="docs-filter reveal">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        {{ range $filters }}
+          <button class="filter-btn" data-filter="{{ .slug }}">{{ .label }}</button>
+        {{ end }}
+      </div>
+    {{ end }}
+
+    {{ if gt (len $pages) 0 }}
+      <div class="docs-grid" id="docsGrid">
+        {{ range $pages }}
+          {{ $category := partial "hugo-doc/page-category.html" . }}
+          {{ $slug := $category | urlize }}
+          {{ $cover := .Params.coverImg }}
+          {{ if not $cover }}
+            {{ $cover = .Site.Params.defaultCoverImage }}
+          {{ end }}
+          {{ $coverURL := $cover }}
+          {{ if and $cover (not (or (hasPrefix $cover "http://") (hasPrefix $cover "https://") (hasPrefix $cover "//"))) }}
+            {{ $coverURL = $cover | relURL }}
+          {{ end }}
+          <article class="doc-card glass-card reveal" data-category="{{ $slug }}">
+            <div class="doc-image{{ if not $coverURL }} doc-image--empty{{ end }}">
+              {{ if $coverURL }}
+                <img src="{{ $coverURL }}" alt="{{ .Title }}" loading="lazy">
+              {{ else }}
+                <div class="doc-fallback-icon">{{ .Site.Params.hugoDoc.brandIcon | default "🪁" }}</div>
+              {{ end }}
+              <div class="doc-category">{{ $category }}</div>
+            </div>
+            <div class="doc-content">
+              <h3 class="doc-title">
+                <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+              </h3>
+              <p class="doc-excerpt">{{ .Description | default (.Summary | plainify) | plainify | truncate 110 }}</p>
+              <div class="doc-meta">
+                <div class="doc-author">
+                  <span class="author-avatar">{{ .Site.Params.hugoDoc.brandIcon | default "🪁" }}</span>
+                  <span class="author-name">{{ .Site.Params.author.name | default .Site.Title }}</span>
+                </div>
+                <div class="doc-stats">
+                  <span class="stat-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                    {{ .ReadingTime }} 分钟阅读
+                  </span>
+                  <span class="stat-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M4 19.5V4.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v15"></path>
+                      <path d="M8 7h7"></path>
+                      <path d="M8 11h7"></path>
+                      <path d="M8 15h5"></path>
+                    </svg>
+                    {{ .WordCount }} 字
+                  </span>
+                </div>
+              </div>
+              <div class="doc-date">{{ .Date.Format "2006-01-02" }}</div>
+            </div>
+          </article>
+        {{ end }}
+      </div>
+
+      <div class="docs-more reveal">
+        <a href="{{ $allDocsURL }}" class="glass-btn glass-btn-primary">
+          <span>查看更多文章</span>
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </a>
+      </div>
+    {{ else }}
+      <div class="empty-state glass-card">
+        <p>还没有可展示的文章，稍后再回来看看。</p>
+      </div>
+    {{ end }}
+  </div>
+</section>
