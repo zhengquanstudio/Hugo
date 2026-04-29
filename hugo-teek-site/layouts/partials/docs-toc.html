@@ -27,10 +27,13 @@
 {{- with $page.TableOfContents }}
   {{- $toc := . -}}
 
+  {{- /* 修复：兼容所有 Hugo 版本的 Trim 写法 */ -}}
+  {{- $rawContent := trim ($page.RawContent | default "") " " -}}
+  
   {{- /* 如果文档有 Front Matter title，并且内容从 h2 开始，移除 TOC 中可能的 h1 */ -}}
-  {{- if and $page.Params.title (not (in (strings.TrimSpace $page.RawContent) "# ")) }}
+  {{- if and $page.Params.title (not (in $rawContent "# ")) }}
     {{- /* 文档有 title 且内容中没有 h1，说明结构正常（h2 起），无需处理 */ -}}
-  {{- else if and $page.Params.title (in $page.RawContent "# ") }}
+  {{- else if and $page.Params.title (in $rawContent "# ") }}
     {{- /* 文档有 title 但内容有 h1，需要判断是否要保留 */ -}}
     {{- /* 这种情况比较少见，保留原样 */ -}}
   {{- end }}
