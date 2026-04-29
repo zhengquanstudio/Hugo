@@ -27,7 +27,7 @@
   motto = "荆棘之路，劈风斩浪。"
 
   # 作者头像
-  avatar = "https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80"
+  avatar = "https://img.zhengquan.org.cn/images/web/avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80"
 
   # 作者邮箱（可选，留空不显示）
   email = "zhengquan@163.com"

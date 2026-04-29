@@ -1,23 +1,23 @@
 layoutMode = 'bothWidthAdjustable'
 
 [appreciation]
-alipayQR = 'https://img.xxdevops.cn/blog/appreciation_code/zhifubao.avif'
+alipayQR = 'https://img.zhengquan.org.cn/images/web/alipay.avif'
 enabled = true
-wechatQR = 'https://img.xxdevops.cn/blog/appreciation_code/wechat.avif'
+wechatQR = 'https://img.zhengquan.org.cn/images/web/wechat.avif'
 
 [blogger]
-avatar = 'https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=150&h=150&fit=crop&fm=webp&q=80'
+avatar = 'https://img.zhengquan.org.cn/images/web/avatar.avif?w=150&h=150&fit=crop&fm=webp&q=80'
 backgroundImage = 'https://img.xxdevops.cn/blog/wallpaper/bg14.avif'
-circleBgImg = 'https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80'
+circleBgImg = 'https://img.zhengquan.org.cn/images/web/avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80'
 circleBgMask = false
 name = '全溪小筑'
 shape = 'circle-rotate'
-slogan = '明心静性，爱自己'
+slogan = '欲买桂花同载酒 终不似 少年游'
 
 [[blogger.social]]
 icon = 'github'
 name = 'GitHub'
-url = 'https://github.com/JSXGQ'
+url = 'https://github.com/zhengquanstudio/Hugo'
 
 [[blogger.social]]
 icon = 'cnb'
@@ -27,7 +27,7 @@ url = 'https://cnb.cool/u/yuwenGueen'
 [[blogger.social]]
 icon = 'qq'
 name = 'QQ'
-url = 'tencent://message/?uin=你的QQ号'
+url = 'tencent://message/?uin=398060918'
 
 [[blogger.social]]
 icon = 'weichat'
@@ -139,7 +139,7 @@ provider = 'flexsearch'
 
 [[socialLinks]]
 icon = 'gitee'
-link = 'https://cnb.cool/yuwen-gueen/hugo-teeker-theme'
+link = 'https://cnb.cool/zhengquan.org.cn/hugo'
 title = 'CNB'
 
 [sponsors]
@@ -163,12 +163,12 @@ return = '♪(^∇^*)欢迎回来！'
 description = '全溪小筑のBlog'
 enabled = true
 name = '全溪小筑のBlog'
-qrcodeImage = 'https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif'
-qrcodeUrl = 'https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif'
+qrcodeImage = 'https://img.zhengquan.org.cn/images/web/zhengquan.org.cn.avif'
+qrcodeUrl = 'https://img.zhengquan.org.cn/images/web/zhengquan.org.cn.avif'
 
 [wechatUnlock]
 defaultKeyword = '解锁'
-defaultQRCode = 'https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif'
+defaultQRCode = 'https://img.zhengquan.org.cn/images/web/zhengquan.org.cn.avif'
 enabled = true
 lockTime = 3600
 maxAttempts = 5

@@ -1,0 +1,20 @@
+# 赞助者名单数据
+# 添加新的赞助者时,只需在此文件末尾添加新的 [[sponsors]] 条目
+
+[[sponsors]]
+  name = "One"
+  amount = "20"
+  date = "2025/11/18"
+  message = "失眠了，起来更新博客，群主最近更新博客辛苦了🌹。"
+
+[[sponsors]]
+  name = "srebro"
+  amount = "20"
+  date = "2025/11/06"
+  message = "徐总牛逼"
+
+[[sponsors]]
+  name = "One"
+  amount = "20"
+  date = "2025/11/04"
+  message = "请大佬喝奶茶😊"

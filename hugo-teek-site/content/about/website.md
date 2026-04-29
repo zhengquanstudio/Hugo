@@ -4,9 +4,9 @@ date: 2025-03-03T10:00:00+08:00
 description: 关于本站的基本信息、运行状态和最新动态
 draft: false
 title: 关于本站
-type: about-site
-url: /about/website/
-layout: single
+slug: website
+type: about
+layout: website
 
 # ⚠️ 请注意！修改以下内容，保存后需要重启项目才能生效
 # 页面来源于 hugo-teek-site\themes\hugo-teek\layouts\about-site\single.html

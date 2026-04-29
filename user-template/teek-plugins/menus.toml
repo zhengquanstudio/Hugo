@@ -227,7 +227,7 @@
 [[main]]
   name = "👂 留言区"
   parent = "about"
-  url = "/about/liuyanqu/"
+  url = "/about/message-board/"
   weight = 30.0
   [main.params]
     icon = "message"

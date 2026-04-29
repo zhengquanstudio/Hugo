@@ -1,0 +1,24 @@
+
+{{ define "main" }}
+{{/* 留言区页面 - 完全复刻 VitePress 风格 */}}
+<div class="page-layout message-board-layout">
+  <div class="page-content-wrapper">
+    {{ .Content }}
+
+    {{/* 评论区 */}}
+    {{ if .Site.Params.comment.enabled }}
+    <div class="page-comment-section">
+      {{ partial "comment.html" . }}
+    </div>
+    {{ end }}
+  </div>
+
+  {{/* 分享按钮 */}}
+  <div class="tk-share-wrapper">
+    <button class="tk-share-button" aria-label="分享此页面" data-url="{{ .Permalink | replaceRE `/$` `` }}">
+      <span class="share-icon">📤</span>
+      <span class="share-text">分享此页面</span>
+    </button>
+  </div>
+</div>
+{{ end }}

@@ -30,18 +30,18 @@ layoutMode = "bothWidthAdjustable"
 # ========================================
 [appreciation]
     enabled = true  # 启用打赏支持功能
-    alipayQR = "https://img.xxdevops.cn/blog/appreciation_code/zhifubao.avif"
-    wechatQR = "https://img.xxdevops.cn/blog/appreciation_code/wechat.avif"
+    alipayQR = "https://img.zhengquan.org.cn/images/web/alipay.avif"
+    wechatQR = "https://img.zhengquan.org.cn/images/web/wechat.avif"
 
 # ========================================
 # 微信公众号 (WeChat Official Account)
 # ========================================
 [wechatOfficial]
     enabled = true  # 启用微信公众号卡片
-    name = "余温小站"  # 公众号名称
-    description = "余温小站的描述"  # 公众号描述
-    qrcodeImage = "https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif"  # 二维码图片URL
-    qrcodeUrl = "https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif"  # 点击"扫码关注"按钮跳转的URL
+    name = "全溪小筑のBLOG"  # 公众号名称
+    description = "全溪小筑のBLOG"  # 公众号描述
+    qrcodeImage = "https://img.zhengquan.org.cn/images/web/zhengquan.org.cn.avif"  # 二维码图片URL
+    qrcodeUrl = "https://img.zhengquan.org.cn/images/web/zhengquan.org.cn.avif"  # 点击"扫码关注"按钮跳转的URL
 
 # ========================================
 # 公众号解锁功能 (WeChat Unlock)
@@ -49,7 +49,7 @@ layoutMode = "bothWidthAdjustable"
 [wechatUnlock]
     enabled = true                      # 全局开关
     salt = "hugo-teek-unlock-2025"     # 解锁码生成盐值（请修改为自己的）
-    defaultQRCode = "https://img.xxdevops.cn/blog/wechatOfficial/mypublicnumber.avif"  # 默认二维码
+    defaultQRCode = "https://img.zhengquan.org.cn/images/web/zhengquan.org.cn.avif"  # 默认二维码
     defaultKeyword = "解锁"              # 默认关键字提示
     maxAttempts = 5                     # 最大验证尝试次数
     lockTime = 3600                     # 锁定时间（秒），3600 = 1小时
@@ -63,13 +63,13 @@ layoutMode = "bothWidthAdjustable"
 # 博主卡片 (Blogger Card)
 # ========================================
 [blogger]
-    avatar = "https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=150&h=150&fit=crop&fm=webp&q=80"
-    backgroundImage = "https://img.xxdevops.cn/blog/wallpaper/bg14.avif"  # 博主卡片背景图（可选，留空则使用纯色背景）
-    circleBgImg = "https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif?w=300&h=300&fit=crop&fm=webp&q=80"
+    avatar = "https://img.zhengquan.org.cn/images/web/avatar.avif"
+    backgroundImage = "https://img.zhengquan.org.cn/images/web/avatar-bg.avif"  # 博主卡片背景图（可选，留空则使用纯色背景）
+    circleBgImg = "https://img.zhengquan.org.cn/images/web/avatar.avif"
     circleBgMask = false
-    name = "余温Gueen"
+    name = "全溪小筑"
     shape = "circle-rotate"
-    slogan = "明心静性，爱自己"
+    slogan = "欲买桂花同载酒 终不似 少年游"
 [blogger.status]
       icon = "😪"
       size = 18.0  # 右下角表情图标大小（像素）
@@ -78,15 +78,15 @@ layoutMode = "bothWidthAdjustable"
 [[blogger.social]]
       name = "GitHub"
       icon = "github"  # GitHub 图标
-      url = "https://github.com/JSXGQ"  # 你的 GitHub 地址
+      url = "https://github.com/zhengquanstudio/Hugo"  # 你的 GitHub 地址
 [[blogger.social]]
       name = "CNB"
       icon = "cnb"  # CNB
-      url = "https://cnb.cool/u/yuwenGueen"  # 你的博客园地址
+      url = "https://cnb.cool/zhengquan.org.cn/hugo"  # 你的博客园地址
 [[blogger.social]]
       name = "QQ"
       icon = "qq"  # QQ 图标
-      url = "tencent://message/?uin=你的QQ号"  # QQ 聊天链接
+      url = "tencent://message/?uin=398060918"  # QQ 聊天链接
 [[blogger.social]]
       name = "微信"
       icon = "weichat"  # 微信图标（文件名是 weichat.svg）
@@ -269,7 +269,7 @@ layoutMode = "bothWidthAdjustable"
 # ========================================
 [[socialLinks]]
     icon = "gitee"
-    link = "https://cnb.cool/yuwen-gueen/hugo-teeker-theme"
+    link = "https://cnb.cool/zhengquan.org.cn/hugo"
     title = "CNB"
 
 # ========================================

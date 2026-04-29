@@ -17,7 +17,7 @@
   heroImage = "/images/banner/slide6.jpg"
 
   # 头像配置
-  avatarImage = "https://img.xxdevops.cn/blog/avatar/yuwen_avatar.avif"
+  avatarImage = "https://img.zhengquan.org.cn/images/web/avatar.avif"
   avatarLink = "/about/"
 
   # 搜索功能配置（使用前端搜索，不依赖 FlexSearch）

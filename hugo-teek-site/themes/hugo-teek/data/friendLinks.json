@@ -7,14 +7,14 @@
         {
           "name": "One",
           "url": "https://onedayxyy.cn/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/xyy-logo.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/xyy-logo.webp",
           "description": "明心静性，爱自己（基于vitepress）",
           "irregular": true
         },
         {
           "name": "One",
           "url": "https://zola.onedayxyy.cn/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/xyy-logo.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/xyy-logo.webp",
           "description": "明心静性，爱自己（基于rust开发的zola，移植自张洪heo博客）",
           "irregular": true
         }
@@ -25,14 +25,14 @@
       "desc": "",
       "list": [
         {
-          "name": "vitepress-theme-teek主题",
+          "name": "vitepress-theme-teek",
           "url": "https://vp.teek.top/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/logo.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/logo.webp",
           "description": "一个轻量、简洁高效、灵活配置，易于扩展的 VitePress 主题",
           "irregular": true
         },
         {
-          "name": "VitePress官网",
+          "name": "VitePress",
           "url": "https://vitepress.dev/zh/",
           "avatar": "https://img.xxdevops.cn/blog/friend-logo/vitepress-logo-mini.svg",
           "description": "由 Vite 和 Vue 驱动的静态站点生成器",
@@ -46,16 +46,8 @@
       "list": [
         {
           "name": "天客 - Teeker",
-          "url": "https://wiki.xxdevops.cn/",
-          "avatar": "https://img.zhengquan.org.cn/images/web/avatar.avif",
-          "description": "一款简约、唯美、丝滑且强大的博客和文档库二合一的博客",
-          "badge": "Hugo-Teek作者",
-          "irregular": true
-        },
-        {
-          "name": "天客 - Teeker",
           "url": "https://notes.teek.top/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/notes.teek.top.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/notes.teek.top.webp",
           "description": "朝圣的使徒，正在走向编程的至高殿堂！（Teek作者，大佬666）",
           "badge": "Teek作者",
           "irregular": true
@@ -70,7 +62,7 @@
         {
           "name": "Hyde Blog",
           "url": "https://teek.seasir.top/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/hyde.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/hyde.webp",
           "description": "前端大佬,666",
           "badge": "前端大佬",
           "irregular": true
@@ -78,14 +70,14 @@
         {
           "name": "二丫讲梵",
           "url": "https://jenkinsguide.opsre.top/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/eryajiangfan.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/eryajiangfan.webp",
           "description": "💻学习📝记录🔗分享",
           "irregular": true
         },
         {
           "name": "威威 Blog",
           "url": "https://dl-web.top/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/dl-web.top.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/dl-web.top.webp",
           "description": "teek伙伴",
           "irregular": true
         },
@@ -113,7 +105,7 @@
         {
           "name": "SnowLin Blog",
           "url": "https://blog.snowlinlan.com/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/SnowLinBlog-logo.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/SnowLinBlog-logo.webp",
           "description": "喵喵(?",
           "irregular": true
         },
@@ -121,7 +113,7 @@
           "name": "心流笔记",
           "url": "http://blog.wilsonzy.cn/c/StreamNotes/",
           "avatar": "https://img.xxdevops.cn/blog/friend-logo/blog.wilsonzy.cn.ico",
-          "description": "坚持 \u0026 汲取 \u0026 分享（一个记录生活与学习过程中灵感和感悟的空间）",
+          "description": "坚持 & 汲取 & 分享（一个记录生活与学习过程中灵感和感悟的空间）",
           "irregular": true
         },
         {
@@ -134,7 +126,7 @@
         {
           "name": "OpForge",
           "url": "https://opforge.srebro.cn/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/opforge.srebro.cn.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/opforge.srebro.cn.webp",
           "description": "运维锻造，知识沉淀",
           "irregular": true
         },
@@ -148,7 +140,7 @@
         {
           "name": "记得勇敢",
           "url": "https://vp.xiaoying.org.cn/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/vp.xiaoying.org.cn.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/vp.xiaoying.org.cn.webp",
           "description": "常用组件及代码封装",
           "irregular": true
         },
@@ -162,7 +154,7 @@
         {
           "name": "MaraPython",
           "url": "https://marapython.com/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/marapython.com.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/marapython.com.webp",
           "description": "行而不辍，未来可期",
           "irregular": true
         },
@@ -176,22 +168,8 @@
         {
           "name": "白木",
           "url": "https://st.samgame.cn/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/st.samgame.cn.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/st.samgame.cn.webp",
           "description": "SCUM中文服务器后台说明文档",
-          "irregular": true
-        },
-        {
-          "name": "灵阈研都",
-          "url": "https://gl.baimu.live/",
-          "avatar": "https://gl.baimu.live/wp-content/uploads/2025/08/LOGO.png",
-          "description": "一个二次元博客",
-          "irregular": true
-        },
-        {
-          "name": "全溪小筑",
-          "url": "https://www.zhengquan.org.cn",
-          "avatar": "https://img.zhengquan.org.cn/images/web/avatar.avif",
-          "description": "全溪小筑",
           "irregular": true
         }
       ]
@@ -203,7 +181,7 @@
         {
           "name": "王嘉祥",
           "url": "https://blog.jiaxiang.wang/",
-          "avatar": "https://img.xxdevops.cn/blog/friend-logo/blog.jiaxiang.wang.avif",
+          "avatar": "https://img.xxdevops.cn/blog/friend-logo/blog.jiaxiang.wang.webp",
           "description": "唱响科普和人生兴事，分享科技与美好生活（rust写的zola主题，移植于张洪heo）",
           "irregular": true
         }

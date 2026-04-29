@@ -48,7 +48,7 @@ demo体验：
 
 demo： https://demo-wiki.xxdevops.cn/
 
-开源库：https://cnb.cool/yuwen-gueen/hugo-teeker-theme
+开源库：https://cnb.cool/zhengquan.org.cn/hugo
 
 
 

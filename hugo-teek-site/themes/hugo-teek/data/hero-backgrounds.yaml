@@ -1,0 +1,70 @@
+# ===========================================
+# Hero 背景图配置（静态优先，高性能）
+# ===========================================
+
+# 静态背景图片列表（优先级最高，确保性能）
+images:
+  - url: "https://img.xxdevops.cn/blog/wallpaper/bg01.webp"
+    alt: "科技感背景 1"
+    description: "赛博朋克风格城市夜景"
+
+  - url: "https://img.xxdevops.cn/blog/wallpaper/bg14.webp"
+    alt: "科技感背景 2"
+    description: "星空与科技结合"
+
+  - url: "https://img.xxdevops.cn/blog/article_cover/photo-1618005198919-d3d4b5a92ead.webp"
+    alt: "自然风光 1"
+    description: "山峦与云海"
+
+  - url: "https://img.xxdevops.cn/blog/article_cover/photo-1618005182384-a83a8bd57fbe.webp"
+    alt: "自然风光 2"
+    description: "壮丽山川"
+
+  - url: "https://img.xxdevops.cn/blog/article_cover/photo-1614850523459-c2f4c699c52e.webp"
+    alt: "自然风光 3"
+    description: "森林与湖泊"
+
+  - url: "https://img.xxdevops.cn/blog/article_cover/photo-1550745165-9bc0b252726f.webp"
+    alt: "自然风光 4"
+    description: "日落美景"
+
+# 响应式图片配置
+responsive:
+  # 移动端（<768px）
+  mobile:
+    width: 1080
+    height: 720
+    quality: 75
+    format: "webp"
+
+  # 平板端（768-1024px）
+  tablet:
+    width: 1440
+    height: 810
+    quality: 80
+    format: "webp"
+
+  # 桌面端（>1024px）
+  desktop:
+    width: 1920
+    height: 1080
+    quality: 85
+    format: "webp"
+
+# 占位符配置（首屏瞬间显示，LCP 优化）
+placeholder:
+  type: "gradient"  # gradient | color | image
+  colors:
+    - "#1a1a2e"  # 深蓝色
+    - "#16213e"  # 偏紫蓝色
+  angle: 135  # 渐变角度
+
+# CDN 参数模板
+cdn:
+  # 图片处理参数（适配 img.xxdevops.cn）
+  params:
+    width: "w"      # 宽度参数名
+    height: "h"     # 高度参数名
+    quality: "q"    # 质量参数名
+    format: "fm"    # 格式参数名
+    fit: "fit"      # 裁剪模式
