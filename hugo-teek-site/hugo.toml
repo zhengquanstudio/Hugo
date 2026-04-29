@@ -1,29 +1,31 @@
-# ========================================
-# Hugo Teek - 主配置文件 (Main Configuration)
-# ========================================
-# 这是站点的主配置文件，负责指定主题和基本站点信息。
-# 完整配置由多个文件组成，通过 Makefile 自动整合。
-#
-# 配置文件结构 (Configuration Structure):
-#   - hugo.toml                          # 主配置 (本文件)
-#   - config/common.toml                 # 通用配置 (Hugo 核心设置)
-#   - config/menus.toml                  # 菜单配置
-#   - config/plugins.toml                # 插件配置 (teekTools 等)
-#   - config/themes/hugo-teek/params.toml # 主题专属配置
-#
-# 切换主题 (Switch Theme):
-#   1. 修改下方的 theme 字段
-#   2. 确保对应的主题配置文件存在于 config/themes/<theme-name>/params.toml
-#   3. 运行 make dev THEME=<theme-name> 或 make build THEME=<theme-name>
-#
-# 手动整合配置 (Manual Config Merge):
-#   hugo server --config hugo.toml,config/common.toml,config/menus.toml,config/plugins.toml,config/themes/hugo-teek/params.toml
-# ========================================
+# 站点基础 URL（改成你的 Cloudflare Pages 域名，比如 https://xxx.pages.dev）
+baseURL = "https://hugo-2n2.pages.dev/"
 
-# 站点基础信息 (Site Information)
+# 启用相对路径（兼容部署环境）
+relativeURLs = true
+canonifyURLs = false
 
-# ========================================
-# 注意：主题专属配置已迁移到 config/themes/{theme}/ 目录
-# 请勿在此文件中添加 [params] 或 [[menu.main]] 配置
-# 这些配置会通过 'make config merge' 命令自动合并
-# ========================================
+# 静态资源目录（固定值）
+staticDir = "static"
+
+# 输出格式配置
+[outputs]
+home = ["HTML", "RSS"]
+page = ["HTML"]
+section = ["HTML"]
+
+# 主题配置（如果有）
+theme = "Hugo Teek" # 改成你实际用的主题名
+
+# 资源处理（强制编译 SCSS）
+[build]
+  writeStats = true
+  [[build.cachebusters]]
+    source = "assets/**"
+    target = "css/**"
+  [[build.cachebusters]]
+    source = "assets/**"
+    target = "js/**"
+
+# 禁用路径小写（避免资源路径错误）
+disablePathToLower = false
