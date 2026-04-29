@@ -221,8 +221,15 @@
 {{ $isDocs := .Scratch.Get "isDocs" | default false }}
 {{ if $isDocs }}
   {{ $base := resources.Get "css/teek/style.css" }}
-  {{ $custom := resources.Get "css/vitepress-teek-docs.scss" | css.Sass | resources.Minify }}
-  {{ $simpleSidebar := resources.Get "css/simple-sidebar.scss" | css.Sass | resources.Minify }}
+  {{ $custom := "" }}
+  {{ with resources.Get "css/vitepress-teek-docs.scss" }}
+    {{ $custom = . | css.Sass | resources.Minify }}
+  {{ end }}
+  {{ $simpleSidebar := "" }}
+  {{ with resources.Get "css/simple-sidebar.scss" }}
+    {{ $simpleSidebar = . | css.Sass | resources.Minify }}
+  {{ end }}
+
   {{ if and $base $custom $simpleSidebar }}
     {{ $docsStyle := slice $base $custom $simpleSidebar | resources.Concat "css/vitepress-teek-docs.css" | resources.Minify | resources.Fingerprint }}
     <link rel="preload" href="{{ $docsStyle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
