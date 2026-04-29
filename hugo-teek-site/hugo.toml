@@ -1,31 +1,10 @@
-# 站点基础 URL（改成你的 Cloudflare Pages 域名，比如 https://xxx.pages.dev）
 baseURL = "https://hugo-2n2.pages.dev/"
-
-# 启用相对路径（兼容部署环境）
+languageCode = "zh-CN"
+title = "我的网站"
 relativeURLs = true
-canonifyURLs = false
-
-# 静态资源目录（固定值）
 staticDir = "static"
 
-# 输出格式配置
 [outputs]
 home = ["HTML", "RSS"]
 page = ["HTML"]
 section = ["HTML"]
-
-# 主题配置（如果有）
-theme = "Hugo Teek" # 改成你实际用的主题名
-
-# 资源处理（强制编译 SCSS）
-[build]
-  writeStats = true
-  [[build.cachebusters]]
-    source = "assets/**"
-    target = "css/**"
-  [[build.cachebusters]]
-    source = "assets/**"
-    target = "js/**"
-
-# 禁用路径小写（避免资源路径错误）
-disablePathToLower = false
