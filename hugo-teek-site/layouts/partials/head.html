@@ -4,65 +4,19 @@
 <meta name="color-scheme" content="light dark">
 
 <script>
-  // 🎨 主题初始化：在页面渲染前设置，避免闪烁
+  // 主题初始化：在页面渲染前设置，避免闪烁
   (function() {
     try {
       var storedTheme = localStorage.getItem('theme');
       var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var isDark = storedTheme === 'dark' || (!storedTheme && prefersDark);
 
-      /* 🎨 主题初始化逻辑：
-       * 1. 如果有保存的主题，使用保存的主题
-       * 2. 如果没有保存的主题，使用系统偏好
-       * 3. 如果保存的是 'false' 字符串，表示亮色模式
-       */
-      var isDark = false;
-      if (storedTheme === 'dark') {
-        isDark = true;
-      } else if (storedTheme === 'light' || storedTheme === 'false') {
-        isDark = false;
-      } else if (!storedTheme && prefersDark) {
-        isDark = true;
-      }
-
-      // 🎯 立即给 html 添加 dark-mode 类（避免闪烁）
       if (isDark) {
         document.documentElement.classList.add('dark-mode');
+        // 将暗色模式状态保存到全局变量，供 body 标签使用
         window.__INITIAL_THEME__ = 'dark';
       } else {
-        document.documentElement.classList.remove('dark-mode');
         window.__INITIAL_THEME__ = 'light';
-      }
-
-      // 🎯 使用 MutationObserver 监听 body 的创建，立即添加 dark-mode 类
-      if (document.body) {
-        // body 已经存在
-        if (isDark) {
-          document.body.classList.add('dark-mode');
-        } else {
-          document.body.classList.remove('dark-mode');
-        }
-      } else {
-        // body 还不存在，使用 MutationObserver 监听
-        var observer = new MutationObserver(function(mutations) {
-          if (document.body) {
-            if (isDark) {
-              document.body.classList.add('dark-mode');
-            } else {
-              document.body.classList.remove('dark-mode');
-            }
-            observer.disconnect();
-            observer = null; // 释放引用
-          }
-        });
-        observer.observe(document.documentElement, { childList: true });
-        
-        // 5秒后强制断开观察器，防止内存泄漏
-        setTimeout(function() {
-          if (observer) {
-            observer.disconnect();
-            observer = null;
-          }
-        }, 5000);
       }
     } catch (err) {
       // Ignore access issues (e.g. Safari private mode)
@@ -184,62 +138,27 @@
 <!-- Critical CSS - 内联首屏关键样式，消除FOUC闪烁 -->
 {{ partial "critical.html" . }}
 
-<!-- Main Styles - 修复 Sass 空值报错 -->
-{{ with resources.Get "css/main.scss" }}
-  {{ $style := . | css.Sass | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $style.RelPermalink }}" media="all">
-{{ end }}
-
-<!-- 🚀 性能优化: 非关键CSS异步加载 -->
-<!-- DocSearch Styles - 仅搜索页面需要，异步加载 -->
-{{ if .Site.Params.search.enabled }}
-  {{ with resources.Get "css/_docsearch.scss" }}
-    {{ $docsearchCSS := . | css.Sass | resources.Minify }}
-    <link rel="preload" href="{{ $docsearchCSS.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ $docsearchCSS.RelPermalink }}"></noscript>
-  {{ end }}
-{{ end }}
-
-<!-- Mermaid Styles - 仅文档页面需要，异步加载 -->
-{{ $isDocs := .Scratch.Get "isDocs" | default false }}
-{{ if $isDocs }}
-  {{ with resources.Get "css/_mermaid.scss" }}
-    {{ $mermaidCSS := . | css.Sass | resources.Minify }}
-    <link rel="preload" href="{{ $mermaidCSS.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ $mermaidCSS.RelPermalink }}"></noscript>
-  {{ end }}
-{{ end }}
-
-<!-- Cursor Particle Effect - 非关键动画效果，异步加载 -->
-{{ with resources.Get "css/_vp-cursor-particles.scss" }}
-  {{ $cursorParticleCSS := . | css.Sass | resources.Minify }}
-  <link rel="preload" href="{{ $cursorParticleCSS.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="{{ $cursorParticleCSS.RelPermalink }}"></noscript>
+<!-- Main Styles - 同步加载确保首次绘制正确 -->
+{{ $style := resources.Get "css/main.scss" }}
+{{ if $style }}
+  {{ $style = $style | css.Sass | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $style.RelPermalink }}">
 {{ end }}
 
 <!-- 文档库专用样式 - VitePress Teek Theme + Simple Sidebar（异步加载）-->
 {{ $isDocs := .Scratch.Get "isDocs" | default false }}
 {{ if $isDocs }}
   {{ $base := resources.Get "css/teek/style.css" }}
-  {{ $custom := "" }}
-  {{ with resources.Get "css/vitepress-teek-docs.scss" }}
-    {{ $custom = . | css.Sass | resources.Minify }}
-  {{ end }}
-  {{ $simpleSidebar := "" }}
-  {{ with resources.Get "css/simple-sidebar.scss" }}
-    {{ $simpleSidebar = . | css.Sass | resources.Minify }}
-  {{ end }}
-
-  {{ if and $base $custom $simpleSidebar }}
-    {{ $docsStyle := slice $base $custom $simpleSidebar | resources.Concat "css/vitepress-teek-docs.css" | resources.Minify | resources.Fingerprint }}
-    <link rel="preload" href="{{ $docsStyle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="{{ $docsStyle.RelPermalink }}"></noscript>
-  {{ end }}
+  {{ $custom := resources.Get "css/vitepress-teek-docs.scss" | css.Sass | resources.Minify }}
+  {{ $simpleSidebar := resources.Get "css/simple-sidebar.scss" | css.Sass | resources.Minify }}
+  {{ $docsStyle := slice $base $custom $simpleSidebar | resources.Concat "css/vitepress-teek-docs.css" | resources.Minify | resources.Fingerprint }}
+  <link rel="preload" href="{{ $docsStyle.RelPermalink }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="{{ $docsStyle.RelPermalink }}"></noscript>
 {{ end }}
 
 <!-- RSS -->
 {{ with .OutputFormats.Get "RSS" }}
-<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Params.title | default $.Site.Title }}">
+<link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
 {{ end }}
 
 <!-- Lunar Calendar Library (for calendar widget) -->
@@ -265,50 +184,50 @@
 @media screen and (max-width: 768px) {
   .article-card-compact {
     width: 100% ;
-    max-width: 100%;
-    min-width: 0;
-    flex: none;
-    box-sizing: border-box;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: none !important;
+    box-sizing: border-box !important;
   }
 
   .post-grid {
-    grid-template-columns: 1fr;
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-    gap: 0.75rem;
+    grid-template-columns: 1fr !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 0.75rem !important;
   }
 
   .home-content-section .container {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    max-width: 100vw;
-    box-sizing: border-box;
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important;
+    max-width: 100vw !important;
+    box-sizing: border-box !important;
   }
 
   .home-content {
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .main-column {
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   /* 防止任何元素超出屏幕 */
   html, body {
-    max-width: 100vw;
-    overflow-x: hidden;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
   }
 
   .home-page {
-    max-width: 100vw;
-    overflow-x: hidden;
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
   }
 }
 
@@ -318,69 +237,69 @@
 
 /* 移除父容器的 padding-left，让容器贴近浏览器左侧边框 */
 .VPContent.has-sidebar {
-  padding-left: 0;
-  padding-right: 0;
-  margin-left: 0;
-  margin-right: 0;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 
 /* 移除文档容器的最大宽度限制、居中对齐和左右边距 */
 .VPDoc.has-sidebar .container {
-  max-width: 100%;
-  width: 100%;
-  margin-left: 0;
-  margin-right: 0;
-  padding-left: 0;
-  padding-right: 0;
+  max-width: 100% !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 
 /* 确保所有屏幕尺寸都应用 */
 @media (min-width: 960px) {
   .VPContent.has-sidebar {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
 @media (min-width: 1280px) {
   .VPContent.has-sidebar {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .VPDoc.has-sidebar .container {
-    max-width: 100%;
-    margin: 0;
-    padding-left: 0;
-    padding-right: 0;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
 @media (min-width: 1440px) {
   .VPContent.has-sidebar {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .VPDoc.has-sidebar .container {
-    max-width: 100%;
-    margin: 0;
-    padding-left: 0;
-    padding-right: 0;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 
 @media (min-width: 1920px) {
   .VPContent.has-sidebar {
-    padding-left: 0;
-    padding-right: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   .VPDoc.has-sidebar .container {
-    max-width: 100%;
-    margin: 0;
-    padding-left: 0;
-    padding-right: 0;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }
 </style>
@@ -428,3 +347,5 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   console.log('[FlexSearch] ℹ️ Service Worker 仅在 HTTPS 下工作（localhost 除外）');
 }
 </script>
+
+
