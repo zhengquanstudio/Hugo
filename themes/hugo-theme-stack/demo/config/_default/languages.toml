@@ -1,0 +1,31 @@
+[en]
+    label  = "English"
+    title  = "全溪小筑のBLOG"
+    weight = 1
+
+    [en.params.sidebar]
+        subtitle = "欲买桂花同载酒 终不似 少年游"
+
+[zh]
+    label  = "简体中文"
+    title  = "全溪小筑のBLOG"
+    weight = 2
+
+    [zh.params.sidebar]
+        subtitle = "欲买桂花同载酒 终不似 少年游"
+
+[zh-hant-tw]
+    label  = "正體中文"
+    title  = "全溪小筑のBLOG"
+    weight = 3
+
+    [zh-hant-tw.params.sidebar]
+        subtitle = "欲买桂花同载酒 终不似 少年游"
+
+[ja]
+    label  = "日本語"
+    title  = "全溪小筑のBLOG"
+    weight = 4
+
+    [ja.params.sidebar]
+        subtitle = "欲买桂花同载酒 终不似 少年游"

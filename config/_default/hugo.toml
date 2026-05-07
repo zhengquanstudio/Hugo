@@ -1,0 +1,10 @@
+baseURL = "https://your-domain.pages.dev"
+title = "全溪小筑のBLOG"
+theme = "hugo-theme-stack"
+locale = "zh-CN"
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[build]
+writeStats = true

@@ -1,0 +1,16 @@
+[[social]]
+    identifier = "github"
+    name       = "GitHub"
+    url        = "https://github.com/你的账号"
+
+    [social.params]
+        icon = "brand-github"
+
+[[social]]
+    identifier = "twitter"
+    name       = "Twitter"
+    url        = "https://twitter.com/你的账号"
+
+    [social.params]
+        icon = "brand-twitter"
+
