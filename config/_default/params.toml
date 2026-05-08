@@ -1,6 +1,7 @@
-mainSections   = ["post"]
+mainSections   = ["post", "smart", "shuoshuo", "tech", "share"]
 rssFullContent = true
-favicon        = "img/avatar.png"
+favicon        = "img/favicon.ico"
+
 
 [footer]
 since = 2026
@@ -9,6 +10,16 @@ since = 2026
 emoji    = "✏️"
 subtitle = "欲买桂花同载酒 终不似 少年游"
 avatar   = "img/avatar.webp"
+
+
+
+[params]
+    # 这里的格式必须用 Hugo 标准模板 "2006-01-02"，不能用 YYYY-MM-DD
+    #dateFormat = "2006-01-02"
+    # 如果你想显示成“2026年5月8日”，可以改成下面这样：
+     dateFormat = "2006年1月2日"
+
+
 
 [dateFormat]
 published = "2026-05-05"
@@ -28,11 +39,25 @@ homepage = [
 ]
 page     = [{ type = "toc" }]
 
-[comments]
-enabled  = false
-provider = ""
 
 [cookies]
 enabled = false
 
 showLanguageSelector = false
+
+#[params.comments.twikoo]
+#    envId = "https://twikoo.langya.org.cn" 
+#     例如: envId = "https://myblog-comment.vercel.app"
+#     如果你部署的是腾讯云版本，这里填你的环境 ID
+
+
+# 评论系统
+[params.comments]
+enabled = true
+provider = "twikoo"
+
+# Cloudflare D1 部署的 Twikoo 专用配置
+[params.comments.twikoo]
+envId = "https://twikoo.langya.org.cn"  # 改成你的 CF Worker 域名
+visitor = true
+commentCount = true

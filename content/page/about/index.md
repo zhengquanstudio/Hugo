@@ -42,4 +42,3 @@ menu:
 > — *Albert Einstein*
 
 ---
-*此页面由 AI 生成。*

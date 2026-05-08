@@ -7,10 +7,55 @@
         icon = "brand-github"
 
 [[social]]
-    identifier = "twitter"
-    name       = "Twitter"
-    url        = "https://twitter.com/你的账号"
+    identifier = "x"
+    name       = "x"
+    url        = "https://x.com/"
 
     [social.params]
-        icon = "brand-twitter"
+        icon = "brand-x"
 
+[[social]]
+    identifier = "facebook"
+    name       = "Facebook"
+    url        = "https://facebook.com/"
+    [social.params]
+        icon = "brand-facebook"
+
+#[[social]]
+#    identifier = "wechat"
+#    name       = "wechat"
+#    url        = "https://weixin.qq.com/"
+#    [social.params]
+#        icon = "brand-wechat"
+
+
+#[[social]]
+#    identifier = "tiktok"
+#    name       = "tiktok"
+#    url        = "https://tiktok.com/"
+#    [social.params]
+#        icon = "brand-tiktok"
+
+
+[[social]]
+    identifier = "bilibili"
+    name       = "bilibili"
+    url        = "https://bilibili.com/"
+
+    [social.params]
+        icon = "brand-bilibili"
+
+[[social]]
+    identifier = "mail"
+    name       = "mail"
+    url        = "zhengquan@111.com/"
+
+    [social.params]
+        icon = "mail"
+
+[[social]]
+    identifier = "youtube"
+    name       = "youtube"
+    url        = "https://youtube.com/"
+    [social.params]
+        icon = "brand-youtube"

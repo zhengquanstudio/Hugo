@@ -1,10 +1,37 @@
-baseURL = "https://your-domain.pages.dev"
+baseURL = "https://www.zhengquan.org.cn"
 title = "全溪小筑のBLOG"
 theme = "hugo-theme-stack"
 locale = "zh-CN"
-
 [markup.goldmark.renderer]
 unsafe = true
 
 [build]
-writeStats = true
+  writeStats = true
+  ignoreErrors = ["error-date"]
+
+# 重写永久链接（Permalinks）
+#[permalinks]
+
+#  post = "/:sections[1]/:contentbasename/"
+
+[params]
+
+# 明确指定日期格式，防止主题解析出错
+  dateFormat = "2006-01-02"
+  [params.comments]
+  enabled = true
+  provider = "twikoo"
+    [params.comments.twikoo]
+    envId = "https://twikoo.langya.org.cn"
+
+
+
+[frontmatter]
+  date = ["date", "publishDate", "lastmod"]
+
+
+
+[comments]
+  enabled  = true
+  provider = "twikoo"
+
