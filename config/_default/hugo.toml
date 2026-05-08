@@ -6,7 +6,7 @@ locale = "zh-CN"
 unsafe = true
 
 [build]
-  writeStats = true
+  writeStats = false
   ignoreErrors = ["error-date"]
 
 # 重写永久链接（Permalinks）
@@ -15,23 +15,17 @@ unsafe = true
 #  post = "/:sections[1]/:contentbasename/"
 
 [params]
-
-# 明确指定日期格式，防止主题解析出错
   dateFormat = "2006-01-02"
   [params.comments]
   enabled = true
   provider = "twikoo"
     [params.comments.twikoo]
     envId = "https://twikoo.langya.org.cn"
-
+  
+  mainSections = ["posts", "blog", "article"]
 
 
 [frontmatter]
   date = ["date", "publishDate", "lastmod"]
 
-
-
-[comments]
-  enabled  = true
-  provider = "twikoo"
 
