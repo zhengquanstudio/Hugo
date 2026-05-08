@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>科技 on 全溪小筑のBLOG</title>
+        <link>http://localhost:1313/categories/%E7%A7%91%E6%8A%80/</link>
+        <description>Recent content in 科技 on 全溪小筑のBLOG</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-CN</language>
+        <lastBuildDate>Fri, 08 May 2026 02:50:45 +0800</lastBuildDate><atom:link href="http://localhost:1313/categories/%E7%A7%91%E6%8A%80/index.xml" rel="self" type="application/rss+xml" /><item>
+            <title>科技第一篇文章</title>
+            <link>http://localhost:1313/tech/tech-1/</link>
+            <pubDate>Fri, 08 May 2026 02:50:45 +0800</pubDate>
+            <guid>http://localhost:1313/tech/tech-1/</guid>
+            <description>&lt;img src=&#34;http://localhost:1313/img/1.jpg&#34; alt=&#34;Featured image of post 科技第一篇文章&#34; /&gt;&lt;p&gt;这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文这是正文&lt;/p&gt;&#xA;</description>
+        </item></channel>
+</rss>
